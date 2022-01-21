@@ -1,0 +1,59 @@
+@mixin inputStyle($width) {
+  width: $width;
+  height: 36px;
+  border-radius: 18px;
+  padding: 0 20px;
+  margin: 6px;
+  outline: none;
+  border: none;
+	color: #fff;
+}
+
+$width-Input:270px;
+$color-btn:#cca99d;
+$font-size-btn: 16px;
+.login-container {
+  background-image: url('/assets/img/login_Bg.jpg');
+}
+
+.loginForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  color: #fff;
+  &__SignBtn {
+    @include inputStyle($width-Input);
+    cursor: pointer;
+		background-color: $color-btn;
+		font-size: $font-size-btn;
+  }
+  &__FgPass {
+    width: $width-Input;
+		display: flex;
+		justify-content: space-between;
+    padding: 0 8px;
+  }
+  .SignBtnWith {
+    width: $width-Input;
+    display: flex;
+    justify-content: space-between;
+  }
+  &__SignBtn2 {
+    height: 32px;
+    width: 100px;
+    border-radius: 8px;
+		border: none;
+    cursor: pointer;
+  }
+  .emailInput,
+  .passInput {
+    @include inputStyle($width-Input);
+    background-color: rgba(255, 255, 255, 0.103);
+    border-radius: 18px;
+  }
+   ::placeholder {
+    color: #fff;
+  }
+}
