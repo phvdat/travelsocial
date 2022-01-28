@@ -25,13 +25,13 @@ export default function Topbar() {
 			</div>
 			<div className="topbarRight">
 				<div className="topbarAvata">
-					<img src="/assets/person/avt-01.jpg" alt="avata" className="avt-topbar" />
+					<img src="assets/fake/myavt.jpg" alt="avata" className="avt-topbar" />
 					<span className="name-user">Phạm Văn Đạt</span>
 				</div>
-				<div className="topbarIconItem">
+				{/* <div className="topbarIconItem">
 					<IoPersonAdd className="topbarIcon-2" />
 					<span className="iconBadge">10</span>
-				</div>
+				</div> */}
 				<div className="topbarIconItem">
 					<BsFillChatDotsFill className="topbarIcon-2" />
 					<span className="iconBadge">1</span>
