@@ -9,7 +9,7 @@
 	color: #fff;
 }
 
-$width-Input:270px;
+$width-Input:370px;
 $color-btn:#cca99d;
 $font-size-btn: 16px;
 .login-container {
@@ -47,6 +47,7 @@ $font-size-btn: 16px;
 		border: none;
     cursor: pointer;
   }
+	.nameInput,
   .emailInput,
   .passInput {
     @include inputStyle($width-Input);
