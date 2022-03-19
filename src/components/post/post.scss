@@ -1,0 +1,138 @@
+@import "src/assets/styles/variables";
+.postContain {
+  margin-top: 16px;
+}
+.postBox {
+  width: 100%;
+  height: auto;
+  background-color: #fff;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  border-radius: 10px;
+  padding: 16px 0 4px;
+}
+
+.avt-user {
+  margin-right: 16px;
+  width: 44px;
+  height: 44px;
+  border-radius: 30px;
+  object-fit: cover;
+}
+
+.topPost {
+  margin: 0 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+.nameUser {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.textName:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.textTime {
+  font-weight: 400;
+  cursor: pointer;
+  color: #65676b;
+}
+
+.textTime:hover {
+  text-decoration: underline;
+}
+
+.statusText {
+  font-weight: 400;
+  padding: 12px 20px;
+}
+
+.postImg {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+.bottomPost {
+  padding: 0 20px;
+}
+
+.inforReact {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.numberLikeShare {
+  display: flex;
+  align-items: center;
+}
+
+.smLikeIcon {
+  font-size: 22px;
+  cursor: pointer;
+  margin: 4px 2px 4px 0;
+  color: $primary-color;
+}
+
+.numberReact {
+  font-weight: 400;
+  cursor: pointer;
+}
+
+.numberReact:hover {
+  text-decoration: underline;
+}
+
+.numberComment {
+  font-weight: 400;
+  justify-content: flex-start;
+  cursor: pointer;
+}
+
+.numberComment:hover {
+  text-decoration: underline;
+}
+
+.boxControl {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.btnPost {
+  height: 40px;
+  flex: 3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  margin: 2px 2px 1px;
+  cursor: pointer;
+  color: #606266;
+}
+.likeActive{
+	color: $primary-color;
+}
+
+.btnPost:hover {
+  background-color: #f0f2f5;
+}
+
+.btnPost span {
+  margin-left: 4px;
+}
+
+.iconBtn {
+  font-size: 20px;
+}
+
+.postHr {
+  border: none;
+  height: 1px;
+  background-color: #ced0d4;
+}
