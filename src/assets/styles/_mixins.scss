@@ -8,3 +8,14 @@
   border: none;
   color: #fff;
 }
+
+@mixin btnStyle($width, $height, $color, $fontSize) {
+	width: $width;
+	height: $height;
+	background-color: $color;
+	color: #fff;
+	font-size: $fontSize;
+	border-radius: 8px;
+	border: none;
+	cursor: pointer;
+}
