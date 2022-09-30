@@ -3,9 +3,10 @@ import { AiFillHome, AiOutlineSearch, AiTwotoneEdit } from "react-icons/ai"
 import { FaUserFriends } from 'react-icons/fa'
 import { TiGroup } from "react-icons/ti"
 import { IoMdNotifications } from "react-icons/io";
-import { BsFillChatDotsFill, BsFillCaretDownFill } from "react-icons/bs"
+import LoginModal from "../loginModal/LoginModal";
 
 export default function Topbar() {
+	const isLogin = false
 	return (
 		<div className="topbarContainer">
 			<div className="topbarLeft">
@@ -26,29 +27,34 @@ export default function Topbar() {
 			</div>
 
 			<div className="topbarRight">
+				{isLogin ?
+					<>
+						<div className="iconRightSide">
+							<div className="subIconRight">
+								<AiTwotoneEdit className="topbarIcon-2" />
+							</div>
+							<p>Viết ngay</p>
+						</div>
 
-				<div className="iconRightSide">
-					<div className="subIconRight">
-						<AiTwotoneEdit className="topbarIcon-2" />
-					</div>
-					<p>Viết ngay</p>
-				</div>
+						<div className="iconRightSide">
+							<div className="subIconRight">
+								<IoMdNotifications className="topbarIcon-2" />
+								<span className="iconBadge">1</span>
+							</div>
+							<p>Thông báo</p>
+						</div>
+						<div className="iconRightSide">
+							<div className="topbarAvata">
+								<img src="img/myavt.jpg" alt="avata" className="avt-topbar" />
+							</div>
+							<p className="name-user">Pham Dat</p>
+						</div>
+					</>
+					:
+					<LoginModal />
+				}
 
-				<div className="iconRightSide">
-					<div className="subIconRight">
-						<IoMdNotifications className="topbarIcon-2" />
-						<span className="iconBadge">1</span>
-					</div>
-					<p>Thông báo</p>
-				</div>
-
-				<div className="iconRightSide">
-					<div className="topbarAvata">
-						<img src="img/myavt.jpg" alt="avata" className="avt-topbar" />
-					</div>
-					<p className="name-user">Pham Dat</p>
-				</div>
-			</div>
-		</div>
+			</div >
+		</div >
 	)
 }
