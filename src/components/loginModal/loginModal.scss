@@ -16,9 +16,9 @@
   }
   .ant-modal-body {
     text-align: center;
-    p {
+    .login-text-1 {
       font-size: $font-size-paragraph;
-			color: #666666;
+      color: #666666;
     }
     .btn-facebook,
     .btn-google {
@@ -37,8 +37,16 @@
     .btn-google {
       background-color: $primary-google;
     }
-    .text-2 {
+    .login-text-2 {
       margin-top: 20px;
+      font-size: $font-size-paragraph;
+      color: #666666;
+    }
+    .login-form {
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      align-items: center;
     }
     .ant-input-username,
     .ant-input-password {
@@ -49,13 +57,29 @@
       border: 1px solid $primary-gray;
       padding: 0 12px;
     }
-		.btn-login{
-			@include btnStyle($width-input-sm, $height-input, $primary-color, $font-size-btn);
-			margin: 20px 10px 10px;
-		}
-		.btn-register{
-			@include btnStyle($width-input-sm, $height-input, $primary-green, $font-size-btn);
-			margin: 10px;
-		}
+    .btn-login {
+      @include btnStyle(
+        $width-input-sm,
+        $height-input,
+        $primary-color,
+        $font-size-btn
+      );
+    }
+    .btn-register {
+      @include btnStyle(
+        $width-input-sm,
+        $height-input,
+        $primary-green,
+        $font-size-btn
+      );
+    }
+    .btn-container {
+      width: $width-input-lg;
+      display: flex;
+      justify-content: space-between;
+      margin: auto;
+      margin-top: 20px;
+      margin-bottom: 30px;
+    }
   }
 }
