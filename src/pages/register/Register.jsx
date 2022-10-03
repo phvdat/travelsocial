@@ -1,16 +1,32 @@
-import { Form, Input } from 'antd';
+import { Form, Input, message } from 'antd';
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import authApi from '../../api/authApi';
 import Topbar from '../../components/topbar/Topbar';
 import './register.scss'
 
 export default function Register() {
+	const navigate = useNavigate()
 	const onFinish = (values) => {
-		console.log('Success:', values);
+		var data = { ...values, kind: 'internal' }
+		delete data.passwordConfirm
+		const postRegisterData = async () => {
+			try {
+				const response = await authApi.registerApi(data)
+				console.log(response)
+				message.success('Đăng ký thành công!')
+				navigate('/')
+			} catch (error) {
+				console.log(error)
+			}
+		}
+		postRegisterData()
 	};
 
 	const onFinishFailed = (errorInfo) => {
 		console.log('Failed:', errorInfo);
 	};
+
 	return (
 		<div className="register-container">
 			<Topbar />
@@ -24,7 +40,7 @@ export default function Register() {
 				autoComplete="off"
 				className="register-form">
 				<h1>Đăng ký tài khoản</h1>
-				<Form.Item name="fullname" rules={[{ required: true, message: 'Vui lòng nhập họ tên' }]}>
+				<Form.Item name="fullName" rules={[{ required: true, message: 'Vui lòng nhập họ tên' }]}>
 					<Input placeholder="Nhập họ tên" className="input-field" />
 				</Form.Item>
 				<Form.Item name="phone" rules={[{ required: true, message: 'Vui lòng nhập số điện thoại' }]}>
@@ -37,7 +53,7 @@ export default function Register() {
 				<Form.Item name="password" rules={[{ required: true, message: 'Vui lòng nhập password' }]}>
 					<Input.Password placeholder="Mật khẩu" className="input-field" />
 				</Form.Item>
-				<Form.Item name="password2" rules={[
+				<Form.Item name="passwordConfirm" rules={[
 					{ required: true, message: 'Vui lòng nhập lại password' },
 					({ getFieldValue }) => ({
 						validator(rule, value) {
