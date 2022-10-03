@@ -1,60 +1,37 @@
-@mixin inputStyle($width) {
-  width: $width;
-  height: 36px;
-  border-radius: 18px;
-  padding: 0 20px;
-  margin: 6px;
-  outline: none;
-  border: none;
-	color: #fff;
-}
+@import "src/assets/styles/variables";
+@import "src/assets/styles/mixins";
 
-$width-Input:370px;
-$color-btn:#cca99d;
-$font-size-btn: 16px;
-.login-container {
-  background-image: url('/assets/img/login_Bg.jpg');
+.register-container {
+  background-image: url("/assets/img/register-bg.jpg");
+  height: 100vh;
 }
-
-.loginForm {
+.register-form {
+  margin: auto;
+  margin-top: 100px;
+  border-radius: 12px;
+  background-color: rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
-  color: #fff;
-  &__SignBtn {
-    @include inputStyle($width-Input);
-    cursor: pointer;
-		background-color: $color-btn;
-		font-size: $font-size-btn;
+  max-width: 450px;
+	padding: 20px 30px;
+  .btn-register {
+    @include btnStyle(
+      $width-input-lg,
+      $height-input,
+      $primary-color,
+      $font-size-btn
+    );
+		margin: 10px 0 30px;
   }
-  &__FgPass {
-    width: $width-Input;
-		display: flex;
-		justify-content: space-between;
-    padding: 0 8px;
+  .input-field {
+    @include inputStyle($width-input-lg);
   }
-  .SignBtnWith {
-    width: $width-Input;
-    display: flex;
-    justify-content: space-between;
+  .ant-form-item-explain-error {
+    padding-left: 20px;
   }
-  &__SignBtn2 {
-    height: 32px;
-    width: 100px;
-    border-radius: 8px;
-		border: none;
-    cursor: pointer;
-  }
-	.nameInput,
-  .emailInput,
-  .passInput {
-    @include inputStyle($width-Input);
-    background-color: rgba(255, 255, 255, 0.103);
-    border-radius: 18px;
-  }
-   ::placeholder {
-    color: #fff;
+  .ant-input-number-handler-wrap {
+    visibility: hidden;
   }
 }

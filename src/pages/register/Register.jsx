@@ -1,24 +1,58 @@
+import { Form, Input, InputNumber } from 'antd';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Topbar from '../../components/topbar/Topbar';
 import './register.scss'
 
 export default function Register() {
-	return <div className="login-container">
-		<Topbar/>
-		<form className="loginForm">
-			<h1>Đăng ký tài khoản</h1>
-			<input type="text" placeholder="Nhập họ tên" className="nameInput" />
-			<input type="email" placeholder="Nhập email của bạn" className="emailInput" />
-			<input type="password" placeholder="Mật khẩu" className="passInput" />
-			<input type="password" placeholder="Xác nhận mật khẩu" className="passInput" />
-			<div>
-				<input type="checkbox" name="term" />
-				<label htmlFor="term">Tôi đồng ý với các <Link to="/terms-services" style={{ textDecoration: 'none', color: 'rgb(250,146,19)' }}>quy định</Link> của Travel</label>
-			</div>
-			<button className="loginForm__SignBtn">Đăng ký</button>
-			<div className="loginForm__FgPass">
-			</div>
-		</form>
-	</div>;
+	const onFinish = (values) => {
+		console.log('Success:', values);
+	};
+
+	const onFinishFailed = (errorInfo) => {
+		console.log('Failed:', errorInfo);
+	};
+	return (
+		<div className="register-container">
+			<Topbar />
+			<Form
+				name="basic"
+				labelCol={{ span: 1 }}
+				wrapperCol={{ span: 16 }}
+				initialValues={{ remember: true }}
+				onFinish={onFinish}
+				onFinishFailed={onFinishFailed}
+				autoComplete="off"
+				className="register-form">
+				<h1>Đăng ký tài khoản</h1>
+				<Form.Item name="fullname" rules={[{ required: true, message: 'Vui lòng nhập họ tên' }]}>
+					<Input placeholder="Nhập họ tên" className="input-field" />
+				</Form.Item>
+				<Form.Item name="phone" rules={[{ required: true, message: 'Vui lòng nhập số điện thoại' }]}>
+					{/* <InputNumber placeholder="Số điện thoại" className="input-field" /> */}
+					<input type="number" placeholder="Số điện thoại" className="ant-input ant-input-status-error input-field" />
+				</Form.Item>
+				<Form.Item name="username" rules={[{ required: true, message: 'Vui lòng nhập username' }]}>
+					<Input placeholder="Username" className="input-field" />
+				</Form.Item>
+				<Form.Item name="password" rules={[{ required: true, message: 'Vui lòng nhập password' }]}>
+					<Input.Password placeholder="Mật khẩu" className="input-field" />
+				</Form.Item>
+				<Form.Item name="password2" rules={[
+					{ required: true, message: 'Vui lòng nhập lại password' },
+					({ getFieldValue }) => ({
+						validator(rule, value) {
+							if (!value || getFieldValue('password') === value) {
+								return Promise.resolve();
+							}
+							return Promise.reject('Mật khẩu không khớp!');
+						},
+					}),
+				]}>
+					<Input.Password placeholder="Xác nhận mật khẩu" className="input-field" />
+				</Form.Item>
+				<button type='submit' className="btn-register">Đăng ký</button>
+			</Form>
+		</div>
+	)
 }
