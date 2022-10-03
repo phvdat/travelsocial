@@ -19,11 +19,6 @@ const LoginModal = () => {
 	};
 	const onFinish = (values) => {
 		setData({ ...values, kind: 'internal', isAdmin: false })
-	};
-	const onFinishFailed = (errorInfo) => {
-		console.log('Failed:', errorInfo);
-	};
-	useEffect(() => {
 		const postLoginData = async () => {
 			try {
 				const response = await authApi.loginApi(data)
@@ -40,7 +35,10 @@ const LoginModal = () => {
 			}
 		}
 		postLoginData()
-	}, [data]);
+	};
+	const onFinishFailed = (errorInfo) => {
+		console.log('Failed:', errorInfo);
+	};
 
 	return (
 		<>
