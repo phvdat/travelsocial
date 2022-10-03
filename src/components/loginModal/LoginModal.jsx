@@ -68,14 +68,14 @@ const LoginModal = () => {
 					className='login-form'>
 					<Form.Item
 						name="username"
-						rules={[{ required: true, message: 'Please input your username!' }]}
+						rules={[{ required: true, message: 'Vui lòng nhập username!' }]}
 					>
 						<Input className='ant-input-username' placeholder='Username' />
 					</Form.Item>
 
 					<Form.Item
 						name="password"
-						rules={[{ required: true, message: 'Please input your password!' }]}
+						rules={[{ required: true, message: 'Vui lòng nhập password!' }]}
 					>
 						<Input.Password placeholder='Password' />
 					</Form.Item>

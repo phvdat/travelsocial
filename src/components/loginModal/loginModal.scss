@@ -50,12 +50,7 @@
     }
     .ant-input-username,
     .ant-input-password {
-      margin-top: 10px;
-      width: $width-input-lg;
-      height: $height-input;
-      border-radius: 8px;
-      border: 1px solid $primary-gray;
-      padding: 0 12px;
+			@include inputStyle_2($width-input-lg, $height-input);
     }
     .btn-login {
       @include btnStyle(
