@@ -1,6 +1,5 @@
-import { Form, Input, InputNumber } from 'antd';
+import { Form, Input } from 'antd';
 import React from 'react';
-import { Link } from 'react-router-dom';
 import Topbar from '../../components/topbar/Topbar';
 import './register.scss'
 
