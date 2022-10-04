@@ -3,9 +3,12 @@ import React, { useEffect, useState } from 'react';
 import { AiOutlineLogin } from 'react-icons/ai';
 import { useNavigate } from 'react-router-dom';
 import authApi from '../../api/authApi';
+import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import app from '../../configs/firebaseConfig';
 import './loginModal.scss';
 
 const LoginModal = () => {
+	const auth = getAuth(app);
 	const navigate = useNavigate()
 	const [open, setOpen] = useState(false);
 	const [confirmLoading, setConfirmLoading] = useState(false);
@@ -40,6 +43,21 @@ const LoginModal = () => {
 		console.log('Failed:', errorInfo);
 	};
 
+	const authWithGoogle = () => {
+		const provider = new GoogleAuthProvider();
+		signInWithPopup(auth, provider).then((result) => {
+			const user = result.user;
+			console.log(user);
+			message.success('Đăng nhập thành công!')
+			setOpen(false)
+		}).catch((error) => {
+			const errorCode = error.code;
+			const errorMessage = error.message;
+			console.log(errorCode, errorMessage);
+			message.error('Đăng nhập thất bại!')
+		});
+	}
+
 	return (
 		<>
 			<div onClick={showModal} className="iconRightSide">
@@ -58,7 +76,7 @@ const LoginModal = () => {
 			>
 				<p className='login-text-1'>Tham gia ngay cộng đồng du lịch hàng đầu Việt Nam và tận hưởng những điều tuyệt vời nhất từ Travel</p>
 				<button className='btn-facebook'>Đăng nhập bằng Facebook</button>
-				<button className='btn-google'>Đăng nhập bằng Google</button>
+				<button className='btn-google' onClick={() => authWithGoogle()}>Đăng nhập bằng Google</button>
 				<p className='login-text-2'>Đăng nhập bằng tài khoản</p>
 				<Form
 					name="basic"
