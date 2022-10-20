@@ -1,5 +1,4 @@
 import { AiFillLike, AiOutlineLike } from 'react-icons/ai';
-import { GoSmiley } from 'react-icons/go';
 import { RiShareForwardLine } from 'react-icons/ri';
 import { BiCommentDetail } from 'react-icons/bi';
 import './post.scss';

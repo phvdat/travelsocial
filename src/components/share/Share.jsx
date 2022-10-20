@@ -1,28 +1,206 @@
-import './share.css'
-import { BsFillCameraReelsFill } from "react-icons/bs"
-import { AiFillPicture } from 'react-icons/ai'
-import { FaRegSmileWink } from 'react-icons/fa'
+import { Form, message, Modal, Select } from 'antd';
+import { useState } from 'react';
+import './share.scss'
+import Dragger from 'antd/lib/upload/Dragger';
+import { AiOutlineUpload } from 'react-icons/ai'
+import { deleteObject, getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
+import { v4 } from 'uuid';
+const { Option } = Select;
+
 export default function Share() {
+
+	const storage = getStorage();
+	const [dataSubmit, setDataSubmit] = useState({
+		title: '',
+		content: '',
+		type: '',
+		destination: '',
+		status: 'public',
+		mediaList: [],
+	})
+	const [previewOpen, setPreviewOpen] = useState(false);
+	const [previewImage, setPreviewImage] = useState('');
+	const [previewTitle, setPreviewTitle] = useState('');
+
+	const [isModalOpen, setIsModalOpen] = useState(false);
+
+	const showModal = () => {
+		setIsModalOpen(true);
+	};
+
+	const handleOk = () => {
+		setIsModalOpen(false);
+	};
+
+	const handleCancel = () => {
+		setIsModalOpen(false);
+	};
+
+	// upload
+	const [fileList, setFileList] = useState([]);
+	const [fileUploaded, setFileUploaded] = useState([]);
+	const beforeUpload = (file) => {
+		if (!["image/jpeg", "image/png", "video/mp4"].includes(file.type)) {
+			message.error(`${file.name} is not a valid image/video type`, 2);
+			return null;
+		}
+		return false;
+	}
+	const handleChange = ({ fileList }) => {
+		setFileList(fileList.filter(file => file.status !== "error"));
+		console.log('test');
+		var notUploadYet = fileList.reduce((accumulator, file) => {
+			if (!fileUploaded.find(x => x.name === file.name)) {
+				accumulator.push(file);
+			}
+			return accumulator;
+		}, [])
+		const handleUpload = async () => {
+			for await (const file of notUploadYet) {
+				var nameOnCloud = `images/${file.name + v4()}`
+				const storageRef = ref(storage, nameOnCloud);
+				await uploadBytes(storageRef, file.originFileObj)
+				getDownloadURL(storageRef)
+					.then((url) => {
+						console.log(file.type)
+						setFileUploaded([...fileUploaded,
+						{
+							name: file.name,
+							url: url, nameOnCloud: nameOnCloud,
+							type: ["video/mp4"].includes(file.type) ? "video" : "image"
+						}
+						])
+					})
+					.catch((error) => {
+						console.log(error)
+					});
+			}
+		}
+		handleUpload()
+	}
+	const handlePreview = async (file) => { }
+	const handleOnRemove = (file) => {
+		var removal = fileUploaded.find(item => item.name === file.name)
+		const desertRef = ref(storage, removal.nameOnCloud);
+		deleteObject(desertRef).then(() => {
+			console.log('already deleted.')
+			setFileUploaded(fileUploaded.filter(x => x.name !== file.name))
+		}).catch((error) => {
+			console.log(error)
+		});
+	}
+
+	const handleFinish = async () => {
+		setDataSubmit({
+			...dataSubmit, mediaList: fileUploaded.map(item => {
+				var temp = { ...item }
+				delete temp.nameOnCloud
+				delete temp.name
+				return temp;
+			})
+		})
+		console.log('submitttttttt', dataSubmit)
+
+	};
+
+	const onFinishFailed = (errorInfo) => {
+		console.log('Failed:', errorInfo);
+	};
 	return (
-		<div className='shareContain'>
+		<div className='shareContain' >
 			<div className="shareBox">
 				<div className="inputShare">
 					<img src="img/myavt.jpg" alt="avate user" className="avt-user" />
-					<input type="text" placeholder='Chia sẻ trải nghiệm, blog...' className="textShare" />
+					<button onClick={() => showModal()} type="button" className='btn-share'>Viết bài đăng</button>
 				</div>
-				<div className="mediaShare">
-					<div className="wrapIcon">
-						<AiFillPicture className='mediaIcon' />
-						<span>Ảnh/Video</span>
+
+				<Modal title={
+					<div className="header-share">
+						<img src="img/myavt.jpg" alt="avate user" className="avt-user" />
+						<div>
+							<p>Pham Van Dat</p>
+							<Select
+								className='select-status'
+								defaultValue="public"
+								style={{
+									width: 118,
+								}}
+								onChange={value => setDataSubmit({ ...dataSubmit, status: value })}
+							>
+								<Option value="public">Công khai</Option>
+								<Option value="friend">Bạn bè</Option>
+								<Option value="private">Chỉ mình tôi</Option>
+							</Select>
+						</div>
 					</div>
-					<div className="wrapIcon">
-						<FaRegSmileWink className='flingIcon'/>
-						<span>Cảm xúc</span>
-					</div>
-					<div className="wrapIcon">
-						<span>Đăng bài</span>
-					</div>
-				</div>
+				} centered open={isModalOpen} onOk={handleOk} onCancel={handleCancel}
+					footer={null}
+					className="share-modal">
+					<Form
+						onFinish={handleFinish}
+						onFinishFailed={onFinishFailed}
+					>
+						<Form.Item
+							name="title"
+							rules={[{ required: true, message: 'Bài viết chưa có tiêu đề!' }]}
+						>
+							<input type="text" placeholder='Tiêu đề bài viết' className='input-title'
+								onChange={e => setDataSubmit({ ...dataSubmit, title: e.target.value })} />
+						</Form.Item>
+						<Form.Item
+							name="content"
+							rules={[{ required: true, message: 'Bài viết chưa có nội dung!' }]}
+						>
+							<textarea className='text-area-share' placeholder='Bạn muốn chia sẻ điều gi?' rows={4}
+								onChange={e => setDataSubmit({ ...dataSubmit, content: e.target.value })} />
+						</Form.Item>
+						<div className='sub-form'>
+							<Form.Item
+								name="destination"
+								rules={[{ required: true, message: 'Vui lòng nhập địa điểm !' }]}
+							>
+								<input type="text" placeholder='Địa điểm' className='input-location' />
+							</Form.Item>
+
+							<Form.Item
+								name="username"
+								rules={[{ required: true, message: 'Vui lòng chọn kiểu du lịch!' }]}
+							>
+								<Select defaultValue="default" style={{ width: 160 }}
+									onChange={value => setDataSubmit({ ...dataSubmit, type: value })}
+								>
+									<Option value="default" hidden>Chọn kiểu du lịch</Option>
+									<Option value="ecotourism">Du lịch sinh thái</Option>
+									<Option value="cultural">Du lịch văn hóa</Option>
+									<Option value="resort">Du lịch nghỉ dưỡng</Option>
+									<Option value="leisure">Du lịch giải trí </Option>
+									<Option value="sports">Du lịch thể thao</Option>
+									<Option value="discover">Du lịch khám phá</Option>
+									<Option value="adventure">Du lịch mạo hiểm</Option>
+									<Option value="combined">Du lịch kết hợp</Option>
+								</Select>
+							</Form.Item>
+						</div>
+						<Dragger
+							listType="picture-card"
+							fileList={fileList}
+							beforeUpload={beforeUpload}
+							onPreview={handlePreview}
+							onChange={handleChange}
+							onRemove={handleOnRemove}
+							multiple={true}
+						>
+							<AiOutlineUpload style={{ 'fontSize': 30 }} />
+							<div className="uploadText">
+								<p>Kéo và thả ở đây hoặc click để chọn</p>
+							</div>
+						</Dragger>
+
+						<div>
+							<button type='submit' className='btn-share-create'>Chia sẻ</button>
+						</div>
+					</Form>
+				</Modal>
 			</div>
 		</div >
 	)
