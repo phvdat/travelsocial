@@ -6,7 +6,7 @@ import authApi from '../../api/authApi';
 import { getAuth, signInWithPopup, GoogleAuthProvider, FacebookAuthProvider } from "firebase/auth";
 import app from '../../configs/firebaseConfig';
 import './loginModal.scss';
-import { LOGIN_SUCCESS } from '../../reducers/authentication/actionTypes';
+import { LOGIN_SUCCESS, SET_CURRENT_USER } from '../../reducers/authentication/actionTypes';
 import { useDispatch } from 'react-redux';
 
 const LoginModal = () => {
@@ -23,7 +23,7 @@ const LoginModal = () => {
 		console.log('Clicked cancel button');
 		setOpen(false);
 	};
-	const onFinish = (values) => {
+	const onFinish = async (values) => {
 		setData({ ...values, kind: 'internal', isAdmin: false })
 		const postLoginData = async () => {
 			try {
@@ -52,13 +52,17 @@ const LoginModal = () => {
 			try {
 				const response = await authApi.getUserInfoApi()
 				if (response.status_code === 9999) {
-					console.log(response)
+					window.localStorage.setItem('user_info', JSON.stringify(response.payload));
+					dispach({
+						type: SET_CURRENT_USER,
+						payload: response.payload,
+					})
 				}
 			} catch (error) {
 				console.log(error)
 			}
 		}
-		// postLoginData()
+		postLoginData()
 		getUserInfo()
 	};
 	const onFinishFailed = (errorInfo) => {
