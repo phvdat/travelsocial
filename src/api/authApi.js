@@ -9,6 +9,10 @@ const authApi = {
 		const url = "/user/register";
 		return axiosClient.post(url, data);
 	},
+	getUserInfoApi: () => {
+		const url = "/user/info-user";
+		return axiosClient.get(url);
+	}
 }
 
 export default authApi;
