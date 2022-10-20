@@ -5,6 +5,7 @@ import Dragger from 'antd/lib/upload/Dragger';
 import { AiOutlineUpload } from 'react-icons/ai'
 import { deleteObject, getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import { v4 } from 'uuid';
+import postApi from '../../api/postApi';
 const { Option } = Select;
 
 export default function Share() {
@@ -99,8 +100,21 @@ export default function Share() {
 				return temp;
 			})
 		})
-		console.log('submitttttttt', dataSubmit)
-
+		const postLoginData = async () => {
+			try {
+				const response = await postApi.createPost(dataSubmit)
+				console.log(response)
+				if (response.status_code === 9999) {
+					message.success('Tạo bài viết thành công!')
+				}
+				if (response.status_code === -9999) {
+					message.warning('Đã xảy ra lỗi!')
+				}
+			} catch (error) {
+				console.log(error, 'error')
+			}
+		}
+		postLoginData()
 	};
 
 	const onFinishFailed = (errorInfo) => {
@@ -166,10 +180,9 @@ export default function Share() {
 								name="username"
 								rules={[{ required: true, message: 'Vui lòng chọn kiểu du lịch!' }]}
 							>
-								<Select defaultValue="default" style={{ width: 160 }}
+								<Select style={{ width: 160 }}
 									onChange={value => setDataSubmit({ ...dataSubmit, type: value })}
 								>
-									<Option value="default" hidden>Chọn kiểu du lịch</Option>
 									<Option value="ecotourism">Du lịch sinh thái</Option>
 									<Option value="cultural">Du lịch văn hóa</Option>
 									<Option value="resort">Du lịch nghỉ dưỡng</Option>
