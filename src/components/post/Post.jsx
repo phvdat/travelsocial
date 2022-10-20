@@ -5,7 +5,7 @@ import './post.scss';
 import { useState } from 'react/cjs/react.development';
 export default function Post(props) {
 	const data = props.data
-	console.log(data)
+	// console.log(data)
 	const [like, setLike] = useState(true)
 
 	return (

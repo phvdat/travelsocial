@@ -6,8 +6,11 @@ import authApi from '../../api/authApi';
 import { getAuth, signInWithPopup, GoogleAuthProvider, FacebookAuthProvider } from "firebase/auth";
 import app from '../../configs/firebaseConfig';
 import './loginModal.scss';
+import { LOGIN_SUCCESS } from '../../reducers/authentication/actionTypes';
+import { useDispatch } from 'react-redux';
 
 const LoginModal = () => {
+	const dispach = useDispatch();
 	const auth = getAuth(app);
 	const navigate = useNavigate()
 	const [open, setOpen] = useState(false);
@@ -25,12 +28,17 @@ const LoginModal = () => {
 		const postLoginData = async () => {
 			try {
 				const response = await authApi.loginApi(data)
-				console.log(response)
 				if (response.status_code === 9999) {
 					setOpen(false)
 					message.success('Đăng nhập thành công!')
 					navigate('/')
-					window.localStorage.setItem('currentUser', JSON.stringify(response.payload));
+					window.localStorage.setItem('access_token', JSON.stringify(response.payload.accessToken));
+					window.localStorage.setItem('refresh_token', JSON.stringify(response.payload.refreshToken));
+					window.localStorage.setItem('isLogin', JSON.stringify(true));
+					dispach({
+						type: LOGIN_SUCCESS,
+						payload: [],
+					})
 				}
 				if (response.status_code === -9999) {
 					message.warning('Username hoặc mật khẩu không đúng!')
@@ -39,7 +47,19 @@ const LoginModal = () => {
 				console.log(error, 'login fail')
 			}
 		}
-		postLoginData()
+		const getUserInfo = async () => {
+			console.log('get me')
+			try {
+				const response = await authApi.getUserInfoApi()
+				if (response.status_code === 9999) {
+					console.log(response)
+				}
+			} catch (error) {
+				console.log(error)
+			}
+		}
+		// postLoginData()
+		getUserInfo()
 	};
 	const onFinishFailed = (errorInfo) => {
 		console.log('Failed:', errorInfo);
