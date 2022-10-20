@@ -4,7 +4,6 @@ import queryString from 'query-string';
 // Set up default config for http requests here
 
 // Please have a look at here `https://github.com/axios/axios#request-config` for the full list of configs
-
 const axiosClient = axios.create({
 	baseURL: process.env.REACT_APP_TRAVEL_SOCIAL_API,
 	headers: {
@@ -14,6 +13,11 @@ const axiosClient = axios.create({
 });
 axiosClient.interceptors.request.use(async (config) => {
 	// Handle token here ...
+	const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+	
+	if (currentUser) {
+		config.headers.Authorization = `Bearer ${currentUser.accessToken}`;
+	}
 	return config;
 })
 axiosClient.interceptors.response.use((response) => {

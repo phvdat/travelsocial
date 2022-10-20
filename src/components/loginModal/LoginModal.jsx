@@ -29,6 +29,8 @@ const LoginModal = () => {
 				if (response.status_code === 9999) {
 					setOpen(false)
 					message.success('Đăng nhập thành công!')
+					navigate('/')
+					window.localStorage.setItem('currentUser', JSON.stringify(response.payload));
 				}
 				if (response.status_code === -9999) {
 					message.warning('Username hoặc mật khẩu không đúng!')
