@@ -46,8 +46,7 @@ export default function Topbar() {
 			<div className="topbarCenter">
 				<div className="topbarLink">
 					<span className={true ? "activeLink" : "noactiveLink"}><AiFillHome className="topbarIcon-1" />Trang Chủ</span>
-					<span className="noactiveLink"><FaUserFriends className="topbarIcon-1" />TravelMap</span>
-					<span className="noactiveLink"><TiGroup className="topbarIcon-1" />Shop & Service</span>
+					<span className="noactiveLink"><FaUserFriends className="topbarIcon-1" />Bạn Bè</span>
 				</div>
 
 				<div className="searchbar">
