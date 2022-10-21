@@ -1,4 +1,5 @@
 @import "src/assets/styles/variables";
+@import "src/assets/styles/mixins";
 .postContain {
   margin-top: 16px;
 }
@@ -24,27 +25,25 @@
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
-}
+  .nameUser {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+  }
 
-.nameUser {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-}
+  .textName:hover {
+    cursor: pointer;
+    text-decoration: underline;
+  }
 
-.textName:hover {
-  cursor: pointer;
-  text-decoration: underline;
-}
-
-.textTime {
-  font-weight: 400;
-  cursor: pointer;
-  color: #65676b;
-}
-
-.textTime:hover {
-  text-decoration: underline;
+  .textTime {
+    font-weight: 400;
+    cursor: pointer;
+    color: #65676b;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 }
 
 .statusText {
@@ -60,39 +59,33 @@
 
 .bottomPost {
   padding: 0 20px;
-}
-
-.inforReact {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.numberLikeShare {
-  display: flex;
-  align-items: center;
-}
-
-.smLikeIcon {
-  font-size: 22px;
-  cursor: pointer;
-  margin: 4px 2px 4px 0;
-  color: $primary-color;
-}
-
-.numberReact {
-  font-weight: 400;
-  cursor: pointer;
-}
-
-.numberReact:hover {
-  text-decoration: underline;
-}
-
-.numberComment {
-  font-weight: 400;
-  justify-content: flex-start;
-  cursor: pointer;
+  .inforReact {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .numberLikeShare {
+      display: flex;
+      align-items: center;
+      .smLikeIcon {
+        font-size: 22px;
+        cursor: pointer;
+        margin: 4px 2px 4px 0;
+        color: $primary-color;
+      }
+      .numberReact {
+        font-weight: 400;
+        cursor: pointer;
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+    .numberComment {
+      font-weight: 400;
+      justify-content: flex-start;
+      cursor: pointer;
+    }
+  }
 }
 
 .numberComment:hover {
@@ -103,36 +96,99 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
-.btnPost {
-  height: 40px;
-  flex: 3;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 8px;
-  margin: 2px 2px 1px;
-  cursor: pointer;
-  color: #606266;
-}
-.likeActive{
-	color: $primary-color;
-}
-
-.btnPost:hover {
-  background-color: #f0f2f5;
-}
-
-.btnPost span {
-  margin-left: 4px;
-}
-
-.iconBtn {
-  font-size: 20px;
+  .btnPost {
+    height: 40px;
+    flex: 3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    margin: 2px 2px 1px;
+    cursor: pointer;
+    color: #606266;
+    &:hover {
+      background-color: #f0f2f5;
+    }
+    span {
+      margin-left: 4px;
+    }
+    .iconBtn {
+      font-size: 20px;
+    }
+  }
+  .likeActive {
+    color: $primary-color;
+  }
 }
 
 .postHr {
   border: none;
   height: 1px;
   background-color: #ced0d4;
+}
+.boxComment {
+  display: flex;
+  align-items: flex-start;
+  padding: 10px 0;
+  .avt-user-comment {
+    width: 36px;
+    height: 36px;
+    border-radius: 30px;
+    object-fit: cover;
+    margin-right: 4px;
+  }
+  textarea {
+    width: calc(100% - 34px);
+    border-radius: 18px;
+    border: none;
+    outline: none;
+    background-color: $primary-gray-background;
+    padding: 8px 12px;
+    resize: none;
+    min-height: 30px;
+    max-height: 100px;
+  }
+}
+
+.primary-comment-item {
+  display: flex;
+  align-items: flex-start;
+  padding: 10px 0 0;
+  .avt-user-comment {
+    width: 36px;
+    height: 36px;
+    border-radius: 30px;
+    object-fit: cover;
+    margin-right: 4px;
+  }
+  .comment-item {
+    max-width: calc(100% - 34px);
+    width: fit-content;
+    background-color: $primary-gray-background;
+    border-radius: 8px;
+    padding: 4px 8px;
+  }
+  .comment-username {
+    color: $primary-black;
+    font-weight: 500;
+    cursor: pointer;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+  p {
+    margin: 0;
+  }
+}
+.sub-comment-item {
+  margin-left: 40px;
+  padding-left: 4px;
+  span {
+    color: $secondary-gray;
+    font-weight: 500;
+    cursor: pointer;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 }

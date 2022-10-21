@@ -25,4 +25,7 @@
 	border-radius: 8px;
 	border: none;
 	cursor: pointer;
+	&:hover{
+		opacity: 0.9;
+	}
 }
