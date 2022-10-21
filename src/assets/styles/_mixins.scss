@@ -1,10 +1,31 @@
-
-@mixin inputStyle($width){
+@mixin inputStyle($width) {
   width: $width;
   height: 36px;
   border-radius: 18px;
-	padding: 0 20px;
-	margin: 6px;
-	outline: none;
+  padding: 0 20px;
+  outline: none;
+  border: none;
+}
+
+@mixin inputStyle_2($width, $height) {
+  margin-top: 10px;
+  width: $width;
+  height: $height;
+  border-radius: 8px;
+  border: 1px solid $primary-gray;
+  padding: 0 12px;
+}
+
+@mixin btnStyle($width, $height, $color, $fontSize) {
+	width: $width;
+	height: $height;
+	background-color: $color;
+	color: #fff;
+	font-size: $fontSize;
+	border-radius: 8px;
 	border: none;
+	cursor: pointer;
+	&:hover{
+		opacity: 0.9;
+	}
 }

@@ -1,0 +1,80 @@
+@import "src/assets/styles/variables";
+@import "src/assets/styles/mixins";
+.login-modal {
+  .ant-modal-close-x {
+    position: relative;
+    right: 0;
+    top: 0;
+  }
+  .ant-modal-content,
+  .ant-modal-content .ant-modal-header {
+    border-radius: 12px;
+  }
+  .ant-modal-title {
+    text-align: center;
+    font-size: $font-size-title;
+  }
+  .ant-modal-body {
+    text-align: center;
+    .login-text-1 {
+      font-size: $font-size-paragraph;
+      color: #666666;
+    }
+    .btn-facebook,
+    .btn-google {
+      margin-top: 10px;
+      color: $primary-white;
+      width: $width-input-lg;
+      height: $height-input;
+      font-size: $font-size-btn;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+    }
+    .btn-facebook {
+      background-color: $primary-facebook;
+    }
+    .btn-google {
+      background-color: $primary-google;
+    }
+    .login-text-2 {
+      margin-top: 20px;
+      font-size: $font-size-paragraph;
+      color: #666666;
+    }
+    .login-form {
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      align-items: center;
+    }
+    .ant-input-username,
+    .ant-input-password {
+			@include inputStyle_2($width-input-lg, $height-input);
+    }
+    .btn-login {
+      @include btnStyle(
+        $width-input-sm,
+        $height-input,
+        $primary-color,
+        $font-size-btn
+      );
+    }
+    .btn-register {
+      @include btnStyle(
+        $width-input-sm,
+        $height-input,
+        $primary-green,
+        $font-size-btn
+      );
+    }
+    .btn-container {
+      width: $width-input-lg;
+      display: flex;
+      justify-content: space-between;
+      margin: auto;
+      margin-top: 20px;
+      margin-bottom: 30px;
+    }
+  }
+}

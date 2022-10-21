@@ -5,7 +5,7 @@
   justify-content: center;
   height: 88%;
   margin: 0 4px;
-	padding: 0 12px;
+  padding: 0 12px;
   cursor: pointer;
   border-radius: 10px;
   color: $color;
@@ -33,7 +33,7 @@
   }
   .topbarCenter {
     flex: 8;
-		display: flex;
+    display: flex;
   }
   .topbarRight {
     flex: 3;
@@ -53,7 +53,7 @@
 
 .searchbar {
   width: 300px;
-  margin:auto;
+  margin: auto;
   display: flex;
   align-items: center;
   height: 40px;
@@ -64,7 +64,7 @@
     margin: 0 10px;
   }
   .searchInput {
-		width: 100%;
+    width: 100%;
     border: none;
     background-color: #f0f2f5;
     font-size: 14px;
@@ -94,21 +94,24 @@
   }
 }
 
-
-.iconRightSide{
-	width: 80px;
+.iconRightSide {
+  width: 80px;
   cursor: pointer;
-	margin: 0 4px;
+  margin: 0 4px;
+  p {
+    text-align: center;
+	margin: 0;
+  }
 }
 .subIconRight {
-  margin: 0 20px 0 0;
+  margin: auto;
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
   .topbarIcon-2 {
     font-size: 24px;
-		color: $primary-gray;
+    color: $primary-gray;
   }
   .iconBadge {
     width: 15px;
@@ -121,7 +124,7 @@
     color: $primary-white;
     font-size: 10px;
     position: absolute;
-    right: 10px;
+    right: 20px;
     top: -1px;
   }
 }
