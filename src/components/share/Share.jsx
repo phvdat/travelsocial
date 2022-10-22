@@ -9,7 +9,7 @@ import postApi from '../../api/postApi';
 const { Option } = Select;
 
 export default function Share() {
-
+	const [form] = Form.useForm();
 	const storage = getStorage();
 	const [dataSubmit, setDataSubmit] = useState({
 		title: '',
@@ -49,7 +49,6 @@ export default function Share() {
 	}
 	const handleChange = ({ fileList }) => {
 		setFileList(fileList.filter(file => file.status !== "error"));
-		console.log('test');
 		var notUploadYet = fileList.reduce((accumulator, file) => {
 			if (!fileUploaded.find(x => x.name === file.name)) {
 				accumulator.push(file);
@@ -57,24 +56,30 @@ export default function Share() {
 			return accumulator;
 		}, [])
 		const handleUpload = async () => {
-			for await (const file of notUploadYet) {
-				var nameOnCloud = `images/${file.name + v4()}`
-				const storageRef = ref(storage, nameOnCloud);
-				await uploadBytes(storageRef, file.originFileObj)
-				getDownloadURL(storageRef)
-					.then((url) => {
-						console.log(file.type)
+			try {
+				for await (const file of notUploadYet) {
+					const typeMedia = file.type.split('/')[0]
+					var nameOnCloud = typeMedia === "video" ? `videos/${file.name + v4()}` : `images/${file.name + v4()}`
+					const storageRef = ref(storage, nameOnCloud);
+					await uploadBytes(storageRef, file.originFileObj)
+					console.log('upload success')
+					try {
+						const link = await getDownloadURL(storageRef)
 						setFileUploaded([...fileUploaded,
 						{
 							name: file.name,
-							url: url, nameOnCloud: nameOnCloud,
-							type: ["video/mp4"].includes(file.type) ? "video" : "image"
+							link: link,
+							nameOnCloud: nameOnCloud,
+							type: typeMedia
 						}
 						])
-					})
-					.catch((error) => {
+					} catch (error) {
 						console.log(error)
-					});
+					}
+
+				}
+			} catch (error) {
+				console.log(error)
 			}
 		}
 		handleUpload()
@@ -100,12 +105,17 @@ export default function Share() {
 				return temp;
 			})
 		})
+		console.log(fileUploaded," dataSubmit")
 		const postLoginData = async () => {
 			try {
 				const response = await postApi.createPost(dataSubmit)
 				console.log(response)
 				if (response.status_code === 9999) {
 					message.success('Tạo bài viết thành công!')
+					form.resetFields();
+					setFileList([])
+					setFileUploaded([])
+					setIsModalOpen(false)
 				}
 				if (response.status_code === -9999) {
 					message.warning('Đã xảy ra lỗi!')
@@ -128,7 +138,7 @@ export default function Share() {
 					<button onClick={() => showModal()} type="button" className='btn-share'>Viết bài đăng</button>
 				</div>
 
-				<Modal title={
+				<Modal getContainer={false} title={
 					<div className="header-share">
 						<img src="img/myavt.jpg" alt="avate user" className="avt-user" />
 						<div>
@@ -142,7 +152,7 @@ export default function Share() {
 								onChange={value => setDataSubmit({ ...dataSubmit, status: value })}
 							>
 								<Option value="public">Công khai</Option>
-								<Option value="friend">Bạn bè</Option>
+								<Option value="Follower">Bạn bè</Option>
 								<Option value="private">Chỉ mình tôi</Option>
 							</Select>
 						</div>
@@ -173,7 +183,8 @@ export default function Share() {
 								name="destination"
 								rules={[{ required: true, message: 'Vui lòng nhập địa điểm !' }]}
 							>
-								<input type="text" placeholder='Địa điểm' className='input-location' />
+								<input type="text" placeholder='Địa điểm' className='input-location'
+									onChange={e => setDataSubmit({ ...dataSubmit, destination: e.target.value })} />
 							</Form.Item>
 
 							<Form.Item
