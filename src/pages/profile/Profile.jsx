@@ -1,12 +1,35 @@
-import { Col, Row } from "antd";
+import { Col, message, Row } from "antd";
+import { useEffect, useState } from "react";
+import postApi from "../../api/postApi";
 import Post from "../../components/post/Post";
 import Share from "../../components/share/Share";
 import Topbar from "../../components/topbar/Topbar";
 import "./profile.scss";
-// import Newfeed from "../../components/newfeed/Newfeed"
-// import Rightbar from "../../components/rightbar/Rightbar";
 
 export default function Profile() {
+	const [listPost, setListPost] = useState([])
+	useEffect(() => {
+		const getAllPost = async () => {
+			try {
+				const data = {
+					page: 1,
+					size: 20,
+					status: "public"
+				}
+				const response = await postApi.getAllPost(data)
+				if (response.status_code === 9999) {
+					setListPost(response.payload)
+				}
+				if (response.status_code === -9999) {
+					message.warning('Tải bài viết không thành công!')
+				}
+			} catch (error) {
+				console.log(error)
+			}
+		}
+		getAllPost()
+	}, [])
+
 	return (
 		<div className="container">
 			<Topbar />
@@ -28,24 +51,27 @@ export default function Profile() {
 							</div>
 							<hr className="rightbarHr" />
 							<div className="controlProfile">
-								<div className={true ? "itemActive" : "itemcontrol"}>Bài viết</div>
-								<div className="itemcontrol">Giới thiệu</div>
-								<div className="itemcontrol">Bạn bè</div>
+								<div className="sub-controlProfile">
+									<div className={true ? "itemActive" : "itemcontrol"}>Bài viết</div>
+									<div className="itemcontrol">Giới thiệu</div>
+									<div className="itemcontrol">Bạn bè</div>
+								</div>
+								<button className="btn-follow">{true ? "Theo dõi" : "Đăng theo dõi"}</button>
 							</div>
 						</Col>
 					</Row>
 				</div>
 				<div className="downProfile">
 					<Row justify="center">
-						<Col span={2}></Col>
-						<Col span={20}>
+						{/* <Col span={2}></Col> */}
+						<Col span={12}>
 							<Share />
-							{dataPost.map((ele, idx) => {
+							{listPost.map((ele, idx) => {
 								return <Post data={ele} key={idx} />
 							})
 							}
 						</Col>
-						<Col span={2}></Col>
+						{/* <Col span={2}></Col> */}
 
 					</Row>
 				</div>
@@ -53,29 +79,3 @@ export default function Profile() {
 		</div>
 	)
 }
-
-const dataPost = [{
-	title: '"VỊNH HẠ LONG THU NHỎ" TRONG 2 NGÀY CUỐI TUẦN',
-	imgUrl: "img/songDa.jpg",
-	like: 40,
-	comment: [],
-},
-{
-	title: 'Du lịch',
-	imgUrl: "img/dulichvietnam.jpg",
-	like: 30,
-	comment: [],
-},
-{
-	title: '"VỊNH HẠ LONG THU NHỎ" TRONG 2 NGÀY CUỐI TUẦN',
-	imgUrl: "img/songDa.jpg",
-	like: 40,
-	comment: [],
-},
-{
-	title: 'Du lịch',
-	imgUrl: "img/dulichvietnam.jpg",
-	like: 30,
-	comment: [],
-},
-]

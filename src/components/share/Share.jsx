@@ -134,13 +134,13 @@ export default function Share() {
 		<div className='shareContain' >
 			<div className="shareBox">
 				<div className="inputShare">
-					<img src="img/myavt.jpg" alt="avate user" className="avt-user" />
+					<img src="img/avatar-default.jpg" alt="avate user" className="avt-user" />
 					<button onClick={() => showModal()} type="button" className='btn-share'>Viết bài đăng</button>
 				</div>
 
 				<Modal getContainer={false} title={
 					<div className="header-share">
-						<img src="img/myavt.jpg" alt="avate user" className="avt-user" />
+						<img src="img/avatar-default.jpg" alt="avate user" className="avt-user" />
 						<div>
 							<p>Pham Van Dat</p>
 							<Select

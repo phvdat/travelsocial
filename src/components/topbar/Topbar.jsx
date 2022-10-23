@@ -40,7 +40,9 @@ export default function Topbar() {
 	return (
 		<div className="topbarContainer">
 			<div className="topbarLeft">
-				<span className="logo">Travel</span>
+				<Link to="/">
+					<span className="logo">Travel</span>
+				</Link>
 			</div>
 
 			<div className="topbarCenter">

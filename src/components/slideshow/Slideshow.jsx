@@ -7,15 +7,15 @@ export default function Slideshow() {
 		<Carousel>
 			<div className='carousel-container'>
 				<div className="text-carousel">ĐI VÀ KHÁM PHÁ THEO CÁCH CỦA BẠN</div>
-				<img alt="carousel" src="img/slideshow-1.jpg" className="imgSlideshow" />
-			</div>
-			<div>
-				<img alt="carousel" src="img/slideshow-2.jpg" className="imgSlideshow" />
-			</div>
-			<div>
 				<img alt="carousel" src="img/slideshow-3.jpg" className="imgSlideshow" />
 			</div>
-			<div>
+			<div className='carousel-container'>
+				<img alt="carousel" src="img/slideshow-2.jpg" className="imgSlideshow" />
+			</div>
+			<div className='carousel-container'>
+				<img alt="carousel" src="img/slideshow-1.jpg" className="imgSlideshow" />
+			</div>
+			<div className='carousel-container'>
 				<img alt="carousel" src="img/slideshow-2.jpg" className="imgSlideshow" />
 			</div>
 		</Carousel>
