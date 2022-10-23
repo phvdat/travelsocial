@@ -21,10 +21,13 @@
 }
 
 .topPost {
+  .sub-topPost {
+    display: flex;
+    flex-direction: row;
+  }
   margin: 0 20px;
   display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
+  justify-content: space-between;
   .nameUser {
     display: flex;
     flex-direction: column;
@@ -43,6 +46,18 @@
     &:hover {
       text-decoration: underline;
     }
+  }
+  .btn-modify-post {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+    color: #fff;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: #b4b6bb;
+    float: right;
+    cursor: pointer;
   }
 }
 

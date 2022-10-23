@@ -5,6 +5,14 @@ const postApi = {
 		const url = "/post/create";
 		return axiosClient.post(url, data);
 	},
+	getAllPost: (data) => {
+		const url = "/post/load-all";
+		return axiosClient.post(url, data);
+	},
+	deletePost: (params) => {
+		const url = "/post/delete";
+		return axiosClient.get(url,{params});
+	}
 }
 
 export default postApi;

@@ -1,13 +1,15 @@
 import { AiFillLike, AiOutlineLike } from 'react-icons/ai';
-import { IoReturnDownForwardOutline } from 'react-icons/io5';
+import { BsThreeDots } from 'react-icons/bs';
 import { BiCommentDetail } from 'react-icons/bi';
 import './post.scss';
 import { useState } from 'react/cjs/react.development';
-import { Rate } from 'antd';
-import { Link } from 'react-router-dom';
+import { Dropdown, Menu, message, Rate } from 'antd';
+import { Link, useNavigate } from 'react-router-dom';
+import postApi from '../../api/postApi';
 export default function Post(props) {
 	const data = props.data
-	// console.log(data)
+	console.log(data)
+	const navigate = useNavigate()
 	const [like, setLike] = useState(true)
 	const [rate, setRate] = useState(0)
 	const [showComment, setShowComment] = useState(false)
@@ -29,18 +31,61 @@ export default function Post(props) {
 			content: 'Có thể mua được không?',
 		},
 	]
+	const handleDetelePost = async () => {
+		try {
+			const params = { postId: data._id }
+			console.log(params)
+			const response = await postApi.deletePost(params)
+			console.log(response)
+			if (response.status_code === 9999) {
+				message.success('Xóa bài viết thành công!')
+				navigate(0)
+			}
+			if (response.status_code === -9999) {
+				message.warning('Xoá bài viết không thành công!')
+			}
+
+		} catch (error) {
+			console.log(error)
+		}
+	}
+	const menu = (
+		<Menu
+			items={[
+				// {
+				// 	label: <Link to="profile">Chỉnh sửa</Link>,
+				// 	key: '0',
+				// },
+				// {
+				// 	type: 'divider',
+				// },
+				{
+					label: <a onClick={handleDetelePost}>Xoá bài viết</a>,
+					key: '0',
+				},
+			]}
+		/>
+	)
 	return (
 		<div className='postContain'>
 			<div className="postBox">
 				<div className="topPost">
-					<img src="img/myavt.jpg" alt="avt user" className='avt-user' />
-					<span className='nameUser'>
-						<span className='textName'>Pham Dat</span>
-						<span className='textTime'>4 giờ</span>
-					</span>
+					<div className='sub-topPost'>
+						<img src="img/myavt.jpg" alt="avt user" className='avt-user' />
+						<span className='nameUser'>
+							<span className='textName'>Pham Dat</span>
+							<span className='textTime'>4 giờ</span>
+						</span>
+					</div>
+					<Dropdown overlay={menu} trigger={['click']} placement="bottomRight">
+						<span className='btn-modify-post'>
+							<BsThreeDots />
+						</span>
+					</Dropdown>
 				</div>
 				<p className="statusText">{data.title}</p>
-				<img src={data.imgUrl} alt="" className='postImg' />
+				<p className="statusText" style={{ whiteSpace: "pre-line" }}>{data.content}</p>
+				<img src={data?.mediaList[0]?.link} alt="" className='postImg' />
 				<div className="bottomPost">
 					<div className='inforReact'>
 						<div className="numberLikeShare">
