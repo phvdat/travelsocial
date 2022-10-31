@@ -6,9 +6,11 @@ import { AiOutlineUpload } from 'react-icons/ai'
 import { deleteObject, getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import { v4 } from 'uuid';
 import postApi from '../../api/postApi';
+import { useNavigate } from 'react-router-dom';
 const { Option } = Select;
 
 export default function Share() {
+	const navigate = useNavigate()
 	const [form] = Form.useForm();
 	const storage = getStorage();
 	const [dataSubmit, setDataSubmit] = useState({
@@ -38,63 +40,70 @@ export default function Share() {
 	};
 
 	// upload
-	const [fileList, setFileList] = useState([]);
 	const [fileUploaded, setFileUploaded] = useState([]);
-	const beforeUpload = (file) => {
-		if (!["image/jpeg", "image/png", "video/mp4"].includes(file.type)) {
-			message.error(`${file.name} is not a valid image/video type`, 2);
-			return null;
-		}
-		return false;
-	}
-	const handleChange = ({ fileList }) => {
-		setFileList(fileList.filter(file => file.status !== "error"));
-		var notUploadYet = fileList.reduce((accumulator, file) => {
-			if (!fileUploaded.find(x => x.name === file.name)) {
-				accumulator.push(file);
-			}
-			return accumulator;
-		}, [])
-		const handleUpload = async () => {
-			try {
-				for await (const file of notUploadYet) {
+	const props = {
+		name: 'file',
+		listType: "picture-card",
+		multiple: true,
+		customRequest({ file, onSuccess }) {
+			const handleUpload = async () => {
+				try {
 					const typeMedia = file.type.split('/')[0]
 					var nameOnCloud = typeMedia === "video" ? `videos/${file.name + v4()}` : `images/${file.name + v4()}`
 					const storageRef = ref(storage, nameOnCloud);
-					await uploadBytes(storageRef, file.originFileObj)
-					console.log('upload success')
+					await uploadBytes(storageRef, file)
 					try {
 						const link = await getDownloadURL(storageRef)
-						setFileUploaded([...fileUploaded,
+						setFileUploaded(previousValues => ([...fileUploaded,
 						{
 							name: file.name,
 							link: link,
 							nameOnCloud: nameOnCloud,
 							type: typeMedia
 						}
-						])
+						]))
 					} catch (error) {
 						console.log(error)
 					}
-
+					onSuccess('ok')
+				} catch (error) {
+					console.log(error)
 				}
-			} catch (error) {
-				console.log(error)
 			}
+			handleUpload()
+		},
+		onChange(info) {
+			const { status } = info.file;
+			if (status !== 'uploading') {
+				console.log('uploading')
+			}
+			if (status === 'done') {
+				console.log('upload done')
+			} else if (status === 'error') {
+				message.error(`${info.file.name} file upload failed.`);
+			}
+		},
+		beforeUpload(file) {
+			if (!["image/jpeg", "image/png", "video/mp4"].includes(file.type)) {
+				message.error(`${file.name} is not a valid image/video type`, 2);
+				return null;
+			}
+			return true;
+		},
+		onRemove(file) {
+			var removal = fileUploaded.find(item => item.name === file.name)
+			const desertRef = ref(storage, removal.nameOnCloud);
+			deleteObject(desertRef).then(() => {
+				console.log('already deleted.')
+				setFileUploaded(fileUploaded.filter(x => x.name !== file.name))
+			}).catch((error) => {
+				console.log(error)
+			});
+		},
+		onPreview(file) {
+
 		}
-		handleUpload()
-	}
-	const handlePreview = async (file) => { }
-	const handleOnRemove = (file) => {
-		var removal = fileUploaded.find(item => item.name === file.name)
-		const desertRef = ref(storage, removal.nameOnCloud);
-		deleteObject(desertRef).then(() => {
-			console.log('already deleted.')
-			setFileUploaded(fileUploaded.filter(x => x.name !== file.name))
-		}).catch((error) => {
-			console.log(error)
-		});
-	}
+	};
 
 	const handleFinish = async () => {
 		setDataSubmit({
@@ -105,7 +114,7 @@ export default function Share() {
 				return temp;
 			})
 		})
-		console.log(fileUploaded," dataSubmit")
+		console.log(fileUploaded, " dataSubmit")
 		const postLoginData = async () => {
 			try {
 				const response = await postApi.createPost(dataSubmit)
@@ -113,7 +122,6 @@ export default function Share() {
 				if (response.status_code === 9999) {
 					message.success('Tạo bài viết thành công!')
 					form.resetFields();
-					setFileList([])
 					setFileUploaded([])
 					setIsModalOpen(false)
 				}
@@ -205,14 +213,14 @@ export default function Share() {
 								</Select>
 							</Form.Item>
 						</div>
-						<Dragger
-							listType="picture-card"
-							fileList={fileList}
-							beforeUpload={beforeUpload}
-							onPreview={handlePreview}
-							onChange={handleChange}
-							onRemove={handleOnRemove}
-							multiple={true}
+						<Dragger {...props}
+						// listType="picture-card"
+						// fileList={fileList}
+						// beforeUpload={beforeUpload}
+						// onPreview={handlePreview}
+						// onChange={handleChange}
+						// onRemove={handleOnRemove}
+						// multiple={true}
 						>
 							<AiOutlineUpload style={{ 'fontSize': 30 }} />
 							<div className="uploadText">
