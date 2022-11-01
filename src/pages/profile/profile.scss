@@ -1,14 +1,11 @@
 @import "src/assets/styles/variables";
 @import "src/assets/styles/mixins";
 
-.topProfile {
-  // display: flex;
-  // align-items: center;
-  // flex-direction: column;
-  // background-color: $primary-bg-color;
-  // width: 100%;
+.profile{
+	min-height: 100vh;
 }
 .profile-image {
+	border-radius: 4px;
   background-color: $primary-white;
   .coverImg {
     width: 100%;
@@ -40,18 +37,18 @@
   display: flex;
   width: 100%;
   justify-content: space-between;
-	align-items: center;
+  align-items: center;
   .sub-controlProfile {
     display: flex;
     justify-content: flex-start;
   }
   .btn-follow {
     @include btnStyle(100px, 32px, $primary-color, $font-size-paragraph);
-		margin-right: 8px;
+    margin-right: 8px;
   }
 }
 
-.itemcontrol {
+.tab-profile {
   height: 40px;
   border-radius: 4px;
   display: flex;
@@ -62,9 +59,12 @@
   &:hover {
     background-color: #f2f2f2;
   }
+  a {
+    color: $primary-black;
+  }
 }
 
-.itemActive {
+.tab-profile-active {
   border-bottom: 4px solid #1876f2;
   color: #1876f2;
   height: 40px;
@@ -75,10 +75,6 @@
   cursor: pointer;
 }
 
-.downProfile {
-  display: flex;
-  justify-content: center;
-}
 
 .contentProfile {
   margin-top: 10px;
