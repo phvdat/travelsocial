@@ -1,0 +1,17 @@
+@import "src/assets/styles/variables";
+@import "src/assets/styles/mixins";
+
+.profile-about-container {
+	border-radius: 4px;
+  margin-top: 16px;
+	padding: 40px;
+  background-color: $primary-white;
+	h1{
+		font-weight: 700;
+	}
+	h2{
+		sgv{
+			margin-right: 10px;
+		}
+	}
+}

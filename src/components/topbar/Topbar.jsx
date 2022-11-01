@@ -1,16 +1,16 @@
 import "./topbar.scss"
-import { AiFillHome, AiOutlineSearch, AiTwotoneEdit } from "react-icons/ai"
+import { AiFillHome, AiOutlineSearch } from "react-icons/ai"
 import { FaUserFriends } from 'react-icons/fa'
-import { TiGroup } from "react-icons/ti"
 import { IoMdNotifications } from "react-icons/io";
 import LoginModal from "../loginModal/LoginModal";
 import { useDispatch, useSelector } from "react-redux";
 import { Dropdown, Menu } from "antd";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { LOGOUT_SUCCESS } from "../../reducers/authentication/actionTypes";
 
 
 export default function Topbar() {
+	const navigate = useNavigate()
 	const isLogin = useSelector(state => state.authentication.isLoggedIn)
 	const dispatch = useDispatch();
 	const handleLogout = () => {
@@ -24,7 +24,7 @@ export default function Topbar() {
 		<Menu
 			items={[
 				{
-					label: <Link to="profile">Trang cá nhân</Link>,
+					label: <a onClick={()=>{navigate('/profile/newfeed')}}>Trang cá nhân</a>,
 					key: '0',
 				},
 				{
@@ -40,14 +40,15 @@ export default function Topbar() {
 	return (
 		<div className="topbarContainer">
 			<div className="topbarLeft">
-				<span className="logo">Travel</span>
+				<Link to="/">
+					<span className="logo">Travel</span>
+				</Link>
 			</div>
 
 			<div className="topbarCenter">
 				<div className="topbarLink">
 					<span className={true ? "activeLink" : "noactiveLink"}><AiFillHome className="topbarIcon-1" />Trang Chủ</span>
-					<span className="noactiveLink"><FaUserFriends className="topbarIcon-1" />TravelMap</span>
-					<span className="noactiveLink"><TiGroup className="topbarIcon-1" />Shop & Service</span>
+					<span className="noactiveLink"><FaUserFriends className="topbarIcon-1" />Bạn Bè</span>
 				</div>
 
 				<div className="searchbar">

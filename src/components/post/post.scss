@@ -21,10 +21,13 @@
 }
 
 .topPost {
+  .sub-topPost {
+    display: flex;
+    flex-direction: row;
+  }
   margin: 0 20px;
   display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
+  justify-content: space-between;
   .nameUser {
     display: flex;
     flex-direction: column;
@@ -44,11 +47,34 @@
       text-decoration: underline;
     }
   }
+  .btn-modify-post {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: #b4b6bb;
+    float: right;
+    cursor: pointer;
+  }
 }
-
+.titleText {
+  font-weight: 500;
+  padding: 12px 20px;
+  margin: 0;
+}
 .statusText {
   font-weight: 400;
   padding: 12px 20px;
+  margin: 0;
+}
+.destinationText {
+  font-weight: 300;
+  padding: 12px 20px;
+  font-style: italic;
+  margin: 0;
 }
 
 .postImg {
@@ -178,6 +204,23 @@
   }
   p {
     margin: 0;
+  }
+  .modify-comment-btn {
+    display: flex;
+    align-items: center;
+    span {
+      margin-left: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background-color: #b4b6bb;
+      float: right;
+      cursor: pointer;
+    }
   }
 }
 .sub-comment-item {

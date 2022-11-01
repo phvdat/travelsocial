@@ -6,10 +6,12 @@ import { AiOutlineUpload } from 'react-icons/ai'
 import { deleteObject, getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import { v4 } from 'uuid';
 import postApi from '../../api/postApi';
+import { useNavigate } from 'react-router-dom';
 const { Option } = Select;
 
 export default function Share() {
-
+	const navigate = useNavigate()
+	const [form] = Form.useForm();
 	const storage = getStorage();
 	const [dataSubmit, setDataSubmit] = useState({
 		title: '',
@@ -38,58 +40,70 @@ export default function Share() {
 	};
 
 	// upload
-	const [fileList, setFileList] = useState([]);
 	const [fileUploaded, setFileUploaded] = useState([]);
-	const beforeUpload = (file) => {
-		if (!["image/jpeg", "image/png", "video/mp4"].includes(file.type)) {
-			message.error(`${file.name} is not a valid image/video type`, 2);
-			return null;
-		}
-		return false;
-	}
-	const handleChange = ({ fileList }) => {
-		setFileList(fileList.filter(file => file.status !== "error"));
-		console.log('test');
-		var notUploadYet = fileList.reduce((accumulator, file) => {
-			if (!fileUploaded.find(x => x.name === file.name)) {
-				accumulator.push(file);
-			}
-			return accumulator;
-		}, [])
-		const handleUpload = async () => {
-			for await (const file of notUploadYet) {
-				var nameOnCloud = `images/${file.name + v4()}`
-				const storageRef = ref(storage, nameOnCloud);
-				await uploadBytes(storageRef, file.originFileObj)
-				getDownloadURL(storageRef)
-					.then((url) => {
-						console.log(file.type)
-						setFileUploaded([...fileUploaded,
+	const props = {
+		name: 'file',
+		listType: "picture-card",
+		multiple: true,
+		customRequest({ file, onSuccess }) {
+			const handleUpload = async () => {
+				try {
+					const typeMedia = file.type.split('/')[0]
+					var nameOnCloud = typeMedia === "video" ? `videos/${file.name + v4()}` : `images/${file.name + v4()}`
+					const storageRef = ref(storage, nameOnCloud);
+					await uploadBytes(storageRef, file)
+					try {
+						const link = await getDownloadURL(storageRef)
+						setFileUploaded(previousValues => ([...fileUploaded,
 						{
 							name: file.name,
-							url: url, nameOnCloud: nameOnCloud,
-							type: ["video/mp4"].includes(file.type) ? "video" : "image"
+							link: link,
+							nameOnCloud: nameOnCloud,
+							type: typeMedia
 						}
-						])
-					})
-					.catch((error) => {
+						]))
+					} catch (error) {
 						console.log(error)
-					});
+					}
+					onSuccess('ok')
+				} catch (error) {
+					console.log(error)
+				}
 			}
+			handleUpload()
+		},
+		onChange(info) {
+			const { status } = info.file;
+			if (status !== 'uploading') {
+				console.log('uploading')
+			}
+			if (status === 'done') {
+				console.log('upload done')
+			} else if (status === 'error') {
+				message.error(`${info.file.name} file upload failed.`);
+			}
+		},
+		beforeUpload(file) {
+			if (!["image/jpeg", "image/png", "video/mp4"].includes(file.type)) {
+				message.error(`${file.name} is not a valid image/video type`, 2);
+				return null;
+			}
+			return true;
+		},
+		onRemove(file) {
+			var removal = fileUploaded.find(item => item.name === file.name)
+			const desertRef = ref(storage, removal.nameOnCloud);
+			deleteObject(desertRef).then(() => {
+				console.log('already deleted.')
+				setFileUploaded(fileUploaded.filter(x => x.name !== file.name))
+			}).catch((error) => {
+				console.log(error)
+			});
+		},
+		onPreview(file) {
+
 		}
-		handleUpload()
-	}
-	const handlePreview = async (file) => { }
-	const handleOnRemove = (file) => {
-		var removal = fileUploaded.find(item => item.name === file.name)
-		const desertRef = ref(storage, removal.nameOnCloud);
-		deleteObject(desertRef).then(() => {
-			console.log('already deleted.')
-			setFileUploaded(fileUploaded.filter(x => x.name !== file.name))
-		}).catch((error) => {
-			console.log(error)
-		});
-	}
+	};
 
 	const handleFinish = async () => {
 		setDataSubmit({
@@ -100,12 +114,16 @@ export default function Share() {
 				return temp;
 			})
 		})
+		console.log(fileUploaded, " dataSubmit")
 		const postLoginData = async () => {
 			try {
 				const response = await postApi.createPost(dataSubmit)
 				console.log(response)
 				if (response.status_code === 9999) {
 					message.success('Tạo bài viết thành công!')
+					form.resetFields();
+					setFileUploaded([])
+					setIsModalOpen(false)
 				}
 				if (response.status_code === -9999) {
 					message.warning('Đã xảy ra lỗi!')
@@ -124,13 +142,13 @@ export default function Share() {
 		<div className='shareContain' >
 			<div className="shareBox">
 				<div className="inputShare">
-					<img src="img/myavt.jpg" alt="avate user" className="avt-user" />
+					<img src="img/avatar-default.jpg" alt="avate user" className="avt-user" />
 					<button onClick={() => showModal()} type="button" className='btn-share'>Viết bài đăng</button>
 				</div>
 
-				<Modal title={
+				<Modal getContainer={false} title={
 					<div className="header-share">
-						<img src="img/myavt.jpg" alt="avate user" className="avt-user" />
+						<img src="img/avatar-default.jpg" alt="avate user" className="avt-user" />
 						<div>
 							<p>Pham Van Dat</p>
 							<Select
@@ -142,7 +160,7 @@ export default function Share() {
 								onChange={value => setDataSubmit({ ...dataSubmit, status: value })}
 							>
 								<Option value="public">Công khai</Option>
-								<Option value="friend">Bạn bè</Option>
+								<Option value="Follower">Bạn bè</Option>
 								<Option value="private">Chỉ mình tôi</Option>
 							</Select>
 						</div>
@@ -173,7 +191,8 @@ export default function Share() {
 								name="destination"
 								rules={[{ required: true, message: 'Vui lòng nhập địa điểm !' }]}
 							>
-								<input type="text" placeholder='Địa điểm' className='input-location' />
+								<input type="text" placeholder='Địa điểm' className='input-location'
+									onChange={e => setDataSubmit({ ...dataSubmit, destination: e.target.value })} />
 							</Form.Item>
 
 							<Form.Item
@@ -194,14 +213,14 @@ export default function Share() {
 								</Select>
 							</Form.Item>
 						</div>
-						<Dragger
-							listType="picture-card"
-							fileList={fileList}
-							beforeUpload={beforeUpload}
-							onPreview={handlePreview}
-							onChange={handleChange}
-							onRemove={handleOnRemove}
-							multiple={true}
+						<Dragger {...props}
+						// listType="picture-card"
+						// fileList={fileList}
+						// beforeUpload={beforeUpload}
+						// onPreview={handlePreview}
+						// onChange={handleChange}
+						// onRemove={handleOnRemove}
+						// multiple={true}
 						>
 							<AiOutlineUpload style={{ 'fontSize': 30 }} />
 							<div className="uploadText">

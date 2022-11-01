@@ -1,48 +1,105 @@
+import { Col, message, Row } from "antd";
+import { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
+import postApi from "../../api/postApi";
+import Post from "../../components/post/Post";
+import Share from "../../components/share/Share";
 import Topbar from "../../components/topbar/Topbar";
+import ProfileAbout from "./components/ProfileAbout";
+import ProfileFollow from "./components/ProfileFollow";
 import "./profile.scss";
-// import Newfeed from "../../components/newfeed/Newfeed"
-// import Rightbar from "../../components/rightbar/Rightbar";
 
 export default function Profile() {
+	let { tab } = useParams()
+	const [listPost, setListPost] = useState([])
+	useEffect(() => {
+		const getAllPost = async () => {
+			try {
+				const data = {
+					page: 1,
+					size: 20,
+					status: "public"
+				}
+				const response = await postApi.getAllPost(data)
+				if (response.status_code === 9999) {
+					setListPost(response.payload)
+				}
+				if (response.status_code === -9999) {
+					message.warning('Tải bài viết không thành công!')
+				}
+			} catch (error) {
+				console.log(error)
+			}
+		}
+		getAllPost()
+	}, [])
+
 	return (
 		<div className="container">
 			<Topbar />
 			<div className="profile">
-				<div className="topProfile">
-					<div className="containCoverImg">
-						<img src="fake/myavt.jpg" alt="cover Img" className="coverImg" />
-					</div>
-					<div className="containAvtImg">
-						<div className="avataProfile">
-							<img src="fake/myavt.jpg" alt="avt Img" className="avataProfileImg" />
-						</div>
-						<p>Phạm Văn Đạt</p>
-
-					</div>
-					<hr className="rightbarHr" />
-					<div className="controlProfile">
-						<div className={true ? "itemActive" : "itemcontrol"}>Bài viết</div>
-						<div className="itemcontrol">Giới thiệu</div>
-						<div className="itemcontrol">Bạn bè</div>
-					</div>
-				</div>
-				<div className="downProfile">
-					<div className="contentProfile">
-						<div className="inforprofile">
-							<div className="aboutProfile">
-								<h1>Giới thiệu</h1>
-								<p>Học Học Khoa học máy tính tại Trường Đại học Bách khoa - ĐH Quốc gia TP.HCM</p>
-								<p>Sống tại Thành Phố Hồ Chí Minh</p>
-								<p>Đến từ Hà Tĩnh</p>
+				<Row justify='center'>
+					<Col span={16} className="profile-image">
+						<img src="img/dulichvietnam.jpg" alt="cover Img" className="coverImg" />
+						<div className="containAvtImg">
+							<div className="avataProfile">
+								<img src="img/myavt.jpg" alt="avt Img" className="avataProfileImg" />
 							</div>
-							{/* <Rightbar user="true"/> */}
+							<p className="text-name-user-top-profile">Phạm Văn Đạt</p>
+							<p className="text-top-profile">Cấp thành viên:<span style={{ fontWeight: 500 }}>VIP</span></p>
+							<div>
+								<span style={{ marginRight: 50 }}>Bài đã đăng: <span style={{ fontWeight: 500 }}>23</span></span>
+								<span>Lượt theo dõi: <span style={{ fontWeight: 500 }}>182</span></span>
+							</div>
 						</div>
-						<div className="profileNewfeed">
-							{/* <Newfeed /> */}
+						<hr className="rightbarHr" />
+						<div className="controlProfile">
+							<div className="sub-controlProfile">
+								<div className={tab === 'newfeed' ? "tab-profile-active" : "tab-profile"}>
+									<Link to='/profile/newfeed'>
+										Bài viết
+									</Link>
+								</div>
+								<div className={tab === 'about' ? "tab-profile-active" : "tab-profile"}>
+									<Link to='/profile/about'>
+										Giới thiệu
+									</Link>
+								</div>
+								<div className={tab === 'follow' ? "tab-profile-active" : "tab-profile"}>
+									<Link to='/profile/follow'>
+										Đang theo dõi
+									</Link>
+								</div>
+							</div>
+							<button className="btn-follow">{true ? "Theo dõi" : "Đăng theo dõi"}</button>
 						</div>
-					</div>
+					</Col>
+				</Row>
+				<div className="downProfile">
+					<Row justify="center">
+						<Col span={16} >
+							{
+								tab === 'newfeed' &&
+								<>
+									<Share />
+									{listPost.map((ele, idx) => {
+										return <Post data={ele} key={idx} />
+									})
+									}
+								</>
+							}
+							{
+								tab === 'about' &&
+								<ProfileAbout />
+							}
+							{
+								tab === 'follow' &&
+								<ProfileFollow />
+							}
+						</Col>
+					</Row>
 				</div>
 			</div>
-		</div>
+		</div >
 	)
 }
