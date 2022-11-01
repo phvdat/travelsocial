@@ -4,13 +4,11 @@ import { BiCommentDetail } from 'react-icons/bi';
 import './post.scss';
 import { useState } from 'react/cjs/react.development';
 import { Dropdown, Menu, message, Rate } from 'antd';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import postApi from '../../api/postApi';
 import reactPostApi from '../../api/reactPostApi';
-import { async } from '@firebase/util';
 export default function Post(props) {
 	const data = props.data
-	console.log(data)
 	const navigate = useNavigate()
 	const [like, setLike] = useState(false)
 	const [showComment, setShowComment] = useState(false)
@@ -19,9 +17,7 @@ export default function Post(props) {
 	const handleDetelePost = async () => {
 		try {
 			const params = { postId: data._id }
-			console.log(params)
 			const response = await postApi.deletePost(params)
-			console.log(response)
 			if (response.status_code === 9999) {
 				message.success('Xóa bài viết thành công!')
 				navigate(0)
@@ -117,11 +113,11 @@ export default function Post(props) {
 			}
 			console.log(commentId)
 			const response = await reactPostApi.deleteComment(params)
-			if(response.status_code === 9999){
-			console.log("delete comment succcess", response)
-			handleCommentPost()
+			if (response.status_code === 9999) {
+				console.log("delete comment succcess", response)
+				handleCommentPost()
 			}
-			if(response.status_code === -9999){
+			if (response.status_code === -9999) {
 				console.log("delete comment fail", response)
 			}
 		} catch (error) {
