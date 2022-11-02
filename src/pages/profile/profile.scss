@@ -74,35 +74,8 @@
   align-items: center;
   cursor: pointer;
 }
-
-
-.contentProfile {
-  margin-top: 10px;
-  width: 940px;
-  display: flex;
+.downProfile{
+	margin-top: $spacing-md;
 }
 
-.inforprofile {
-  flex: 5;
-}
 
-.aboutProfile {
-  background-color: #fff;
-  min-height: 100px;
-  border-radius: 10px;
-  margin: 16px;
-  padding: 16px 12px;
-  h1 {
-    font-size: 20px;
-    margin-bottom: 20px;
-  }
-  p {
-    font-size: 16px;
-    margin: 12px 0;
-    font-weight: 400;
-  }
-}
-
-.profileNewfeed {
-  flex: 7;
-}

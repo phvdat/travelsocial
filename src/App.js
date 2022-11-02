@@ -2,7 +2,8 @@ import './App.css';
 import {
 	BrowserRouter,
 	Routes,
-	Route
+	Route,
+	Navigate
 } from "react-router-dom";
 import Register from './pages/register/Register';
 import Home from './pages/home/Home';
@@ -16,12 +17,14 @@ function App() {
 	return (
 		<BrowserRouter>
 			<Routes>
-				<Route path="" element={<Home />} />
+				<Route path="/home" element={<Home />} />
 				<Route path="/register" element={<Register />} />
 				<Route path="/profile">
 					<Route path=":tab" element={<Profile />} />
 				</Route>
+				<Route path='*' element={<Navigate to='/home' replace />} />
 			</Routes>
+
 		</BrowserRouter>
 	);
 }

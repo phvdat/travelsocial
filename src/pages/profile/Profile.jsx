@@ -5,8 +5,8 @@ import postApi from "../../api/postApi";
 import Post from "../../components/post/Post";
 import Share from "../../components/share/Share";
 import Topbar from "../../components/topbar/Topbar";
-import ProfileAbout from "./components/ProfileAbout";
-import ProfileFollow from "./components/ProfileFollow";
+import ProfileAbout from "./components/profileabout/ProfileAbout";
+import ProfileFollow from "./components/profilefollow/ProfileFollow";
 import "./profile.scss";
 
 export default function Profile() {
@@ -65,8 +65,13 @@ export default function Profile() {
 										Giới thiệu
 									</Link>
 								</div>
-								<div className={tab === 'follow' ? "tab-profile-active" : "tab-profile"}>
-									<Link to='/profile/follow'>
+								<div className={tab === 'follower' ? "tab-profile-active" : "tab-profile"}>
+									<Link to='/profile/follower'>
+										Người theo dõi
+									</Link>
+								</div>
+								<div className={tab === 'following' ? "tab-profile-active" : "tab-profile"}>
+									<Link to='/profile/following'>
 										Đang theo dõi
 									</Link>
 								</div>
@@ -77,7 +82,9 @@ export default function Profile() {
 				</Row>
 				<div className="downProfile">
 					<Row justify="center">
-						<Col span={16} >
+						<Col span={12} >
+							<>
+							</>
 							{
 								tab === 'newfeed' &&
 								<>
@@ -93,9 +100,13 @@ export default function Profile() {
 								<ProfileAbout />
 							}
 							{
-								tab === 'follow' &&
-								<ProfileFollow />
+								tab === 'follower' &&
+								<ProfileFollow typetab={'follower'}/>
 							}
+							{
+								tab === 'following' &&
+								<ProfileFollow typetab={'following'} />
+							}	
 						</Col>
 					</Row>
 				</div>

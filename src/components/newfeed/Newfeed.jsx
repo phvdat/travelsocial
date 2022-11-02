@@ -1,4 +1,4 @@
-import "./newfeed.css"
+import "./newfeed.scss"
 import Share from './../share/Share';
 import Post from "../post/Post";
 import { Col, message, Row } from "antd";
