@@ -40,10 +40,12 @@ export default function Profile() {
 			<div className="profile">
 				<Row justify='center'>
 					<Col span={16} className="profile-image">
-						<img src="img/dulichvietnam.jpg" alt="cover Img" className="coverImg" />
+						<div className="coverImg">
+							<img src='https://kenh14cdn.com/thumb_w/660/2020/7/17/brvn-15950048783381206275371.jpg' alt="cover" />
+						</div>
 						<div className="containAvtImg">
 							<div className="avataProfile">
-								<img src="img/myavt.jpg" alt="avt Img" className="avataProfileImg" />
+								<img src="https://kenh14cdn.com/thumb_w/660/2020/7/17/brvn-15950048783381206275371.jpg" alt="avt Img" className="avataProfileImg" />
 							</div>
 							<p className="text-name-user-top-profile">Phạm Văn Đạt</p>
 							<p className="text-top-profile">Cấp thành viên:<span style={{ fontWeight: 500 }}>VIP</span></p>
@@ -101,12 +103,12 @@ export default function Profile() {
 							}
 							{
 								tab === 'follower' &&
-								<ProfileFollow typetab={'follower'}/>
+								<ProfileFollow typetab={'follower'} />
 							}
 							{
 								tab === 'following' &&
 								<ProfileFollow typetab={'following'} />
-							}	
+							}
 						</Col>
 					</Row>
 				</div>
