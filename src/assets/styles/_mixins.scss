@@ -1,6 +1,7 @@
-@mixin inputStyle($width) {
+@mixin inputStyle($width, $height, $background) {
   width: $width;
-  height: 36px;
+  height:  $height;
+	background-color: $background;
   border-radius: 18px;
   padding: 0 20px;
   outline: none;
@@ -8,7 +9,6 @@
 }
 
 @mixin inputStyle_2($width, $height) {
-  margin-top: 10px;
   width: $width;
   height: $height;
   border-radius: 8px;
