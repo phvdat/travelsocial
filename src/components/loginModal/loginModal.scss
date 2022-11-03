@@ -50,7 +50,8 @@
     }
     .ant-input-username,
     .ant-input-password {
-			@include inputStyle_2($width-input-lg, $height-input);
+      @include inputStyle_2($width-input-lg, $height-input);
+      margin-top: 10px;
     }
     .btn-login {
       @include btnStyle(
