@@ -14,6 +14,8 @@ export default function ProfileAbout() {
 	const [phone, setPhone] = useState('')
 	const [showEditAddress, setShowEditAddress] = useState(false)
 	const [address, setAddress] = useState('')
+	const [showEditEmail, setShowEditEmail] = useState(false)
+	const [email, setEmail] = useState('')
 	const [showEditBirth, setShowEditBirth] = useState(false)
 
 	const dateFormat = "DD/MM/YYYY";
@@ -72,6 +74,37 @@ export default function ProfileAbout() {
 				</Col>
 			</Row>
 
+			<hr className='custome-hr' />
+			<Row>
+				<Col span={6}>
+					<h3>Email</h3>
+				</Col>
+				<Col span={18}>
+
+					{
+						showEditEmail ?
+							<form className='form-edit'>
+								<input type="text" value={email} onChange={(e) => { setEmail(e.target.value) }} />
+								<button className='first-child'>Lưu thay đổi</button>
+								<button className='second-child' onClick={() => {
+									setShowEditEmail(false)
+									setEmail('phamvandat.hcmut@gmail.com')
+								}}
+								>Huỷ</button>
+							</form>
+							:
+							<div className='about-col-2'>
+								<h3>phamvandat.hcmut@gmail.com</h3>
+								<span onClick={() => {
+									setShowEditEmail(true)
+									setEmail(dataUser.name)
+								}}>
+									<BiPencil /> Chỉnh sửa
+								</span>
+							</div>
+					}
+				</Col>
+			</Row>
 			<hr className='custome-hr' />
 			<Row>
 				<Col span={6}>
