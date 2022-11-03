@@ -2,15 +2,46 @@
 @import "src/assets/styles/mixins";
 
 .profile-about-container {
-	border-radius: 4px;
-	padding: 40px;
+  border-radius: 4px;
+  padding: 40px;
   background-color: $primary-white;
-	h1{
-		font-weight: 700;
-	}
-	h2{
-		sgv{
-			margin-right: 10px;
-		}
-	}
+  h1 {
+    font-weight: 700;
+  }
+  div {
+    display: flex;
+    justify-items: center;
+    svg {
+			font-size: 21px;
+    }
+    h2 {
+			padding: 0;
+    }
+  }
+  h3 {
+    margin: 0;
+  }
+  .custome-hr {
+    margin: $spacing-md 0;
+    border: none;
+    height: 1px;
+    background-color: $primary-dack-gray;
+  }
+}
+
+.about-col-2 {
+  display: flex;
+  justify-content: space-between;
+  img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+  span {
+    display: flex;
+    align-items: center;
+    color: $primary-color;
+    cursor: pointer;
+  }
 }
