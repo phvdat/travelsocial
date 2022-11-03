@@ -8,14 +8,14 @@
   h1 {
     font-weight: 700;
   }
-  div {
+  .sub-title-about {
     display: flex;
     justify-items: center;
     svg {
-			font-size: 21px;
+      font-size: 21px;
     }
     h2 {
-			padding: 0;
+      padding: 0;
     }
   }
   h3 {
@@ -26,6 +26,27 @@
     border: none;
     height: 1px;
     background-color: $primary-dack-gray;
+  }
+
+  button.first-child {
+    @include btnStyle(
+      $width-input-auto,
+      $height-input-sm,
+      $primary-color,
+      $font-size-sm
+    );
+    padding: 0 8px;
+    margin-right: $spacing-sm;
+  }
+  button.second-child {
+    @include btnStyle(
+      $width-input-auto,
+      $height-input-sm,
+      $primary-gray,
+      $font-size-sm
+    );
+    padding: 0 8px;
+    margin-right: $spacing-sm;
   }
 }
 
@@ -43,5 +64,18 @@
     align-items: center;
     color: $primary-color;
     cursor: pointer;
+  }
+}
+
+.form-edit, .form-edit {
+  input {
+    @include inputStyle($width-input-full, $height-input-sm, $primary-dack-gray);
+    margin-bottom: $spacing-sm;
+  }
+}
+.form-edit-birth {
+  .date-picker-container {
+    margin-bottom: $spacing-sm;
+    padding: 0;
   }
 }
