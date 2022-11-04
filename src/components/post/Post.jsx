@@ -8,11 +8,11 @@ import { useNavigate } from 'react-router-dom';
 import postApi from '../../api/postApi';
 import reactPostApi from '../../api/reactPostApi';
 export default function Post(props) {
-	const data = props.data
-	const navigate = useNavigate()
-	const [like, setLike] = useState(false)
-	const [showComment, setShowComment] = useState(false)
-	const [listComment, setListComment] = useState([])
+	// const data = props.data
+	// const navigate = useNavigate()
+	// const [like, setLike] = useState(false)
+	// const [showComment, setShowComment] = useState(false)
+	// const [listComment, setListComment] = useState([])
 
 	// const handleDetelePost = async () => {
 	// 	try {
