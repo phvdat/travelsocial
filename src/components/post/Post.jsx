@@ -80,70 +80,70 @@ export default function Post(props) {
 			console.log(error)
 		}
 	}
-	const handleRatePost = async (value) => {
-		try {
-			const dataRate = {
-				postId: data._id,
-				point: value
-			}
-			const response = await reactPostApi.postRate(dataRate)
-			console.log(response)
-		} catch (error) {
-			console.log(error)
-		}
-	}
-	const handleCommentPost = async () => {
-		try {
-			const params = {
-				postId: data._id,
-				page: 1,
-				size: 20
-			}
-			const response = await reactPostApi.loadComment(params)
-			setListComment(response.payload)
-			console.log(response)
-		} catch (error) {
-			console.log(error)
-		}
-	}
-	const handleDeteleComment = async (commentId) => {
-		try {
-			const params = {
-				commentId: commentId,
-			}
-			console.log(commentId)
-			const response = await reactPostApi.deleteComment(params)
-			if (response.status_code === 9999) {
-				console.log("delete comment succcess", response)
-				handleCommentPost()
-			}
-			if (response.status_code === -9999) {
-				console.log("delete comment fail", response)
-			}
-		} catch (error) {
-			console.log(error)
-		}
-	}
-	const menu = (
-		<Menu
-			items={[
-				{
-					label: <a onClick={handleDetelePost}>Xoá bài viết</a>,
-					key: '0',
-				},
-			]}
-		/>
-	)
-	const menuComment = (commentId) => (
-		<Menu
-			items={[
-				{
-					label: <a onClick={() => handleDeteleComment(commentId)}>Xoá bình luận</a>,
-					key: '0',
-				},
-			]}
-		/>
-	)
+	// const handleRatePost = async (value) => {
+	// 	try {
+	// 		const dataRate = {
+	// 			postId: data._id,
+	// 			point: value
+	// 		}
+	// 		const response = await reactPostApi.postRate(dataRate)
+	// 		console.log(response)
+	// 	} catch (error) {
+	// 		console.log(error)
+	// 	}
+	// }
+	// const handleCommentPost = async () => {
+	// 	try {
+	// 		const params = {
+	// 			postId: data._id,
+	// 			page: 1,
+	// 			size: 20
+	// 		}
+	// 		const response = await reactPostApi.loadComment(params)
+	// 		setListComment(response.payload)
+	// 		console.log(response)
+	// 	} catch (error) {
+	// 		console.log(error)
+	// 	}
+	// }
+	// const handleDeteleComment = async (commentId) => {
+	// 	try {
+	// 		const params = {
+	// 			commentId: commentId,
+	// 		}
+	// 		console.log(commentId)
+	// 		const response = await reactPostApi.deleteComment(params)
+	// 		if (response.status_code === 9999) {
+	// 			console.log("delete comment succcess", response)
+	// 			handleCommentPost()
+	// 		}
+	// 		if (response.status_code === -9999) {
+	// 			console.log("delete comment fail", response)
+	// 		}
+	// 	} catch (error) {
+	// 		console.log(error)
+	// 	}
+	// }
+	// const menu = (
+	// 	<Menu
+	// 		items={[
+	// 			{
+	// 				label: <a onClick={handleDetelePost}>Xoá bài viết</a>,
+	// 				key: '0',
+	// 			},
+	// 		]}
+	// 	/>
+	// )
+	// const menuComment = (commentId) => (
+	// 	<Menu
+	// 		items={[
+	// 			{
+	// 				label: <a onClick={() => handleDeteleComment(commentId)}>Xoá bình luận</a>,
+	// 				key: '0',
+	// 			},
+	// 		]}
+	// 	/>
+	// )
 	return (
 		<div className='postContain'>
 			<div className="postBox">
