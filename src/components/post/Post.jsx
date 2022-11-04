@@ -30,124 +30,124 @@ export default function Post(props) {
 			console.log(error)
 		}
 	}
-	const handleOnkeyDown = (e) => {
-		if (e.key === 'Enter') {
-			e.preventDefault();
-			const createComment = async () => {
-				try {
-					console.log('post comment', data._id);
-					const dataComment = {
-						postId: data._id,
-						content: e.target.value
-					}
-					const response = await reactPostApi.postComment(dataComment)
-					console.log(response)
-					if (response.status_code === 9999) {
-						message.success('Bình luận thành công!')
-						// navigate(0)
-					}
-					if (response.status_code === -9999) {
-						message.warning('Tạo comment không thành công!')
-					}
-				} catch (error) {
-					console.log(error)
-				}
-			}
-			createComment()
-			handleCommentPost()
-		}
-		e.target.style.height = 'inherit';
-		e.target.style.height = `${e.target.scrollHeight}px`;
+	// const handleOnkeyDown = (e) => {
+	// 	if (e.key === 'Enter') {
+	// 		e.preventDefault();
+	// 		const createComment = async () => {
+	// 			try {
+	// 				console.log('post comment', data._id);
+	// 				const dataComment = {
+	// 					postId: data._id,
+	// 					content: e.target.value
+	// 				}
+	// 				const response = await reactPostApi.postComment(dataComment)
+	// 				console.log(response)
+	// 				if (response.status_code === 9999) {
+	// 					message.success('Bình luận thành công!')
+	// 					// navigate(0)
+	// 				}
+	// 				if (response.status_code === -9999) {
+	// 					message.warning('Tạo comment không thành công!')
+	// 				}
+	// 			} catch (error) {
+	// 				console.log(error)
+	// 			}
+	// 		}
+	// 		createComment()
+	// 		handleCommentPost()
+	// 	}
+	// 	e.target.style.height = 'inherit';
+	// 	e.target.style.height = `${e.target.scrollHeight}px`;
 
-	}
-	const handleLikePost = async () => {
-		try {
-			const dataLike = {
-				postId: data._id,
-			}
-			if (like === false) {
-				setLike(true)
-				const response = await reactPostApi.postLike(dataLike)
-				console.log(response)
-			}
-			if (like === true) {
-				setLike(false)
-				const response = await reactPostApi.postUnLike(dataLike)
-				console.log(response)
-			}
+	// }
+	// const handleLikePost = async () => {
+	// 	try {
+	// 		const dataLike = {
+	// 			postId: data._id,
+	// 		}
+	// 		if (like === false) {
+	// 			setLike(true)
+	// 			const response = await reactPostApi.postLike(dataLike)
+	// 			console.log(response)
+	// 		}
+	// 		if (like === true) {
+	// 			setLike(false)
+	// 			const response = await reactPostApi.postUnLike(dataLike)
+	// 			console.log(response)
+	// 		}
 
-		} catch (error) {
-			console.log(error)
-		}
-	}
-	const handleRatePost = async (value) => {
-		try {
-			const dataRate = {
-				postId: data._id,
-				point: value
-			}
-			const response = await reactPostApi.postRate(dataRate)
-			console.log(response)
-		} catch (error) {
-			console.log(error)
-		}
-	}
-	const handleCommentPost = async () => {
-		try {
-			const params = {
-				postId: data._id,
-				page: 1,
-				size: 20
-			}
-			const response = await reactPostApi.loadComment(params)
-			setListComment(response.payload)
-			console.log(response)
-		} catch (error) {
-			console.log(error)
-		}
-	}
-	const handleDeteleComment = async (commentId) => {
-		try {
-			const params = {
-				commentId: commentId,
-			}
-			console.log(commentId)
-			const response = await reactPostApi.deleteComment(params)
-			if (response.status_code === 9999) {
-				console.log("delete comment succcess", response)
-				handleCommentPost()
-			}
-			if (response.status_code === -9999) {
-				console.log("delete comment fail", response)
-			}
-		} catch (error) {
-			console.log(error)
-		}
-	}
-	const menu = (
-		<Menu
-			items={[
-				{
-					label: <a onClick={handleDetelePost}>Xoá bài viết</a>,
-					key: '0',
-				},
-			]}
-		/>
-	)
-	const menuComment = (commentId) => (
-		<Menu
-			items={[
-				{
-					label: <a onClick={() => handleDeteleComment(commentId)}>Xoá bình luận</a>,
-					key: '0',
-				},
-			]}
-		/>
-	)
+	// 	} catch (error) {
+	// 		console.log(error)
+	// 	}
+	// }
+	// const handleRatePost = async (value) => {
+	// 	try {
+	// 		const dataRate = {
+	// 			postId: data._id,
+	// 			point: value
+	// 		}
+	// 		const response = await reactPostApi.postRate(dataRate)
+	// 		console.log(response)
+	// 	} catch (error) {
+	// 		console.log(error)
+	// 	}
+	// }
+	// const handleCommentPost = async () => {
+	// 	try {
+	// 		const params = {
+	// 			postId: data._id,
+	// 			page: 1,
+	// 			size: 20
+	// 		}
+	// 		const response = await reactPostApi.loadComment(params)
+	// 		setListComment(response.payload)
+	// 		console.log(response)
+	// 	} catch (error) {
+	// 		console.log(error)
+	// 	}
+	// }
+	// const handleDeteleComment = async (commentId) => {
+	// 	try {
+	// 		const params = {
+	// 			commentId: commentId,
+	// 		}
+	// 		console.log(commentId)
+	// 		const response = await reactPostApi.deleteComment(params)
+	// 		if (response.status_code === 9999) {
+	// 			console.log("delete comment succcess", response)
+	// 			handleCommentPost()
+	// 		}
+	// 		if (response.status_code === -9999) {
+	// 			console.log("delete comment fail", response)
+	// 		}
+	// 	} catch (error) {
+	// 		console.log(error)
+	// 	}
+	// }
+	// const menu = (
+	// 	<Menu
+	// 		items={[
+	// 			{
+	// 				label: <a onClick={handleDetelePost}>Xoá bài viết</a>,
+	// 				key: '0',
+	// 			},
+	// 		]}
+	// 	/>
+	// )
+	// const menuComment = (commentId) => (
+	// 	<Menu
+	// 		items={[
+	// 			{
+	// 				label: <a onClick={() => handleDeteleComment(commentId)}>Xoá bình luận</a>,
+	// 				key: '0',
+	// 			},
+	// 		]}
+	// 	/>
+	// )
 	return (
 		<div className='postContain'>
 			<div className="postBox">
-				<div className="topPost">
+				{/* <div className="topPost">
 					<div className='sub-topPost'>
 						<img src="img/avatar-default.jpg" alt="avt user" className='avt-user' />
 						<span className='nameUser'>
@@ -160,8 +160,8 @@ export default function Post(props) {
 							<BsThreeDots />
 						</span>
 					</Dropdown>
-				</div>
-				<p className="titleText">{data.title}</p>
+				</div> */}
+				{/* <p className="titleText">{data.title}</p>
 				<p className="statusText" style={{ whiteSpace: "pre-line" }}>{data.content}</p>
 				<p className="destinationText">Địa điểm: {data.destination}</p>
 				<img src={data?.mediaList[0]?.link} alt="" className='postImg' />
@@ -225,7 +225,7 @@ export default function Post(props) {
 							}
 						</>
 					}
-				</div>
+				</div> */}
 			</div>
 		</div >
 	)
