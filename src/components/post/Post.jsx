@@ -161,7 +161,7 @@ export default function Post(props) {
 						</span>
 					</Dropdown>
 				</div>
-				<p className="titleText">{data.title}</p>
+				{/* <p className="titleText">{data.title}</p>
 				<p className="statusText" style={{ whiteSpace: "pre-line" }}>{data.content}</p>
 				<p className="destinationText">Địa điểm: {data.destination}</p>
 				<img src={data?.mediaList[0]?.link} alt="" className='postImg' />
@@ -191,7 +191,7 @@ export default function Post(props) {
 							<Rate onChange={(value) => handleRatePost} />
 						</div>
 					</div>
-					{/* {
+					{
 						showComment &&
 						<>
 							<hr className='postHr' />
@@ -224,8 +224,8 @@ export default function Post(props) {
 								})
 							}
 						</>
-					} */}
-				</div>
+					}
+				</div> */}
 			</div>
 		</div >
 	)
