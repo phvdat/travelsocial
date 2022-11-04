@@ -17,7 +17,7 @@ export default function Home() {
 				<Col span={20}>
 					<Row justify='center'>
 						<Col span={12}>
-							<Newfeed />
+							{/* <Newfeed /> */}
 						</Col>
 					</Row>
 				</Col>
