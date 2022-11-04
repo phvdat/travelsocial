@@ -30,56 +30,56 @@ export default function Post(props) {
 			console.log(error)
 		}
 	}
-	const handleOnkeyDown = (e) => {
-		if (e.key === 'Enter') {
-			e.preventDefault();
-			const createComment = async () => {
-				try {
-					console.log('post comment', data._id);
-					const dataComment = {
-						postId: data._id,
-						content: e.target.value
-					}
-					const response = await reactPostApi.postComment(dataComment)
-					console.log(response)
-					if (response.status_code === 9999) {
-						message.success('Bình luận thành công!')
-						// navigate(0)
-					}
-					if (response.status_code === -9999) {
-						message.warning('Tạo comment không thành công!')
-					}
-				} catch (error) {
-					console.log(error)
-				}
-			}
-			createComment()
-			handleCommentPost()
-		}
-		e.target.style.height = 'inherit';
-		e.target.style.height = `${e.target.scrollHeight}px`;
+	// const handleOnkeyDown = (e) => {
+	// 	if (e.key === 'Enter') {
+	// 		e.preventDefault();
+	// 		const createComment = async () => {
+	// 			try {
+	// 				console.log('post comment', data._id);
+	// 				const dataComment = {
+	// 					postId: data._id,
+	// 					content: e.target.value
+	// 				}
+	// 				const response = await reactPostApi.postComment(dataComment)
+	// 				console.log(response)
+	// 				if (response.status_code === 9999) {
+	// 					message.success('Bình luận thành công!')
+	// 					// navigate(0)
+	// 				}
+	// 				if (response.status_code === -9999) {
+	// 					message.warning('Tạo comment không thành công!')
+	// 				}
+	// 			} catch (error) {
+	// 				console.log(error)
+	// 			}
+	// 		}
+	// 		createComment()
+	// 		handleCommentPost()
+	// 	}
+	// 	e.target.style.height = 'inherit';
+	// 	e.target.style.height = `${e.target.scrollHeight}px`;
 
-	}
-	const handleLikePost = async () => {
-		try {
-			const dataLike = {
-				postId: data._id,
-			}
-			if (like === false) {
-				setLike(true)
-				const response = await reactPostApi.postLike(dataLike)
-				console.log(response)
-			}
-			if (like === true) {
-				setLike(false)
-				const response = await reactPostApi.postUnLike(dataLike)
-				console.log(response)
-			}
+	// }
+	// const handleLikePost = async () => {
+	// 	try {
+	// 		const dataLike = {
+	// 			postId: data._id,
+	// 		}
+	// 		if (like === false) {
+	// 			setLike(true)
+	// 			const response = await reactPostApi.postLike(dataLike)
+	// 			console.log(response)
+	// 		}
+	// 		if (like === true) {
+	// 			setLike(false)
+	// 			const response = await reactPostApi.postUnLike(dataLike)
+	// 			console.log(response)
+	// 		}
 
-		} catch (error) {
-			console.log(error)
-		}
-	}
+	// 	} catch (error) {
+	// 		console.log(error)
+	// 	}
+	// }
 	// const handleRatePost = async (value) => {
 	// 	try {
 	// 		const dataRate = {
