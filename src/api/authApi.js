@@ -12,6 +12,10 @@ const authApi = {
 	getUserInfoApi: () => {
 		const url = "/user/info-user";
 		return axiosClient.get(url);
+	},
+		upadateUserInfoApi: (data) => {
+		const url = "/user/update-info-user";
+		return axiosClient.post(url, data);
 	}
 }
 

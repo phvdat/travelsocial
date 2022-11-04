@@ -1,36 +1,53 @@
-import { Col, DatePicker, Form, Row } from 'antd';
+import { Col, DatePicker, Form, message, Row } from 'antd';
 import React, { useState } from 'react'
-import { MdAccountCircle } from "react-icons/md";
+import { MdOutlineAccountCircle } from "react-icons/md";
 import { BiPencil } from "react-icons/bi";
+import { BsTelephone } from "react-icons/bs";
 import './profileAbout.scss'
 import moment from 'moment';
+import authApi from '../../../../api/authApi';
 export default function ProfileAbout() {
-	const dataUser = {
-		name: 'Pham Van Dat'
-	}
+	const [data, setData] = useState({
+		fullName: 'Nguyễn Văn A',
+		phone: '0912312',
+		email: 'viethungmytho123@gmail.com',
+		birthday: '111',
+		avatar: 'aa',
+		cover: 'aa',
+		address: 'bbb'
+	})
+	console.log('dataa', data)
 	const [showEditFullName, setShowEditFullName] = useState(false)
-	const [fullName, setFullName] = useState('')
 	const [showEditPhone, setShowEditPhone] = useState(false)
-	const [phone, setPhone] = useState('')
 	const [showEditAddress, setShowEditAddress] = useState(false)
-	const [address, setAddress] = useState('')
 	const [showEditEmail, setShowEditEmail] = useState(false)
-	const [email, setEmail] = useState('')
 	const [showEditBirth, setShowEditBirth] = useState(false)
 
 	const dateFormat = "DD/MM/YYYY";
 	const handleChangeDate = (date, dateString) => {
-		console.log(dateString);
+		setData({ ...data, birthday: dateString });
+	}
+	const handleSaveChange = async () => {
+		try {
+			const response = await authApi.upadateUserInfoApi(data)
+			if (response.status_code === 9999) {
+				console.log('success')
+			}
+			if (response.status_code === -9999) {
+				console.log('fail')
+			}
+		} catch (error) {
+			console.log('error', error)
+		}
 	}
 	return (
 		<div className='profile-about-container'>
 			<h1>Giới thiệu</h1>
+
 			<div className='sub-title-about'>
-				<MdAccountCircle />
+				<MdOutlineAccountCircle />
 				<h2>Thông tin cá nhân</h2>
 			</div>
-
-
 			<hr className='custome-hr' />
 			<Row>
 				<Col span={6}>
@@ -45,19 +62,17 @@ export default function ProfileAbout() {
 					</div>
 				</Col>
 			</Row>
-
 			<hr className='custome-hr' />
 			<Row>
 				<Col span={6}>
 					<h3>Tên Tài khoản</h3>
 				</Col>
 				<Col span={18}>
-
 					{
 						showEditFullName ?
 							<form className='form-edit'>
-								<input type="text" value={fullName} onChange={(e) => { setFullName(e.target.value) }} />
-								<button className='first-child'>Lưu thay đổi</button>
+								<input type="text" value={data.fullName} onChange={(e) => setData({ ...data, fullName: e.target.value })} />
+								<button onClick={() => handleSaveChange()} className='first-child'>Lưu thay đổi</button>
 								<button className='second-child' onClick={() => setShowEditFullName(false)}>Huỷ</button>
 							</form>
 							:
@@ -65,7 +80,6 @@ export default function ProfileAbout() {
 								<h3>Phạm Văn Đạt</h3>
 								<span onClick={() => {
 									setShowEditFullName(true)
-									setFullName(dataUser.name)
 								}}>
 									<BiPencil /> Chỉnh sửa
 								</span>
@@ -73,22 +87,19 @@ export default function ProfileAbout() {
 					}
 				</Col>
 			</Row>
-
 			<hr className='custome-hr' />
 			<Row>
 				<Col span={6}>
 					<h3>Email</h3>
 				</Col>
 				<Col span={18}>
-
 					{
 						showEditEmail ?
 							<form className='form-edit'>
-								<input type="text" value={email} onChange={(e) => { setEmail(e.target.value) }} />
-								<button className='first-child'>Lưu thay đổi</button>
+								<input type="text" value={data.email} onChange={(e) => setData({ ...data, email: e.target.value })} />
+								<button onClick={() => handleSaveChange()} className='first-child'>Lưu thay đổi</button>
 								<button className='second-child' onClick={() => {
 									setShowEditEmail(false)
-									setEmail('phamvandat.hcmut@gmail.com')
 								}}
 								>Huỷ</button>
 							</form>
@@ -97,7 +108,6 @@ export default function ProfileAbout() {
 								<h3>phamvandat.hcmut@gmail.com</h3>
 								<span onClick={() => {
 									setShowEditEmail(true)
-									setEmail(dataUser.name)
 								}}>
 									<BiPencil /> Chỉnh sửa
 								</span>
@@ -115,9 +125,9 @@ export default function ProfileAbout() {
 						showEditBirth ?
 							<form className='form-edit-birth'>
 								<div className='date-picker-container'>
-									<DatePicker defaultValue={moment('2015/01/01', dateFormat)} format={dateFormat} onChange={handleChangeDate} />
+									<DatePicker defaultValue={moment(data.birthday, dateFormat)} format={dateFormat} onChange={handleChangeDate} />
 								</div>
-								<button className='first-child'>Lưu thay đổi</button>
+								<button onClick={() => handleSaveChange()} className='first-child'>Lưu thay đổi</button>
 								<button className='second-child' onClick={() => setShowEditBirth(false)}>Huỷ</button>
 							</form>
 
@@ -133,8 +143,10 @@ export default function ProfileAbout() {
 				</Col>
 			</Row >
 			<hr className='custome-hr' />
-
-			<h2>Thông tin Liên hệ</h2>
+			<div className='sub-title-about'>
+				<BsTelephone />
+				<h2>Thông tin Liên hệ</h2>
+			</div>
 			<hr className='custome-hr' />
 			<Row>
 				<Col span={6}>
@@ -144,10 +156,9 @@ export default function ProfileAbout() {
 					{
 						showEditPhone ?
 							<form className='form-edit'>
-								<input type="text" value={phone} onChange={(e) => { setPhone(e.target.value) }} />
-								<button className='first-child'>Lưu thay đổi</button>
+								<input type="number" value={data.phone} onChange={(e) => setData({ ...data, phone: e.target.value })} />
+								<button onClick={() => handleSaveChange()} className='first-child'>Lưu thay đổi</button>
 								<button className='second-child' onClick={() => {
-									setPhone('12345')
 									setShowEditPhone(false)
 								}
 								}>Huỷ</button>
@@ -171,10 +182,9 @@ export default function ProfileAbout() {
 					{
 						showEditAddress ?
 							<form className='form-edit'>
-								<input type="text" value={address} onChange={(e) => { setAddress(e.target.value) }} />
-								<button className='first-child'>Lưu thay đổi</button>
+								<input type="text" value={data.address} onChange={(e) => setData({ ...data, address: e.target.value })} />
+								<button onClick={() => handleSaveChange()} className='first-child'>Lưu thay đổi</button>
 								<button className='second-child' onClick={() => {
-									setAddress('Tân Bình')
 									setShowEditAddress(false)
 								}
 								}>Huỷ</button>

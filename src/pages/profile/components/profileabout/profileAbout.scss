@@ -9,17 +9,21 @@
     font-weight: 700;
   }
   .sub-title-about {
+    padding-top: $spacing-md;
     display: flex;
-    justify-items: center;
+    align-items: center;
     svg {
-      font-size: 21px;
+      font-size: 24px;
     }
     h2 {
       padding: 0;
+      margin: 0 $spacing-sm;
+			font-size: 20px;
     }
   }
   h3 {
     margin: 0;
+    font-weight: 400;
   }
   .custome-hr {
     margin: $spacing-md 0;
@@ -67,9 +71,14 @@
   }
 }
 
-.form-edit, .form-edit {
+.form-edit,
+.form-edit {
   input {
-    @include inputStyle($width-input-full, $height-input-sm, $primary-dack-gray);
+    @include inputStyle(
+      $width-input-full,
+      $height-input-sm,
+      $primary-dack-gray
+    );
     margin-bottom: $spacing-sm;
   }
 }
