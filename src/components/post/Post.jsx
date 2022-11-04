@@ -191,7 +191,7 @@ export default function Post(props) {
 							<Rate onChange={(value) => handleRatePost} />
 						</div>
 					</div>
-					{
+					{/* {
 						showComment &&
 						<>
 							<hr className='postHr' />
@@ -224,7 +224,7 @@ export default function Post(props) {
 								})
 							}
 						</>
-					}
+					} */}
 				</div>
 			</div>
 		</div >

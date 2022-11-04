@@ -35,10 +35,10 @@ export default function Newfeed() {
 				<Col span={2}></Col>
 				<Col span={20}>
 					<Share />
-					{/* {listPost.map((ele) => {
+					{listPost.map((ele) => {
 						return <Post data={ele} key={ele._id} />
 					})
-					} */}
+					}
 				</Col>
 				<Col span={2}></Col>
 
