@@ -12,7 +12,7 @@ export default function Post(props) {
 	const navigate = useNavigate()
 	const [like, setLike] = useState(false)
 	const [showComment, setShowComment] = useState(false)
-	// const [listComment, setListComment] = useState([])
+	const [listComment, setListComment] = useState([])
 
 	// const handleDetelePost = async () => {
 	// 	try {
