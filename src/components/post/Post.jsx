@@ -147,7 +147,7 @@ export default function Post(props) {
 	return (
 		<div className='postContain'>
 			<div className="postBox">
-				<div className="topPost">
+				{/* <div className="topPost">
 					<div className='sub-topPost'>
 						<img src="img/avatar-default.jpg" alt="avt user" className='avt-user' />
 						<span className='nameUser'>
@@ -160,7 +160,7 @@ export default function Post(props) {
 							<BsThreeDots />
 						</span>
 					</Dropdown>
-				</div>
+				</div> */}
 				{/* <p className="titleText">{data.title}</p>
 				<p className="statusText" style={{ whiteSpace: "pre-line" }}>{data.content}</p>
 				<p className="destinationText">Địa điểm: {data.destination}</p>
