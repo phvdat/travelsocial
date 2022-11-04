@@ -14,22 +14,22 @@ export default function Post(props) {
 	const [showComment, setShowComment] = useState(false)
 	const [listComment, setListComment] = useState([])
 
-	const handleDetelePost = async () => {
-		try {
-			const params = { postId: data._id }
-			const response = await postApi.deletePost(params)
-			if (response.status_code === 9999) {
-				message.success('Xóa bài viết thành công!')
-				navigate(0)
-			}
-			if (response.status_code === -9999) {
-				message.warning('Xoá bài viết không thành công!')
-			}
+	// const handleDetelePost = async () => {
+	// 	try {
+	// 		const params = { postId: data._id }
+	// 		const response = await postApi.deletePost(params)
+	// 		if (response.status_code === 9999) {
+	// 			message.success('Xóa bài viết thành công!')
+	// 			navigate(0)
+	// 		}
+	// 		if (response.status_code === -9999) {
+	// 			message.warning('Xoá bài viết không thành công!')
+	// 		}
 
-		} catch (error) {
-			console.log(error)
-		}
-	}
+	// 	} catch (error) {
+	// 		console.log(error)
+	// 	}
+	// }
 	// const handleOnkeyDown = (e) => {
 	// 	if (e.key === 'Enter') {
 	// 		e.preventDefault();
