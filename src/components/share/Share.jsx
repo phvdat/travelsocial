@@ -5,9 +5,10 @@ import Dragger from 'antd/lib/upload/Dragger';
 import { AiOutlineUpload } from 'react-icons/ai'
 import { deleteObject, getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import { v4 } from 'uuid';
-import postApi from '../../api/postApi';
+import postApi from 'api/postApi';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import avatarDefault from 'assets/img/avatarDefault.jpg'
 const { Option } = Select;
 
 export default function Share() {
@@ -144,13 +145,13 @@ export default function Share() {
 		<div className='shareContain' >
 			<div className="shareBox">
 				<div className="inputShare">
-					<img src={currentUser.avatar || 'img/avatar-default.jpg'} alt="avate user" className="avt-user" />
+					<img src={currentUser.avatar || avatarDefault} alt="avate user" className="avt-user" />
 					<button onClick={() => showModal()} type="button" className='btn-share'>Viết bài đăng</button>
 				</div>
 
 				<Modal getContainer={false} title={
 					<div className="header-share">
-						<img src={currentUser.avatar || 'img/avatar-default.jpg'} alt="avate user" className="avt-user" />
+						<img src={currentUser.avatar || avatarDefault} alt="avate user" className="avt-user" />
 						<div>
 							<p>{currentUser.fullName}</p>
 							<Select
