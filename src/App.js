@@ -17,8 +17,13 @@ function App() {
 			<Routes>
 				<Route path="/home" element={<Home />} />
 				<Route path="/register" element={<Register />} />
+				{/* <Route path="/profile">
+					<Route path=":tab" element={isLoggedIn ? <Profile /> : <Navigate to="/home" replace={true} />} />
+				</Route> */}
 				<Route path="/profile">
-					<Route path=":tab" element={<Profile />} />
+					<Route path=":userId">
+						<Route path=":tab" element={isLoggedIn ? <Profile /> : <Navigate to="/home" replace={true} />} />
+					</Route>
 				</Route>
 				<Route path='*' element={<Navigate to='/home' replace />} />
 			</Routes>
