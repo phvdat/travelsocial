@@ -1,5 +1,5 @@
 import { Button, Col, DatePicker, Form, message, Row, Upload } from 'antd';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { MdOutlineAccountCircle } from "react-icons/md";
 import { BiPencil } from "react-icons/bi";
 import { BsTelephone } from "react-icons/bs";
@@ -10,17 +10,29 @@ import { useSelector } from 'react-redux';
 import avatarDefault from 'assets/img/avatarDefault.jpg'
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
 import { v4 } from 'uuid';
-export default function ProfileAbout() {
+export default function ProfileAbout(props) {
+	const { accountInfo } = props
 	const currentUser = useSelector(state => state.authentication.currentUser)
-	const { fullName, phone, email, birthday, avatar, address } = currentUser
 	const [data, setData] = useState({
-		fullName: fullName || '',
-		phone: phone || '',
-		email: email || '',
-		birthday: birthday || '',
-		avatar: avatar || '',
-		address: address || '',
+		fullName: '',
+		phone: '',
+		email: '',
+		birthday: '',
+		avatar: '',
+		address: '',
 	})
+	useEffect(() => {
+		const { fullName, phone, email, birthday, avatar, address } = accountInfo
+		setData({
+			fullName: fullName,
+			phone: phone,
+			email: email,
+			birthday: birthday,
+			avatar: avatar,
+			address: address
+		})
+	}, [accountInfo])
+	console.log(data)
 	const [showEditFullName, setShowEditFullName] = useState(false)
 	const [showEditPhone, setShowEditPhone] = useState(false)
 	const [showEditAddress, setShowEditAddress] = useState(false)
@@ -126,12 +138,15 @@ export default function ProfileAbout() {
 				</Col>
 				<Col span={18}>
 					<span className='about-col-2'>
-						<img src={currentUser.avatar || avatarDefault} alt="avatar" />
-						<span className='btnMdf'>
-							<Upload {...uploadProps}>
-								<BiPencil /> Chỉnh sửa
-							</Upload>
-						</span>
+						<img src={accountInfo.avatar || avatarDefault} alt="avatar" />
+						{
+							currentUser._id === accountInfo._id &&
+							<span>
+								<Upload {...uploadProps}>
+									<BiPencil /> Chỉnh sửa
+								</Upload>
+							</span>
+						}
 					</span>
 				</Col>
 			</Row>
@@ -154,11 +169,14 @@ export default function ProfileAbout() {
 							:
 							<div className='about-col-2'>
 								<h3>{data.fullName}</h3>
-								<span onClick={() => {
-									setShowEditFullName(true)
-								}}>
-									<BiPencil /> Chỉnh sửa
-								</span>
+								{
+									currentUser._id === accountInfo._id &&
+									<span onClick={() => {
+										setShowEditFullName(true)
+									}}>
+										<BiPencil /> Chỉnh sửa
+									</span>
+								}
 							</div>
 					}
 				</Col>
@@ -186,11 +204,14 @@ export default function ProfileAbout() {
 							:
 							<div className='about-col-2'>
 								<h3>{data.email}</h3>
-								<span onClick={() => {
-									setShowEditEmail(true)
-								}}>
-									<BiPencil /> Chỉnh sửa
-								</span>
+								{
+									currentUser._id === accountInfo._id &&
+									<span onClick={() => {
+										setShowEditEmail(true)
+									}}>
+										<BiPencil /> Chỉnh sửa
+									</span>
+								}
 							</div>
 					}
 				</Col>
@@ -216,9 +237,12 @@ export default function ProfileAbout() {
 							:
 							<div className='about-col-2'>
 								<h3>{data.birthday}</h3>
-								<span onClick={() => { setShowEditBirth(true) }}>
-									<BiPencil /> Chỉnh sửa
-								</span>
+								{
+									currentUser._id === accountInfo._id &&
+									<span onClick={() => { setShowEditBirth(true) }}>
+										<BiPencil /> Chỉnh sửa
+									</span>
+								}
 							</div>
 					}
 				</Col>
@@ -250,9 +274,12 @@ export default function ProfileAbout() {
 							:
 							<div className='about-col-2'>
 								<h3>{data.phone}</h3>
-								<span onClick={setShowEditPhone}>
-									<BiPencil /> Chỉnh sửa
-								</span>
+								{
+									currentUser._id === accountInfo._id &&
+									<span onClick={setShowEditPhone}>
+										<BiPencil /> Chỉnh sửa
+									</span>
+								}
 							</div>
 					}
 				</Col>
@@ -279,9 +306,12 @@ export default function ProfileAbout() {
 							:
 							<div className='about-col-2'>
 								<h3>{data.address}</h3>
-								<span onClick={() => setShowEditAddress(true)}>
-									<BiPencil /> Chỉnh sửa
-								</span>
+								{
+									currentUser._id === accountInfo._id &&
+									<span onClick={() => setShowEditAddress(true)}>
+										<BiPencil /> Chỉnh sửa
+									</span>
+								}
 							</div>
 					}
 				</Col>
