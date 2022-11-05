@@ -10,12 +10,28 @@ import ProfileAbout from "./components/profileabout/ProfileAbout";
 import ProfileFollow from "./components/profilefollow/ProfileFollow";
 import "./profile.scss";
 import avatarDefault from "assets/img/avatarDefault.jpg";
+import authApi from "api/authApi";
 
 export default function Profile() {
-	let { tab } = useParams()
+	let { userId, tab } = useParams()
+	const [accountInfo, setAccountInfo] = useState({})
 	const currentUser = useSelector(state => state.authentication.currentUser)
 	const [listPost, setListPost] = useState([])
 	useEffect(() => {
+		const getUserInfo = async () => {
+			try {
+				const params = { userId: userId }
+				const response = await authApi.getUserInfoApi(params)
+				if (response.status_code === 9999) {
+					setAccountInfo(response.payload)
+				}
+				if (response.status_code === -9999) {
+					console.log(response.message)
+				}
+			} catch (error) {
+				console.log(error)
+			}
+		}
 		const getAllPost = async () => {
 			try {
 				const data = {
@@ -34,8 +50,9 @@ export default function Profile() {
 				console.log(error)
 			}
 		}
+		getUserInfo()
 		getAllPost()
-	}, [])
+	}, [userId])
 
 	return (
 		<div className="container">
@@ -44,13 +61,13 @@ export default function Profile() {
 				<Row justify='center'>
 					<Col span={16} className="profile-image">
 						<div className="coverImg">
-							<img src={currentUser.avatar || avatarDefault} alt="cover" />
+							<img src={accountInfo.avatar || avatarDefault} alt="cover" />
 						</div>
 						<div className="containAvtImg">
 							<div className="avataProfile">
-								<img src={currentUser.avatar || avatarDefault} alt="avt Img" className="avataProfileImg" />
+								<img src={accountInfo.avatar || avatarDefault} alt="avt Img" className="avataProfileImg" />
 							</div>
-							<p className="text-name-user-top-profile">{currentUser.fullName}</p>
+							<p className="text-name-user-top-profile">{accountInfo.fullName}</p>
 							<p className="text-top-profile">Cấp thành viên:<span style={{ fontWeight: 500 }}>VIP</span></p>
 							<div>
 								<span style={{ marginRight: 50 }}>Bài đã đăng: <span style={{ fontWeight: 500 }}>23</span></span>
@@ -61,22 +78,22 @@ export default function Profile() {
 						<div className="controlProfile">
 							<div className="sub-controlProfile">
 								<div className={tab === 'newfeed' ? "tab-profile-active" : "tab-profile"}>
-									<Link to='/profile/newfeed'>
+									<Link to={`/profile/${accountInfo._id}/newfeed`}>
 										Bài viết
 									</Link>
 								</div>
 								<div className={tab === 'about' ? "tab-profile-active" : "tab-profile"}>
-									<Link to='/profile/about'>
+									<Link to={`/profile/${accountInfo._id}/about`}>
 										Giới thiệu
 									</Link>
 								</div>
 								<div className={tab === 'follower' ? "tab-profile-active" : "tab-profile"}>
-									<Link to='/profile/follower'>
+									<Link to={`/profile/${accountInfo._id}/follower`}>
 										Người theo dõi
 									</Link>
 								</div>
 								<div className={tab === 'following' ? "tab-profile-active" : "tab-profile"}>
-									<Link to='/profile/following'>
+									<Link to={`/profile/${accountInfo._id}/following`}>
 										Đang theo dõi
 									</Link>
 								</div>
@@ -93,7 +110,10 @@ export default function Profile() {
 							{
 								tab === 'newfeed' &&
 								<>
-									<Share />
+									{
+										currentUser._id === accountInfo._id ??
+										<Share />
+									}
 									{listPost.map((ele, idx) => {
 										return <Post data={ele} key={idx} />
 									})
@@ -102,7 +122,7 @@ export default function Profile() {
 							}
 							{
 								tab === 'about' &&
-								<ProfileAbout />
+								<ProfileAbout accountInfo={accountInfo} />
 							}
 							{
 								tab === 'follower' &&
