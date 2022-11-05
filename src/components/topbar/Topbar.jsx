@@ -8,6 +8,8 @@ import { Dropdown, Menu } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import { LOGOUT_SUCCESS } from "reducers/authentication/actionTypes";
 import avaterDefault from 'assets/img/avatarDefault.jpg'
+import { HiOutlineLogout } from 'react-icons/hi'
+import { FiEdit } from 'react-icons/fi'
 
 export default function Topbar() {
 	const navigate = useNavigate()
@@ -25,14 +27,29 @@ export default function Topbar() {
 		<Menu
 			items={[
 				{
-					label: <a onClick={() => { navigate('/profile/newfeed') }}>Trang cá nhân</a>,
+					label: <div className="menu-item-profile" onClick={() => { navigate('/profile/newfeed') }}>
+						<img src={currentUser.avatar || avaterDefault} alt="avatar" className="avt-topbar" />
+						<h3>{currentUser.fullName}</h3>
+						<h4>Trang cá nhân</h4>
+					</div>,
 					key: '0',
 				},
 				{
 					type: 'divider',
 				},
 				{
-					label: <a onClick={handleLogout}>Đăng xuất</a>,
+					label: <a onClick={() => { navigate('/profile/newfeed') }} className="menu-item-logout">
+						<FiEdit></FiEdit>
+						Chỉnh sửa thông tin</a>,
+					key: '1',
+				},
+				{
+					type: 'divider',
+				},
+				{
+					label: <a onClick={handleLogout} className="menu-item-logout">
+						<HiOutlineLogout></HiOutlineLogout>
+						Đăng xuất</a>,
 					key: '1',
 				},
 			]}
@@ -73,7 +90,7 @@ export default function Topbar() {
 								<div className="topbarAvata">
 									<img src={currentUser.avatar || avaterDefault} alt="avatar" className="avt-topbar" />
 								</div>
-								<p className="name-user">{currentUser.fullName}</p>
+								<p>{currentUser.fullName}</p>
 							</div>
 						</Dropdown>
 					</>
