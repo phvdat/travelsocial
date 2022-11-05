@@ -24,8 +24,28 @@ const LoginModal = () => {
 		setOpen(false);
 	};
 	const onFinish = async (values) => {
-		setData({ ...values, kind: 'internal', isAdmin: false })
+		const getUserInfo = async (userId) => {
+			try {
+				const params = { userId: userId }
+				const response = await authApi.getUserInfoApi(params)
+				console.log(params)
+				if (response.status_code === 9999) {
+					console.log(response)
+					window.localStorage.setItem('currentUser', JSON.stringify(response.payload));
+					dispach({
+						type: SET_CURRENT_USER,
+						payload: response.payload,
+					})
+				}
+				if (response.status_code === -9999) {
+					console.log(response.message)
+				}
+			} catch (error) {
+				console.log(error)
+			}
+		}
 		const postLoginData = async () => {
+			setData({ ...values, kind: 'internal', isAdmin: false })
 			try {
 				const response = await authApi.loginApi(data)
 				if (response.status_code === 9999) {
@@ -35,6 +55,8 @@ const LoginModal = () => {
 					window.localStorage.setItem('access_token', JSON.stringify(response.payload.accessToken));
 					window.localStorage.setItem('refresh_token', JSON.stringify(response.payload.refreshToken));
 					window.localStorage.setItem('isLogin', JSON.stringify(true));
+					console.log(response.payload.userId)
+					await getUserInfo(response.payload.userId)
 					dispach({
 						type: LOGIN_SUCCESS,
 						payload: [],
@@ -47,23 +69,8 @@ const LoginModal = () => {
 				console.log(error, 'login fail')
 			}
 		}
-		const getUserInfo = async () => {
-			console.log('get me')
-			try {
-				const response = await authApi.getUserInfoApi()
-				if (response.status_code === 9999) {
-					window.localStorage.setItem('user_info', JSON.stringify(response.payload));
-					dispach({
-						type: SET_CURRENT_USER,
-						payload: response.payload,
-					})
-				}
-			} catch (error) {
-				console.log(error)
-			}
-		}
+
 		postLoginData()
-		getUserInfo()
 	};
 	const onFinishFailed = (errorInfo) => {
 		console.log('Failed:', errorInfo);
