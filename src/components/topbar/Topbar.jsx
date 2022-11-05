@@ -6,12 +6,13 @@ import LoginModal from "../loginModal/LoginModal";
 import { useDispatch, useSelector } from "react-redux";
 import { Dropdown, Menu } from "antd";
 import { Link, useNavigate } from "react-router-dom";
-import { LOGOUT_SUCCESS } from "../../reducers/authentication/actionTypes";
-
+import { LOGOUT_SUCCESS } from "reducers/authentication/actionTypes";
+import avaterDefault from 'assets/img/avatarDefault.jpg'
 
 export default function Topbar() {
 	const navigate = useNavigate()
 	const isLogin = useSelector(state => state.authentication.isLoggedIn)
+	const currentUser = useSelector(state => state.authentication.currentUser)
 	const dispatch = useDispatch();
 	const handleLogout = () => {
 		window.localStorage.clear()
@@ -24,7 +25,7 @@ export default function Topbar() {
 		<Menu
 			items={[
 				{
-					label: <a onClick={()=>{navigate('/profile/newfeed')}}>Trang cá nhân</a>,
+					label: <a onClick={() => { navigate('/profile/newfeed') }}>Trang cá nhân</a>,
 					key: '0',
 				},
 				{
@@ -70,9 +71,9 @@ export default function Topbar() {
 						<Dropdown overlay={menu} trigger={['click']}>
 							<div className="iconRightSide">
 								<div className="topbarAvata">
-									<img src="img/myavt.jpg" alt="avata" className="avt-topbar" />
+									<img src={currentUser.avatar || avaterDefault} alt="avatar" className="avt-topbar" />
 								</div>
-								<p className="name-user">Pham Dat</p>
+								<p className="name-user">{currentUser.fullName}</p>
 							</div>
 						</Dropdown>
 					</>

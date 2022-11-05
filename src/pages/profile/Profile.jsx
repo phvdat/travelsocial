@@ -1,5 +1,6 @@
 import { Col, message, Row } from "antd";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import postApi from "../../api/postApi";
 import Post from "../../components/post/Post";
@@ -11,6 +12,7 @@ import "./profile.scss";
 
 export default function Profile() {
 	let { tab } = useParams()
+	const currentUser = useSelector(state => state.authentication.currentUser)
 	const [listPost, setListPost] = useState([])
 	useEffect(() => {
 		const getAllPost = async () => {
@@ -41,13 +43,13 @@ export default function Profile() {
 				<Row justify='center'>
 					<Col span={16} className="profile-image">
 						<div className="coverImg">
-							<img src='https://kenh14cdn.com/thumb_w/660/2020/7/17/brvn-15950048783381206275371.jpg' alt="cover" />
+							<img src={currentUser.avatar || 'img/avatar-default.jpg'} alt="cover" />
 						</div>
 						<div className="containAvtImg">
 							<div className="avataProfile">
-								<img src="https://kenh14cdn.com/thumb_w/660/2020/7/17/brvn-15950048783381206275371.jpg" alt="avt Img" className="avataProfileImg" />
+								<img src={currentUser.avatar || 'img/avatar-default.jpg'} alt="avt Img" className="avataProfileImg" />
 							</div>
-							<p className="text-name-user-top-profile">Phạm Văn Đạt</p>
+							<p className="text-name-user-top-profile">{currentUser.fullName}</p>
 							<p className="text-top-profile">Cấp thành viên:<span style={{ fontWeight: 500 }}>VIP</span></p>
 							<div>
 								<span style={{ marginRight: 50 }}>Bài đã đăng: <span style={{ fontWeight: 500 }}>23</span></span>

@@ -7,10 +7,12 @@ import { deleteObject, getDownloadURL, getStorage, ref, uploadBytes } from "fire
 import { v4 } from 'uuid';
 import postApi from '../../api/postApi';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 const { Option } = Select;
 
 export default function Share() {
 	const navigate = useNavigate()
+	const currentUser = useSelector(state => state.authentication.currentUser)
 	const [form] = Form.useForm();
 	const storage = getStorage();
 	const [dataSubmit, setDataSubmit] = useState({
@@ -142,15 +144,15 @@ export default function Share() {
 		<div className='shareContain' >
 			<div className="shareBox">
 				<div className="inputShare">
-					<img src="img/avatar-default.jpg" alt="avate user" className="avt-user" />
+					<img src={currentUser.avatar || 'img/avatar-default.jpg'} alt="avate user" className="avt-user" />
 					<button onClick={() => showModal()} type="button" className='btn-share'>Viết bài đăng</button>
 				</div>
 
 				<Modal getContainer={false} title={
 					<div className="header-share">
-						<img src="img/avatar-default.jpg" alt="avate user" className="avt-user" />
+						<img src={currentUser.avatar || 'img/avatar-default.jpg'} alt="avate user" className="avt-user" />
 						<div>
-							<p>Pham Van Dat</p>
+							<p>{currentUser.fullName}</p>
 							<Select
 								className='select-status'
 								defaultValue="public"
@@ -214,13 +216,6 @@ export default function Share() {
 							</Form.Item>
 						</div>
 						<Dragger {...props}
-						// listType="picture-card"
-						// fileList={fileList}
-						// beforeUpload={beforeUpload}
-						// onPreview={handlePreview}
-						// onChange={handleChange}
-						// onRemove={handleOnRemove}
-						// multiple={true}
 						>
 							<AiOutlineUpload style={{ 'fontSize': 30 }} />
 							<div className="uploadText">
