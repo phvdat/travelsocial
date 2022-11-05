@@ -12,18 +12,18 @@
   padding: 16px 0 4px;
 }
 
-.avt-user {
-  margin-right: 16px;
-  width: 44px;
-  height: 44px;
-  border-radius: 30px;
-  object-fit: cover;
-}
-
 .topPost {
   .sub-topPost {
     display: flex;
     flex-direction: row;
+    img {
+      margin-right: 16px;
+      width: 44px;
+      height: 44px;
+      border-radius: 30px;
+      object-fit: cover;
+      cursor: pointer;
+    }
   }
   margin: 0 20px;
   display: flex;

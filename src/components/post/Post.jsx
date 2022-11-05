@@ -4,7 +4,7 @@ import { BiCommentDetail } from 'react-icons/bi';
 import './post.scss';
 import { useState } from 'react/cjs/react.development';
 import { Dropdown, Menu, message, Rate } from 'antd';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import postApi from 'api/postApi';
 import reactPostApi from 'api/reactPostApi';
 import { useEffect } from 'react';
@@ -13,7 +13,6 @@ import avatarDefault from 'assets/img/avatarDefault.jpg'
 	;
 export default function Post(props) {
 	const data = props.data
-	console.log(data)
 	const [user, setUser] = useState({})
 	const navigate = useNavigate()
 	const [like, setLike] = useState(false)
@@ -57,13 +56,11 @@ export default function Post(props) {
 			e.preventDefault();
 			const createComment = async () => {
 				try {
-					console.log('post comment', data._id);
 					const dataComment = {
 						postId: data._id,
 						content: e.target.value
 					}
 					const response = await reactPostApi.postComment(dataComment)
-					console.log(response)
 					if (response.status_code === 9999) {
 						message.success('Bình luận thành công!')
 						// navigate(0)
@@ -90,12 +87,10 @@ export default function Post(props) {
 			if (like === false) {
 				setLike(true)
 				const response = await reactPostApi.postLike(dataLike)
-				console.log(response)
 			}
 			if (like === true) {
 				setLike(false)
 				const response = await reactPostApi.postUnLike(dataLike)
-				console.log(response)
 			}
 
 		} catch (error) {
@@ -109,7 +104,6 @@ export default function Post(props) {
 				point: value
 			}
 			const response = await reactPostApi.postRate(dataRate)
-			console.log(response)
 		} catch (error) {
 			console.log(error)
 		}
@@ -123,7 +117,6 @@ export default function Post(props) {
 			}
 			const response = await reactPostApi.loadComment(params)
 			setListComment(response.payload)
-			console.log(response)
 		} catch (error) {
 			console.log(error)
 		}
@@ -133,7 +126,6 @@ export default function Post(props) {
 			const params = {
 				commentId: commentId,
 			}
-			console.log(commentId)
 			const response = await reactPostApi.deleteComment(params)
 			if (response.status_code === 9999) {
 				console.log("delete comment succcess", response)
@@ -171,9 +163,13 @@ export default function Post(props) {
 			<div className="postBox">
 				<div className="topPost">
 					<div className='sub-topPost'>
-						<img src={user.avatar || avatarDefault} alt="avt user" className='avt-user' />
+						<Link to={`/profile/${data.userId}/newfeed`}>
+							<img src={user.avatar || avatarDefault} alt="avt user" className='avt-user' />
+						</Link>
 						<span className='nameUser'>
-							<span className='textName'>{user.fullName}</span>
+							<Link to={`/profile/${data.userId}/newfeed`}>
+								<span className='textName'>{user.fullName}</span>
+							</Link>
 							<span className='textTime'>4 giờ</span>
 						</span>
 					</div>
