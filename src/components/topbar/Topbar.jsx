@@ -27,7 +27,7 @@ export default function Topbar() {
 		<Menu
 			items={[
 				{
-					label: <div className="menu-item-profile" onClick={() => { navigate('/profile/newfeed') }}>
+					label: <div className="menu-item-profile" onClick={() => { navigate(`/profile/${currentUser._id}/newfeed`) }}>
 						<img src={currentUser.avatar || avaterDefault} alt="avatar" className="avt-topbar" />
 						<h3>{currentUser.fullName}</h3>
 						<h4>Trang cá nhân</h4>
@@ -38,7 +38,7 @@ export default function Topbar() {
 					type: 'divider',
 				},
 				{
-					label: <a onClick={() => { navigate('/profile/newfeed') }} className="menu-item-logout">
+					label: <a onClick={() => { navigate(`/profile/${currentUser._id}/about`) }} className="menu-item-logout">
 						<FiEdit></FiEdit>
 						Chỉnh sửa thông tin</a>,
 					key: '1',
