@@ -28,7 +28,6 @@ const LoginModal = () => {
 			try {
 				const params = { userId: userId }
 				const response = await authApi.getUserInfoApi(params)
-				console.log(params)
 				if (response.status_code === 9999) {
 					console.log(response)
 					window.localStorage.setItem('currentUser', JSON.stringify(response.payload));

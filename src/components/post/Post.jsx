@@ -5,15 +5,37 @@ import './post.scss';
 import { useState } from 'react/cjs/react.development';
 import { Dropdown, Menu, message, Rate } from 'antd';
 import { useNavigate } from 'react-router-dom';
-import postApi from '../../api/postApi';
-import reactPostApi from '../../api/reactPostApi';
+import postApi from 'api/postApi';
+import reactPostApi from 'api/reactPostApi';
+import { useEffect } from 'react';
+import authApi from 'api/authApi';
+import avatarDefault from 'assets/img/avatarDefault.jpg'
+	;
 export default function Post(props) {
 	const data = props.data
+	console.log(data)
+	const [user, setUser] = useState({})
 	const navigate = useNavigate()
 	const [like, setLike] = useState(false)
 	const [showComment, setShowComment] = useState(false)
 	const [listComment, setListComment] = useState([])
-
+	useEffect(() => {
+		const getUserInfo = async () => {
+			try {
+				const params = { userId: data.userId }
+				const res = await authApi.getUserInfoApi(params)
+				if (res.status_code === 9999) {
+					setUser(res.payload)
+				}
+				if (res.status_code === -9999) {
+					console.log(false)
+				}
+			} catch (error) {
+				console.log(error)
+			}
+		}
+		getUserInfo()
+	}, [])
 	const handleDetelePost = async () => {
 		try {
 			const params = { postId: data._id }
@@ -149,9 +171,9 @@ export default function Post(props) {
 			<div className="postBox">
 				<div className="topPost">
 					<div className='sub-topPost'>
-						<img src="img/avatar-default.jpg" alt="avt user" className='avt-user' />
+						<img src={user.avatar || avatarDefault} alt="avt user" className='avt-user' />
 						<span className='nameUser'>
-							<span className='textName'>Pham Dat</span>
+							<span className='textName'>{user.fullName}</span>
 							<span className='textTime'>4 giờ</span>
 						</span>
 					</div>
