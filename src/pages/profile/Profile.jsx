@@ -9,6 +9,7 @@ import Topbar from "../../components/topbar/Topbar";
 import ProfileAbout from "./components/profileabout/ProfileAbout";
 import ProfileFollow from "./components/profilefollow/ProfileFollow";
 import "./profile.scss";
+import avatarDefault from "assets/img/avatarDefault.jpg";
 
 export default function Profile() {
 	let { tab } = useParams()
@@ -43,11 +44,11 @@ export default function Profile() {
 				<Row justify='center'>
 					<Col span={16} className="profile-image">
 						<div className="coverImg">
-							<img src={currentUser.avatar || 'img/avatar-default.jpg'} alt="cover" />
+							<img src={currentUser.avatar || avatarDefault} alt="cover" />
 						</div>
 						<div className="containAvtImg">
 							<div className="avataProfile">
-								<img src={currentUser.avatar || 'img/avatar-default.jpg'} alt="avt Img" className="avataProfileImg" />
+								<img src={currentUser.avatar || avatarDefault} alt="avt Img" className="avataProfileImg" />
 							</div>
 							<p className="text-name-user-top-profile">{currentUser.fullName}</p>
 							<p className="text-top-profile">Cấp thành viên:<span style={{ fontWeight: 500 }}>VIP</span></p>
