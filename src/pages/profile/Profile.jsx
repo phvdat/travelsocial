@@ -11,12 +11,16 @@ import ProfileFollow from "./components/profilefollow/ProfileFollow";
 import "./profile.scss";
 import avatarDefault from "assets/img/avatarDefault.jpg";
 import authApi from "api/authApi";
+import followApi from "api/followApi";
+import { BsCheck } from "react-icons/bs";
+import { HiOutlineUserAdd } from "react-icons/hi";
 
 export default function Profile() {
 	let { userId, tab } = useParams()
 	const [accountInfo, setAccountInfo] = useState({})
 	const currentUser = useSelector(state => state.authentication.currentUser)
 	const [listPost, setListPost] = useState([])
+	const [followStatus, setFollowStatus] = useState(false)
 	useEffect(() => {
 		const getUserInfo = async () => {
 			try {
@@ -53,7 +57,39 @@ export default function Profile() {
 		getUserInfo()
 		getAllPost()
 	}, [userId])
-
+	const handleFolowBtn = async () => {
+		const data = {
+			userIdTarget: userId
+		}
+		if (!followStatus) {
+			try {
+				const response = await followApi.follow(data)
+				if (response.status_code === 9999) {
+					message.success('Theo dõi thành công!')
+					setFollowStatus(true)
+				}
+				if (response.status_code === -9999) {
+					message.warning('Theo dõi không thành công!')
+				}
+			} catch (error) {
+				console.log(error)
+			}
+		}
+		if (followStatus) {
+			try {
+				const response = await followApi.unFollow(data)
+				if (response.status_code === 9999) {
+					message.success('Bỏ theo dõi thành công!')
+					setFollowStatus(false)
+				}
+				if (response.status_code === -9999) {
+					message.warning('Bỏ theo dõi không thành công!')
+				}
+			} catch (error) {
+				console.log(error)
+			}
+		}
+	}
 	return (
 		<div className="container">
 			<Topbar />
@@ -98,7 +134,7 @@ export default function Profile() {
 									</Link>
 								</div>
 							</div>
-							<button className="btn-follow">{true ? "Theo dõi" : "Đăng theo dõi"}</button>
+							<button className="btn-follow" onClick={handleFolowBtn}>{followStatus ? <span><BsCheck /> <span>Đăng theo dõi</span></span> : <span><HiOutlineUserAdd /> <span>Theo dõi</span></span>}</button>
 						</div>
 					</Col>
 				</Row>
