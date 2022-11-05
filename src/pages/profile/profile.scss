@@ -58,6 +58,11 @@
   .btn-follow {
     @include btnStyle(100px, 32px, $primary-color, $font-size-paragraph);
     margin-right: 8px;
+    span {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
   }
 }
 
