@@ -9,11 +9,11 @@ const authApi = {
 		const url = "/user/register";
 		return axiosClient.post(url, data);
 	},
-	getUserInfoApi: () => {
+	getUserInfoApi: (params) => {
 		const url = "/user/info-user";
-		return axiosClient.get(url);
+		return axiosClient.get(url, { params });
 	},
-		upadateUserInfoApi: (data) => {
+	upadateUserInfoApi: (data) => {
 		const url = "/user/update-info-user";
 		return axiosClient.post(url, data);
 	}

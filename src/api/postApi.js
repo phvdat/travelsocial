@@ -11,7 +11,7 @@ const postApi = {
 	},
 	deletePost: (params) => {
 		const url = "/post/delete";
-		return axiosClient.get(url,{params});
+		return axiosClient.get(url, { params });
 	}
 }
 
