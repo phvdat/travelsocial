@@ -11,9 +11,7 @@ import Profile from './pages/profile/Profile';
 import { useSelector } from 'react-redux';
 
 function App() {
-
 	const isLoggedIn = useSelector(state => state.authentication.isLoggedIn)
-	console.log(isLoggedIn)
 	return (
 		<BrowserRouter>
 			<Routes>
