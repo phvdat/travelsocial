@@ -1,4 +1,4 @@
-import { Col, DatePicker, Form, message, Row } from 'antd';
+import { Button, Col, DatePicker, Form, message, Row, Upload } from 'antd';
 import React, { useState } from 'react'
 import { MdOutlineAccountCircle } from "react-icons/md";
 import { BiPencil } from "react-icons/bi";
@@ -6,17 +6,21 @@ import { BsTelephone } from "react-icons/bs";
 import './profileAbout.scss'
 import moment from 'moment';
 import authApi from '../../../../api/authApi';
+import { useSelector } from 'react-redux';
+import avatarDefault from 'assets/img/avatarDefault.jpg'
+import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
+import { v4 } from 'uuid';
 export default function ProfileAbout() {
+	const currentUser = useSelector(state => state.authentication.currentUser)
+	const { fullName, phone, email, birthday, avatar, address } = currentUser
 	const [data, setData] = useState({
-		fullName: 'Nguyễn Văn A',
-		phone: '0912312',
-		email: 'viethungmytho123@gmail.com',
-		birthday: '111',
-		avatar: 'aa',
-		cover: 'aa',
-		address: 'bbb'
+		fullName: fullName || '',
+		phone: phone || '',
+		email: email || '',
+		birthday: birthday || '',
+		avatar: avatar || '',
+		address: address || '',
 	})
-	console.log('dataa', data)
 	const [showEditFullName, setShowEditFullName] = useState(false)
 	const [showEditPhone, setShowEditPhone] = useState(false)
 	const [showEditAddress, setShowEditAddress] = useState(false)
@@ -27,19 +31,86 @@ export default function ProfileAbout() {
 	const handleChangeDate = (date, dateString) => {
 		setData({ ...data, birthday: dateString });
 	}
-	const handleSaveChange = async () => {
+	const getUserInfo = async (userId) => {
+		try {
+			const params = { userId: userId }
+			const response = await authApi.getUserInfoApi(params)
+			if (response.status_code === 9999) {
+				window.localStorage.setItem('currentUser', JSON.stringify(response.payload));
+			}
+			if (response.status_code === -9999) {
+				console.log(response.message)
+			}
+		} catch (error) {
+			console.log(error)
+		}
+	}
+	const handleSaveChange = async (e) => {
+		e?.preventDefault()
 		try {
 			const response = await authApi.upadateUserInfoApi(data)
 			if (response.status_code === 9999) {
-				console.log('success')
+				console.log('update success')
+				await getUserInfo(currentUser._id)
 			}
 			if (response.status_code === -9999) {
-				console.log('fail')
+				console.log('update fail')
 			}
 		} catch (error) {
-			console.log('error', error)
+			console.log('update error', error)
 		}
 	}
+	//upload avater
+	const storage = getStorage();
+	const uploadProps = {
+		name: 'file',
+		multiple: false,
+		showUploadList: false,
+		customRequest({ file, onSuccess }) {
+			console.log(1)
+			const handleUpload = async () => {
+				try {
+					const typeMedia = file.type.split('/')[0]
+					var nameOnCloud = `avatar/${file.name + v4()}`
+					const storageRef = ref(storage, nameOnCloud);
+					await uploadBytes(storageRef, file)
+					try {
+						const link = await getDownloadURL(storageRef)
+						setData({ ...data, avatar: link })
+					} catch (error) {
+						console.log(error)
+					}
+					onSuccess('ok')
+				} catch (error) {
+					console.log(error)
+				}
+			}
+			handleUpload()
+		},
+		onChange(info) {
+			const { status } = info.file;
+			if (status !== 'uploading') {
+				console.log('uploading')
+			}
+			if (status === 'done') {
+				console.log('upload done')
+				handleSaveChange()
+				message.success('image uploaded successfully.');
+				window.location.reload(false);
+			} else if (status === 'error') {
+				message.error(`${info.file.name
+					} file upload failed.`);
+			}
+		},
+		beforeUpload(file) {
+			console.log(2)
+			if (!["image/jpeg", "image/png"].includes(file.type)) {
+				message.error(`${file.name} is not a valid image / video type`, 2);
+				return null;
+			}
+			return true;
+		},
+	};
 	return (
 		<div className='profile-about-container'>
 			<h1>Giới thiệu</h1>
@@ -54,12 +125,14 @@ export default function ProfileAbout() {
 					<h3>Avata</h3>
 				</Col>
 				<Col span={18}>
-					<div className='about-col-2'>
-						<img src="https://kenh14cdn.com/thumb_w/660/2020/7/17/brvn-15950048783381206275371.jpg" alt="avata" />
-						<span>
-							<BiPencil /> Chỉnh sửa
+					<span className='about-col-2'>
+						<img src={currentUser.avatar || avatarDefault} alt="avatar" />
+						<span className='btnMdf'>
+							<Upload {...uploadProps}>
+								<BiPencil /> Chỉnh sửa
+							</Upload>
 						</span>
-					</div>
+					</span>
 				</Col>
 			</Row>
 			<hr className='custome-hr' />
@@ -70,14 +143,17 @@ export default function ProfileAbout() {
 				<Col span={18}>
 					{
 						showEditFullName ?
-							<form className='form-edit'>
+							<form className='form-edit' >
 								<input type="text" value={data.fullName} onChange={(e) => setData({ ...data, fullName: e.target.value })} />
-								<button onClick={() => handleSaveChange()} className='first-child'>Lưu thay đổi</button>
+								<button type='submit' onClick={(e) => {
+									handleSaveChange(e)
+									setShowEditFullName(false)
+								}} className='first-child'>Lưu thay đổi</button>
 								<button className='second-child' onClick={() => setShowEditFullName(false)}>Huỷ</button>
 							</form>
 							:
 							<div className='about-col-2'>
-								<h3>Phạm Văn Đạt</h3>
+								<h3>{data.fullName}</h3>
 								<span onClick={() => {
 									setShowEditFullName(true)
 								}}>
@@ -95,9 +171,13 @@ export default function ProfileAbout() {
 				<Col span={18}>
 					{
 						showEditEmail ?
-							<form className='form-edit'>
-								<input type="text" value={data.email} onChange={(e) => setData({ ...data, email: e.target.value })} />
-								<button onClick={() => handleSaveChange()} className='first-child'>Lưu thay đổi</button>
+							<form className='form-edit'
+							>
+								<input type="email" value={data.email || ''} onChange={(e) => setData({ ...data, email: e.target.value })} />
+								<button type='submit' onClick={(e) => {
+									handleSaveChange(e)
+									setShowEditEmail(false)
+								}} className='first-child'>Lưu thay đổi</button>
 								<button className='second-child' onClick={() => {
 									setShowEditEmail(false)
 								}}
@@ -105,7 +185,7 @@ export default function ProfileAbout() {
 							</form>
 							:
 							<div className='about-col-2'>
-								<h3>phamvandat.hcmut@gmail.com</h3>
+								<h3>{data.email}</h3>
 								<span onClick={() => {
 									setShowEditEmail(true)
 								}}>
@@ -125,16 +205,17 @@ export default function ProfileAbout() {
 						showEditBirth ?
 							<form className='form-edit-birth'>
 								<div className='date-picker-container'>
-									<DatePicker defaultValue={moment(data.birthday, dateFormat)} format={dateFormat} onChange={handleChangeDate} />
+									<DatePicker defaultValue={data.birthday ? moment(data.birthday, dateFormat) : moment()} format={dateFormat} onChange={handleChangeDate} />
 								</div>
-								<button onClick={() => handleSaveChange()} className='first-child'>Lưu thay đổi</button>
+								<button type='submit' onClick={(e) => {
+									handleSaveChange(e)
+									setShowEditBirth(false)
+								}} className='first-child'>Lưu thay đổi</button>
 								<button className='second-child' onClick={() => setShowEditBirth(false)}>Huỷ</button>
 							</form>
-
 							:
-
 							<div className='about-col-2'>
-								<h3>20/01/2000</h3>
+								<h3>{data.birthday}</h3>
 								<span onClick={() => { setShowEditBirth(true) }}>
 									<BiPencil /> Chỉnh sửa
 								</span>
@@ -157,7 +238,10 @@ export default function ProfileAbout() {
 						showEditPhone ?
 							<form className='form-edit'>
 								<input type="number" value={data.phone} onChange={(e) => setData({ ...data, phone: e.target.value })} />
-								<button onClick={() => handleSaveChange()} className='first-child'>Lưu thay đổi</button>
+								<button type='submit' onClick={(e) => {
+									handleSaveChange(e)
+									setShowEditPhone(false)
+								}} className='first-child'>Lưu thay đổi</button>
 								<button className='second-child' onClick={() => {
 									setShowEditPhone(false)
 								}
@@ -165,7 +249,7 @@ export default function ProfileAbout() {
 							</form>
 							:
 							<div className='about-col-2'>
-								<h3>0123456789</h3>
+								<h3>{data.phone}</h3>
 								<span onClick={setShowEditPhone}>
 									<BiPencil /> Chỉnh sửa
 								</span>
@@ -183,7 +267,10 @@ export default function ProfileAbout() {
 						showEditAddress ?
 							<form className='form-edit'>
 								<input type="text" value={data.address} onChange={(e) => setData({ ...data, address: e.target.value })} />
-								<button onClick={() => handleSaveChange()} className='first-child'>Lưu thay đổi</button>
+								<button type='submit' onClick={(e) => {
+									handleSaveChange(e)
+									setShowEditAddress(false)
+								}} className='first-child'>Lưu thay đổi</button>
 								<button className='second-child' onClick={() => {
 									setShowEditAddress(false)
 								}
@@ -191,7 +278,7 @@ export default function ProfileAbout() {
 							</form>
 							:
 							<div className='about-col-2'>
-								<h3>Tân Bình</h3>
+								<h3>{data.address}</h3>
 								<span onClick={() => setShowEditAddress(true)}>
 									<BiPencil /> Chỉnh sửa
 								</span>
