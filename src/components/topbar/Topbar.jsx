@@ -4,7 +4,7 @@ import { FaUserFriends } from 'react-icons/fa'
 import { IoMdNotifications } from "react-icons/io";
 import LoginModal from "../loginModal/LoginModal";
 import { useDispatch, useSelector } from "react-redux";
-import { Dropdown, Menu } from "antd";
+import { Dropdown, Menu, message } from "antd";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { LOGOUT_SUCCESS } from "reducers/authentication/actionTypes";
 import avaterDefault from 'assets/img/avatarDefault.jpg'
@@ -23,6 +23,7 @@ export default function Topbar() {
 			type: LOGOUT_SUCCESS,
 			payload: [],
 		})
+		message.success('Đã đăng xuất!')
 	}
 	const menu = (
 		<Menu
