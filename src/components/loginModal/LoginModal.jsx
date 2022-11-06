@@ -22,26 +22,26 @@ const LoginModal = () => {
 		console.log('Clicked cancel button');
 		setOpen(false);
 	};
-	const onFinish = async (values) => {
-		const getUserInfo = async (userId) => {
-			try {
-				const params = { userId: userId }
-				const response = await authApi.getUserInfoApi(params)
-				if (response.status_code === 9999) {
-					console.log(response)
-					window.localStorage.setItem('currentUser', JSON.stringify(response.payload));
-					dispach({
-						type: SET_CURRENT_USER,
-						payload: response.payload,
-					})
-				}
-				if (response.status_code === -9999) {
-					console.log(response.message)
-				}
-			} catch (error) {
-				console.log(error)
+	const getUserInfo = async (userId) => {
+		try {
+			const params = { userId: userId }
+			const response = await authApi.getUserInfoApi(params)
+			if (response.status_code === 9999) {
+				console.log(response)
+				window.localStorage.setItem('currentUser', JSON.stringify(response.payload));
+				dispach({
+					type: SET_CURRENT_USER,
+					payload: response.payload,
+				})
 			}
+			if (response.status_code === -9999) {
+				console.log(response.message)
+			}
+		} catch (error) {
+			console.log(error)
 		}
+	}
+	const onFinish = async (values) => {
 		const postLoginData = async () => {
 			try {
 				const data = { ...values, kind: 'internal', isAdmin: false }
@@ -73,13 +73,76 @@ const LoginModal = () => {
 	const onFinishFailed = (errorInfo) => {
 		console.log('Failed:', errorInfo);
 	};
-
+	//auth Google
+	const registerWithGg = async (user) => {
+		try {
+			const data = {
+				username: user.email,
+				password: "travel2022",
+				kind: "google",
+				phone: user.phoneNumber,
+				fullName: user.displayName
+			}
+			console.log('testttttttt', data)
+			const response = await authApi.registerApi(data)
+			loginWithGg(user)
+		} catch (error) {
+			console.log(error)
+		}
+	}
+	const loginWithGg = async (user) => {
+		try {
+			const data = {
+				username: user.email,
+				password: "travel2022",
+				kind: 'internal',
+				isAdmin: false
+			}
+			const response = await authApi.loginApi(data)
+			if (response.status_code === 9999) {
+				setOpen(false)
+				message.success('Đăng nhập thành công!')
+				updateProfileWithGg(user)
+				navigate('/home')
+				window.localStorage.setItem('access_token', JSON.stringify(response.payload.accessToken));
+				window.localStorage.setItem('refresh_token', JSON.stringify(response.payload.refreshToken));
+				window.localStorage.setItem('isLogin', JSON.stringify(true));
+				console.log(response.payload.userId)
+				await getUserInfo(response.payload.userId)
+				dispach({
+					type: LOGIN_SUCCESS,
+					payload: [],
+				})
+			}
+			if (response.status_code === -9999) {
+				message.warning('Username hoặc mật khẩu không đúng!')
+				console.log(data)
+			}
+		} catch (error) {
+			console.log(error, 'login fail')
+		}
+	}
+	const updateProfileWithGg = async (user) => {
+		try {
+			const data = {
+				fullName: user.displayName,
+				phone: user.phoneNumber | "",
+				email: user.email,
+				birthday: user.birthday,
+				avatar: user.photoURL,
+				address: "",
+			}
+			const response = await authApi.upadateUserInfoApi(data)
+			console.log(response)
+		} catch (error) {
+			console.log(error)
+		}
+	}
 	const authWithGoogle = () => {
 		const provider = new GoogleAuthProvider();
 		signInWithPopup(auth, provider).then((result) => {
 			const user = result.user;
-			console.log(user);
-			message.success('Đăng nhập thành công!')
+			registerWithGg(user)
 			setOpen(false)
 		}).catch((error) => {
 			const errorCode = error.code;
