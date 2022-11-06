@@ -5,7 +5,7 @@ import { IoMdNotifications } from "react-icons/io";
 import LoginModal from "../loginModal/LoginModal";
 import { useDispatch, useSelector } from "react-redux";
 import { Dropdown, Menu } from "antd";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { LOGOUT_SUCCESS } from "reducers/authentication/actionTypes";
 import avaterDefault from 'assets/img/avatarDefault.jpg'
 import { HiOutlineLogout } from 'react-icons/hi'
@@ -13,6 +13,7 @@ import { FiEdit } from 'react-icons/fi'
 
 export default function Topbar() {
 	const navigate = useNavigate()
+	const { tab } = useParams()
 	const isLogin = useSelector(state => state.authentication.isLoggedIn)
 	const currentUser = useSelector(state => state.authentication.currentUser)
 	const dispatch = useDispatch();
@@ -58,15 +59,19 @@ export default function Topbar() {
 	return (
 		<div className="topbarContainer">
 			<div className="topbarLeft">
-				<Link to="/">
+				<Link to="/home">
 					<span className="logo">Travel</span>
 				</Link>
 			</div>
 
 			<div className="topbarCenter">
 				<div className="topbarLink">
-					<span className={true ? "activeLink" : "noactiveLink"}><AiFillHome className="topbarIcon-1" />Trang Chủ</span>
-					<span className="noactiveLink"><FaUserFriends className="topbarIcon-1" />Bạn Bè</span>
+					<Link to='/home' className={tab === 'home' ? "activeLink" : "noactiveLink"}>
+						<AiFillHome className="topbarIcon-1" />Trang Chủ
+					</Link>
+					<Link to='/table-ranking' className={tab === 'table-ranking' ? "activeLink" : "noactiveLink"}>
+						<FaUserFriends className="topbarIcon-1" />Bảng xếp hạng
+					</Link>
 				</div>
 
 				<div className="searchbar">

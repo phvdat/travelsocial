@@ -9,17 +9,17 @@ import Register from './pages/register/Register';
 import Home from './pages/home/Home';
 import Profile from './pages/profile/Profile';
 import { useSelector } from 'react-redux';
+import TableRanking from 'pages/tableranking/TableRanking';
 
 function App() {
 	const isLoggedIn = useSelector(state => state.authentication.isLoggedIn)
 	return (
 		<BrowserRouter>
 			<Routes>
-				<Route path="/home" element={<Home />} />
+				<Route path='/'>
+					<Route path=":tab" element={<Home />} />
+				</Route>
 				<Route path="/register" element={<Register />} />
-				{/* <Route path="/profile">
-					<Route path=":tab" element={isLoggedIn ? <Profile /> : <Navigate to="/home" replace={true} />} />
-				</Route> */}
 				<Route path="/profile">
 					<Route path=":userId">
 						<Route path=":tab" element={isLoggedIn ? <Profile /> : <Navigate to="/home" replace={true} />} />
