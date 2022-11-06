@@ -1,5 +1,5 @@
 import { Form, Input, message, Modal } from 'antd';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { AiOutlineLogin } from 'react-icons/ai';
 import { useNavigate } from 'react-router-dom';
 import authApi from '../../api/authApi';
@@ -15,7 +15,6 @@ const LoginModal = () => {
 	const navigate = useNavigate()
 	const [open, setOpen] = useState(false);
 	const [confirmLoading, setConfirmLoading] = useState(false);
-	const [data, setData] = useState({})
 	const showModal = () => {
 		setOpen(true);
 	};
@@ -44,13 +43,13 @@ const LoginModal = () => {
 			}
 		}
 		const postLoginData = async () => {
-			setData({ ...values, kind: 'internal', isAdmin: false })
 			try {
+				const data = { ...values, kind: 'internal', isAdmin: false }
 				const response = await authApi.loginApi(data)
 				if (response.status_code === 9999) {
 					setOpen(false)
 					message.success('Đăng nhập thành công!')
-					navigate('/')
+					navigate('/home')
 					window.localStorage.setItem('access_token', JSON.stringify(response.payload.accessToken));
 					window.localStorage.setItem('refresh_token', JSON.stringify(response.payload.refreshToken));
 					window.localStorage.setItem('isLogin', JSON.stringify(true));
@@ -63,12 +62,12 @@ const LoginModal = () => {
 				}
 				if (response.status_code === -9999) {
 					message.warning('Username hoặc mật khẩu không đúng!')
+					console.log(data)
 				}
 			} catch (error) {
 				console.log(error, 'login fail')
 			}
 		}
-
 		postLoginData()
 	};
 	const onFinishFailed = (errorInfo) => {
