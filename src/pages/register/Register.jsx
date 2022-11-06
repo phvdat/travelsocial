@@ -15,7 +15,12 @@ export default function Register() {
 				const response = await authApi.registerApi(data)
 				console.log(response)
 				message.success('Đăng ký thành công!')
-				navigate('/')
+				if (response.status_code === 9999) {
+					navigate('/home')
+				}
+				if (response.status_code === -9999) {
+					message.error(response.message)
+				}
 			} catch (error) {
 				console.log(error)
 			}
