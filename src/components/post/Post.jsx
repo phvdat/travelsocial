@@ -9,8 +9,7 @@ import postApi from 'api/postApi';
 import reactPostApi from 'api/reactPostApi';
 import { useEffect } from 'react';
 import authApi from 'api/authApi';
-import avatarDefault from 'assets/img/avatarDefault.jpg'
-	;
+import avatarDefault from 'assets/img/avatarDefault.jpg';
 import { useSelector } from 'react-redux';
 export default function Post(props) {
 	const currentUser = useSelector(state => state.authentication.currentUser)
@@ -18,8 +17,29 @@ export default function Post(props) {
 	const [user, setUser] = useState({})
 	const navigate = useNavigate()
 	const [like, setLike] = useState(false)
+	const [noLike, setNoLike] = useState(data.likeSize)
 	const [showComment, setShowComment] = useState(false)
 	const [listComment, setListComment] = useState([])
+	const [rateValue, setRateValue] = useState(0);
+	const getRateValue = async () => {
+		try {
+			const params = {
+				postId: data._id,
+				page: 1,
+				size: 20
+			}
+			const res = await reactPostApi.loadRate(params)
+			if (res.status_code === 9999) {
+				const rateByMe = res.payload.find((ele) => ele.userId === currentUser._id)
+				setRateValue(rateByMe.point)
+			}
+			if (res.status_code === -9999) {
+				console.log(false)
+			}
+		} catch (error) {
+			console.log(error)
+		}
+	}
 	useEffect(() => {
 		const getUserInfo = async () => {
 			try {
@@ -40,10 +60,13 @@ export default function Post(props) {
 				const params = { postId: data._id, page: 1, size: 10 }
 				const res = await reactPostApi.getListLikesApi(params)
 				if (res.status_code === 9999) {
-					const listLikes = res.payload
+					const listLikes = res.payload || []
 					const index = listLikes.findIndex(item => item.userId === currentUser._id)
 					if (index !== -1) {
 						setLike(true)
+					}
+					if (index === -1) {
+						setLike(false)
 					}
 				}
 				if (res.status_code === -9999) {
@@ -53,8 +76,9 @@ export default function Post(props) {
 				console.log(error)
 			}
 		}
-		// getListLikes()
+		getListLikes()
 		getUserInfo()
+		getRateValue()
 	}, [])
 	const handleDetelePost = async () => {
 		try {
@@ -107,10 +131,12 @@ export default function Post(props) {
 			}
 			if (like === false) {
 				setLike(true)
+				setNoLike((state) => state + 1)
 				const response = await reactPostApi.postLike(dataLike)
 			}
 			if (like === true) {
 				setLike(false)
+				setNoLike((state) => state - 1)
 				const response = await reactPostApi.postUnLike(dataLike)
 			}
 
@@ -119,12 +145,16 @@ export default function Post(props) {
 		}
 	}
 	const handleRatePost = async (value) => {
+		setRateValue(value)
 		try {
 			const dataRate = {
 				postId: data._id,
 				point: value
 			}
 			const response = await reactPostApi.postRate(dataRate)
+			if (response.status_code === -9999) {
+				message.warning('Đánh giá không thành công!')
+			}
 		} catch (error) {
 			console.log(error)
 		}
@@ -206,12 +236,12 @@ export default function Post(props) {
 				<p className="titleText">{data.title}</p>
 				<p className="statusText" style={{ whiteSpace: "pre-line" }}>{data.content}</p>
 				<p className="destinationText">Địa điểm: {data.destination}</p>
-				<img src={data?.mediaList[0]?.link} alt="" className='postImg' />
+				< img src={data?.mediaList[0]?.link} alt="" className='postImg' />
 				<div className="bottomPost">
 					<div className='inforReact'>
 						<div className="numberLikeShare">
 							<AiFillLike className='smLikeIcon' />
-							<span className='numberReact'>{data.likeSize}</span>
+							<span className='numberReact'>{noLike}</span>
 						</div>
 						<span className="numberComment">{data.commentSize} bình luận</span>
 					</div>
@@ -230,7 +260,10 @@ export default function Post(props) {
 							<span>Bình luận</span>
 						</div>
 						<div className="btnPost">
-							<Rate onChange={(value) => handleRatePost} />
+							<Rate value={rateValue} onChange={(value) => {
+								handleRatePost(value)
+							}
+							} />
 						</div>
 					</div>
 					{
