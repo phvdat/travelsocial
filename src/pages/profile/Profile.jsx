@@ -131,7 +131,7 @@ export default function Profile() {
 							<p className="text-name-user-top-profile">{accountInfo.fullName}</p>
 							<p className="text-top-profile">Cấp thành viên:<span style={{ fontWeight: 500 }}>VIP</span></p>
 							<div>
-								<span style={{ marginRight: 50 }}>Bài đã đăng: <span style={{ fontWeight: 500 }}>{listPost.length}</span></span>
+								<span style={{ marginRight: 50 }}>Bài đã đăng: <span style={{ fontWeight: 500 }}>{listPost?.length || 0}</span></span>
 								<span>Lượt theo dõi: <span style={{ fontWeight: 500 }}>1</span></span>
 							</div>
 						</div>
