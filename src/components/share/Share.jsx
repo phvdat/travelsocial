@@ -109,18 +109,17 @@ export default function Share() {
 	};
 
 	const handleFinish = async () => {
-		setDataSubmit({
+		const dataPostSubmit = {
 			...dataSubmit, mediaList: fileUploaded.map(item => {
 				var temp = { ...item }
 				delete temp.nameOnCloud
 				delete temp.name
 				return temp;
 			})
-		})
-		console.log(fileUploaded, " dataSubmit")
+		}
 		const postLoginData = async () => {
 			try {
-				const response = await postApi.createPost(dataSubmit)
+				const response = await postApi.createPost(dataPostSubmit)
 				console.log(response)
 				if (response.status_code === 9999) {
 					message.success('Tạo bài viết thành công!')
