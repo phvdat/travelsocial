@@ -59,6 +59,7 @@
     @include btnStyle(100px, 32px, $primary-color, $font-size-paragraph);
     margin-right: 8px;
     span {
+      margin: 0 12px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -95,4 +96,19 @@ a {
 }
 .downProfile {
   margin-top: $spacing-md;
+}
+
+.container-no-data {
+  max-width: 956;
+  margin: auto;
+  height: 30vh;
+  background-color: #fff;
+  border-radius: 5px;
+  margin-top: 16px;
+  box-shadow: $box-shadow;
+  border-radius: $border-radius-md;
+  h1 {
+    text-align: center;
+    // margin-top: 100px;
+  }
 }

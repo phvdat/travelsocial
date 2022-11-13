@@ -5,7 +5,7 @@
     width: 100%;
     background-color: #fff;
     height: auto;
-    border-radius: 10px;
+    border-radius: $border-radius-md;
     padding: 16px 24px;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
     .inputShare {
@@ -64,7 +64,7 @@ form {
     font-weight: 500;
   }
   .sub-form {
-		margin-bottom: 10px;
+    margin-bottom: 10px;
     display: flex;
     justify-content: space-between;
     align-items: center;
