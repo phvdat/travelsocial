@@ -1,7 +1,7 @@
 @mixin inputStyle($width, $height, $background) {
   width: $width;
-  height:  $height;
-	background-color: $background;
+  height: $height;
+  background-color: $background;
   border-radius: 18px;
   padding: 0 20px;
   outline: none;
@@ -17,15 +17,15 @@
 }
 
 @mixin btnStyle($width, $height, $color, $fontSize) {
-	width: $width;
-	height: $height;
-	background-color: $color;
-	color: #fff;
-	font-size: $fontSize;
-	border-radius: 8px;
-	border: none;
-	cursor: pointer;
-	&:hover{
-		opacity: 0.9;
-	}
+  min-width: $width;
+  height: $height;
+  background-color: $color;
+  color: #fff;
+  font-size: $fontSize;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  &:hover {
+    opacity: 0.9;
+  }
 }
