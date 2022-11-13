@@ -69,7 +69,6 @@ export default function Profile() {
 				const response = await followApi.getFollowUser(params)
 				if (response.status_code === 9999) {
 					const listFollowerId = response.payload.map((ele) => ele.userIdTarget)
-					console.log('ttttttttttt', listFollowerId)
 					if (listFollowerId.includes(userId)) {
 						setFollowStatus(true)
 					}
@@ -132,8 +131,8 @@ export default function Profile() {
 							<p className="text-name-user-top-profile">{accountInfo.fullName}</p>
 							<p className="text-top-profile">Cấp thành viên:<span style={{ fontWeight: 500 }}>VIP</span></p>
 							<div>
-								<span style={{ marginRight: 50 }}>Bài đã đăng: <span style={{ fontWeight: 500 }}>23</span></span>
-								<span>Lượt theo dõi: <span style={{ fontWeight: 500 }}>182</span></span>
+								<span style={{ marginRight: 50 }}>Bài đã đăng: <span style={{ fontWeight: 500 }}>{listPost.length}</span></span>
+								<span>Lượt theo dõi: <span style={{ fontWeight: 500 }}>1</span></span>
 							</div>
 						</div>
 						<hr className="rightbarHr" />
@@ -161,7 +160,6 @@ export default function Profile() {
 								</div>
 							</div>
 							{
-
 								currentUser._id !== accountInfo._id &&
 								<button className="btn-follow" onClick={handleFolowBtn}>{followStatus ? <span><BsCheck /> <span>Đang theo dõi</span></span> : <span><HiOutlineUserAdd /> <span>Theo dõi</span></span>}</button>
 							}
