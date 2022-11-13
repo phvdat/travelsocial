@@ -23,16 +23,16 @@ export default function Home() {
 				<Slideshow />
 				<div className="homeContainer">
 					<Row>
-						<Col span={20}>
+						<Col md={24} lg={20}>
 							<Row justify='center'>
-								<Col span={12}>
+								<Col md={24} lg={16}>
 									<Newfeed />
 								</Col>
 							</Row>
 						</Col>
 						{
 							true &&
-							<Col span={4}>
+							<Col md={0} lg={4}>
 								<Rightbar />
 							</Col>
 						}

@@ -34,8 +34,8 @@ export default function Newfeed() {
 	return (
 		<div className="newfeed">
 			<Row justify="center">
-				<Col span={2}></Col>
-				<Col span={20}>
+				<Col md={0} lg={22}></Col>
+				<Col md={24} lg={20}>
 					{
 						isLoggedIn && <Share />
 					}
@@ -44,7 +44,7 @@ export default function Newfeed() {
 					})
 					}
 				</Col>
-				<Col span={2}></Col>
+				<Col md={0} lg={2}></Col>
 
 			</Row>
 		</div>

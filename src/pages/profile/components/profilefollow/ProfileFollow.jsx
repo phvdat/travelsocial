@@ -91,8 +91,8 @@ export default function ProfileFollow(props) {
 			<Row>
 				{usersInfo.map((ele, idx) => {
 					return (
-						<Col xs={24} sm={12} key={idx} justify="center">
-							<Link to={`profile/${ele._id}/newfeed`}>
+						<Col md={24} lg={12} key={idx} justify="center">
+							<Link to={`/profile/${ele._id}/newfeed`}>
 
 								<div className="container-item-friends">
 									<div>
