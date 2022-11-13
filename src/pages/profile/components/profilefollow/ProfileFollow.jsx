@@ -5,6 +5,7 @@ import './profileFollow.scss'
 import followApi from 'api/followApi';
 import authApi from 'api/authApi';
 import { Link } from 'react-router-dom';
+import avatarDefault from 'assets/img/avatarDefault.jpg';
 export default function ProfileFollow(props) {
 	const { typetab } = props
 	const [usersInfo, setUsersInfo] = useState([])
@@ -96,7 +97,7 @@ export default function ProfileFollow(props) {
 
 								<div className="container-item-friends">
 									<div>
-										<img alt="avata" src={ele.avatar} />
+										<img alt="avata" src={ele.avatar || avatarDefault} />
 										<span>{ele.fullName}</span>
 
 									</div>
