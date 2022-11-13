@@ -16,6 +16,7 @@ function App() {
 	return (
 		<BrowserRouter>
 			<Routes>
+				<Route path='/' element={<Navigate to='/home' replace />} />
 				<Route path='/'>
 					<Route path=":tab" element={<Home />} />
 				</Route>

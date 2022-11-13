@@ -4,9 +4,11 @@ import Post from "../post/Post";
 import { Col, message, Row } from "antd";
 import { useEffect, useState } from "react";
 import postApi from "../../api/postApi";
+import { useSelector } from "react-redux";
 
 export default function Newfeed() {
 	const [listPost, setListPost] = useState([])
+	const isLoggedIn = useSelector(state => state.authentication.isLoggedIn)
 	useEffect(() => {
 		const getAllPost = async () => {
 			try {
@@ -27,14 +29,16 @@ export default function Newfeed() {
 			}
 		}
 		getAllPost()
-	},[])
+	}, [])
 
 	return (
 		<div className="newfeed">
 			<Row justify="center">
 				<Col span={2}></Col>
 				<Col span={20}>
-					<Share />
+					{
+						isLoggedIn && <Share />
+					}
 					{listPost.map((ele) => {
 						return <Post data={ele} key={ele._id} />
 					})

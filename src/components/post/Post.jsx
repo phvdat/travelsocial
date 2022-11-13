@@ -11,7 +11,9 @@ import { useEffect } from 'react';
 import authApi from 'api/authApi';
 import avatarDefault from 'assets/img/avatarDefault.jpg'
 	;
+import { useSelector } from 'react-redux';
 export default function Post(props) {
+	const currentUser = useSelector(state => state.authentication.currentUser)
 	const data = props.data
 	const [user, setUser] = useState({})
 	const navigate = useNavigate()
@@ -33,6 +35,25 @@ export default function Post(props) {
 				console.log(error)
 			}
 		}
+		const getListLikes = async () => {
+			try {
+				const params = { postId: data._id, page: 1, size: 10 }
+				const res = await reactPostApi.getListLikesApi(params)
+				if (res.status_code === 9999) {
+					const listLikes = res.payload
+					const index = listLikes.findIndex(item => item.userId === currentUser._id)
+					if (index !== -1) {
+						setLike(true)
+					}
+				}
+				if (res.status_code === -9999) {
+					console.log(false)
+				}
+			} catch (error) {
+				console.log(error)
+			}
+		}
+		// getListLikes()
 		getUserInfo()
 	}, [])
 	const handleDetelePost = async () => {
@@ -173,11 +194,14 @@ export default function Post(props) {
 							<span className='textTime'>4 giờ</span>
 						</span>
 					</div>
-					<Dropdown overlay={menu} trigger={['click']} placement="bottomRight">
-						<span className='btn-modify-post'>
-							<BsThreeDots />
-						</span>
-					</Dropdown>
+					{
+						currentUser._id === data.userId &&
+						<Dropdown overlay={menu} trigger={['click']} placement="bottomRight">
+							<span className='btn-modify-post'>
+								<BsThreeDots />
+							</span>
+						</Dropdown>
+					}
 				</div>
 				<p className="titleText">{data.title}</p>
 				<p className="statusText" style={{ whiteSpace: "pre-line" }}>{data.content}</p>
