@@ -1,4 +1,4 @@
-import "./rightbar.css"
+import "./rightbar.scss"
 import React from "react";
 import {
 	Link
