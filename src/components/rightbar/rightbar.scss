@@ -1,10 +1,15 @@
+@import "src/assets/styles/variables";
+@import "src/assets/styles/mixins";
 .rightbar {
   flex: 3;
   height: calc(100vh - 60px);
   position: sticky;
-	top: 50px;
+  top: 60px;
   overflow-y: scroll;
-  margin-right: 6px;
+  margin-top: 16px;
+  background-color: #fff;
+  border-radius: $border-radius-md;
+  float: right;
 }
 
 ::-webkit-scrollbar {
@@ -12,7 +17,7 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  color: #d8dadf
+  color: #d8dadf;
 }
 
 ::-webkit-scrollbar-track {
@@ -32,7 +37,7 @@
 }
 
 .friendReqIcon {
-	font-size: 24px;
+  font-size: 24px;
   color: #1b74e4;
   position: relative;
   bottom: -8px;
@@ -140,33 +145,33 @@
   right: 10px;
   top: 20px;
 }
-.friendsProfile{
-	background-color: #fff;
-	min-height: 100px;
-	border-radius: 10px;
-	margin: 16px;
+.friendsProfile {
+  background-color: #fff;
+  min-height: 100px;
+  border-radius: 10px;
+  margin: 16px;
   padding: 16px 12px;
 }
-.friendsProfile p:first-child{
-	color: #000;
-	width: 100px;
-	font-size: 20px;
+.friendsProfile p:first-child {
+  color: #000;
+  width: 100px;
+  font-size: 20px;
 }
-.friendsProfile p{
-	color: #000;
-	width: 100px;
+.friendsProfile p {
+  color: #000;
+  width: 100px;
 }
-.friendsProfile p:hover{
-	text-decoration: underline;
+.friendsProfile p:hover {
+  text-decoration: underline;
 }
-.friendItemsProfile{
-	display: flex;
-	flex-wrap: wrap;
-	justify-content:space-between;
+.friendItemsProfile {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
 }
-.avt-frd-prof{
-	object-fit: cover;
-	width: 100px;
-	height: 100px;
-	border-radius: 6px;
+.avt-frd-prof {
+  object-fit: cover;
+  width: 100px;
+  height: 100px;
+  border-radius: 6px;
 }
