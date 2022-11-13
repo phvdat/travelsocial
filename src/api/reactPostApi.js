@@ -28,6 +28,10 @@ const reactPostApi = {
 	postRate: (data) => {
 		const url = "/rate/create";
 		return axiosClient.post(url, data);
+	},
+	loadRate: (data) => {
+		const url = "/rate/load";
+		return axiosClient.post(url, data);
 	}
 }
 
