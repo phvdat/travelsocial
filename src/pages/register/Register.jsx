@@ -8,7 +8,7 @@ import './register.scss'
 export default function Register() {
 	const navigate = useNavigate()
 	const onFinish = (values) => {
-		var data = { ...values, kind: 'internal' }
+		var data = { ...values }
 		delete data.passwordConfirm
 		const postRegisterData = async () => {
 			try {

@@ -44,7 +44,7 @@ const LoginModal = () => {
 	const onFinish = async (values) => {
 		const postLoginData = async () => {
 			try {
-				const data = { ...values, kind: 'internal', isAdmin: false }
+				const data = { ...values, isAdmin: false }
 				const response = await authApi.loginApi(data)
 				if (response.status_code === 9999) {
 					setOpen(false)
