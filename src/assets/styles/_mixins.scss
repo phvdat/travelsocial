@@ -18,6 +18,7 @@
 
 @mixin btnStyle($width, $height, $color, $fontSize) {
   min-width: $width;
+  // max-width: $width;
   height: $height;
   background-color: $color;
   color: #fff;
