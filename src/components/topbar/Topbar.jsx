@@ -52,7 +52,7 @@ export default function Topbar() {
 					label: <a onClick={handleLogout} className="menu-item-logout">
 						<HiOutlineLogout></HiOutlineLogout>
 						Đăng xuất</a>,
-					key: '1',
+					key: '2',
 				},
 			]}
 		/>
