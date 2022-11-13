@@ -28,7 +28,7 @@ export default function Profile() {
 				const params = { userId: userId }
 				const response = await authApi.getUserInfoApi(params)
 				if (response.status_code === 9999) {
-					setAccountInfo(response.payload)
+					await setAccountInfo((state) => ({ ...state, ...response.payload }))
 				}
 				if (response.status_code === -9999) {
 					console.log(response.message)
@@ -42,9 +42,9 @@ export default function Profile() {
 				const data = {
 					page: 1,
 					size: 20,
-					status: "public"
+					userId: userId,
 				}
-				const response = await postApi.getAllPost(data)
+				const response = await postApi.getAllPostByUserId(data)
 				if (response.status_code === 9999) {
 					setListPost(response.payload)
 				}
@@ -57,6 +57,31 @@ export default function Profile() {
 		}
 		getUserInfo()
 		getAllPost()
+	}, [userId])
+	useEffect(() => {
+		const getMyFollowUser = async () => {
+			const params = {
+				page: 1,
+				size: 10,
+				userId: currentUser._id
+			}
+			try {
+				const response = await followApi.getFollowUser(params)
+				if (response.status_code === 9999) {
+					const listFollowerId = response.payload.map((ele) => ele.userIdTarget)
+					console.log('ttttttttttt', listFollowerId)
+					if (listFollowerId.includes(userId)) {
+						setFollowStatus(true)
+					}
+				}
+				if (response.status_code === -9999) {
+					console.log(response.message)
+				}
+			} catch (error) {
+				console.log(error)
+			}
+		}
+		getMyFollowUser()
 	}, [userId])
 	const handleFolowBtn = async () => {
 		const data = {
@@ -135,25 +160,30 @@ export default function Profile() {
 									</Link>
 								</div>
 							</div>
-							<button className="btn-follow" onClick={handleFolowBtn}>{followStatus ? <span><BsCheck /> <span>Đăng theo dõi</span></span> : <span><HiOutlineUserAdd /> <span>Theo dõi</span></span>}</button>
+							{
+
+								currentUser._id !== accountInfo._id &&
+								<button className="btn-follow" onClick={handleFolowBtn}>{followStatus ? <span><BsCheck /> <span>Đang theo dõi</span></span> : <span><HiOutlineUserAdd /> <span>Theo dõi</span></span>}</button>
+							}
 						</div>
 					</Col>
 				</Row>
 				<div className="downProfile">
 					<Row justify="center">
 						<Col span={12} >
-							<>
-							</>
 							{
 								tab === 'newfeed' &&
 								<>
 									{
-										currentUser._id === accountInfo._id ??
+										currentUser._id === accountInfo._id &&
 										<Share />
 									}
-									{listPost.map((ele, idx) => {
+									{listPost ? listPost.map((ele, idx) => {
 										return <Post data={ele} key={idx} />
-									})
+									}) :
+										<div className="container-no-data">
+											<h1>Chưa có bài viêt nào</h1>
+										</div>
 									}
 								</>
 							}
