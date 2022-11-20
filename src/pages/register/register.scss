@@ -15,7 +15,7 @@
   align-items: center;
   justify-content: center;
   max-width: 450px;
-	padding: 20px 30px;
+  padding: 20px 30px;
   .btn-register {
     @include btnStyle(
       $width-input-lg,
@@ -23,10 +23,10 @@
       $primary-color,
       $font-size-btn
     );
-		margin: 10px 0 30px;
+    margin: 10px 0 30px;
   }
   .input-field {
-    @include inputStyle($width-input-lg, $height-input-sm, $primary-white);
+    @include inputStyle($width-input-lg, $height-input-md, $primary-white);
   }
   .ant-form-item-explain-error {
     padding-left: 20px;

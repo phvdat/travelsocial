@@ -13,7 +13,6 @@ export default function Register() {
 		const postRegisterData = async () => {
 			try {
 				const response = await authApi.registerApi(data)
-				console.log(response)
 				message.success('Đăng ký thành công!')
 				if (response.status_code === 9999) {
 					navigate('/home')
