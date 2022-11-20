@@ -2,76 +2,33 @@ import React, { useEffect, useState } from 'react'
 import { Col, Dropdown, Menu, Row } from "antd";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import './profileFollow.scss'
-import followApi from 'api/followApi';
-import authApi from 'api/authApi';
 import { Link } from 'react-router-dom';
 import avatarDefault from 'assets/img/avatarDefault.jpg';
+import { getFollower, getFollowUser, getUsersInfoById } from 'function/callApi';
 export default function ProfileFollow(props) {
-	const { typetab } = props
-	const [usersInfo, setUsersInfo] = useState([])
+	const { typetab, userInfo } = props
+	const [listUsersInfo, setListUsersInfo] = useState([])
 	useEffect(() => {
 		window.scrollTo(0, 0);
-		const params = {
-			userId: usersInfo._id,
-			page: 1,
-			size: 10
-		}
-		const getFollower = async () => {
-			try {
-				const response = await followApi.getFollower(params)
-				if (response.status_code === 9999) {
-					return response.payload.map((ele) => ele.userIdTarget)
-				}
-				if (response.status_code === -9999) {
-					console.log(response.message)
-				}
-			} catch (error) {
-				console.log(error)
-			}
-		}
-		getFollower().then((res, req) =>
-			console.log(res)
-		)
-		const getFollowUser = async () => {
-			try {
-				const response = await followApi.getFollowUser(params)
-				if (response.status_code === 9999) {
-					const data = response.payload.map((ele) => ele.userId)
-					return data
-				}
-				if (response.status_code === -9999) {
-					console.log(response.message)
-				}
-			} catch (error) {
-				console.log(error)
-			}
-		}
-		const getUsersInfo = async (id) => {
-			try {
-				const param = { userId: id }
-				const response = await authApi.getUserInfoApi(param)
-				if (response.status_code === 9999) {
-					console.log('aaaaaaaaaa', response.payload)
-					setUsersInfo((state) => [...state, response.payload])
-				}
-				if (response.status_code === -9999) {
-					console.log(response.message)
-				}
-			} catch (error) {
-				console.log(error)
-			}
-		}
 		if (typetab === 'follower') {
-			getFollower().then((res, req) => {
-				res.map((id) => {
-					getUsersInfo(id)
+			getFollower(userInfo._id).then((res, req) => {
+				res.map((ele) => {
+					getUsersInfoById(ele.userId).then(
+						(res, req) => {
+							setListUsersInfo((prev) => [...prev, res])
+						}
+					)
 				})
 			})
 		}
 		if (typetab === 'following') {
-			getFollowUser().then((res, req) => {
-				res.map((id) => {
-					getUsersInfo(id)
+			getFollowUser(userInfo._id).then((res, req) => {
+				res.map((ele) => {
+					getUsersInfoById(ele.userIdTarget).then(
+						(res, req) => {
+							setListUsersInfo((prev) => [...prev, res])
+						}
+					)
 				})
 			})
 		}
@@ -89,36 +46,42 @@ export default function ProfileFollow(props) {
 	)
 	return (
 		<div className='profile-follow-content'>
-			<Row>
-				{usersInfo.map((ele, idx) => {
-					return (
-						<Col md={24} lg={12} key={idx} justify="center">
-							<Link to={`/profile/${ele._id}/newfeed`}>
+			{listUsersInfo.length !== 0 ?
+				<Row>
+					{
+						listUsersInfo.map((ele, idx) => {
+							return (
+								<Col md={24} lg={12} key={idx} justify="center">
+									<Link to={`/profile/${ele._id}/newfeed`}>
 
-								<div className="container-item-friends">
-									<div>
-										<img alt="avata" src={ele.avatar || avatarDefault} />
-										<span>{ele.fullName}</span>
+										<div className="container-item-friends">
+											<div>
+												<img alt="avata" src={ele.avatar || avatarDefault} />
+												<span>{ele.fullName}</span>
 
-									</div>
-									{typetab === 'following' ?
-										<Dropdown
-											overlay={menu}
-											trigger={["click"]}
-											placement="bottomRight"
-										>
-											<BsThreeDotsVertical className="dropdown-btn" />
-										</Dropdown>
-										:
-										<></>
-									}
+											</div>
+											{typetab === 'following' ?
+												<Dropdown
+													overlay={menu}
+													trigger={["click"]}
+													placement="bottomRight"
+												>
+													<BsThreeDotsVertical className="dropdown-btn" />
+												</Dropdown>
+												:
+												<></>
+											}
 
-								</div>
-							</Link>
-						</Col>
-					);
-				})}
-			</Row>
+										</div>
+									</Link>
+								</Col>
+							);
+						})
+					}
+				</Row>
+				:
+				<h2 className='no-data-message'>Không có dữ liệu</h2>
+			}
 		</div>
 	)
 }

@@ -8,6 +8,7 @@ import app from '../../configs/firebaseConfig';
 import './loginModal.scss';
 import { LOGIN_SUCCESS, SET_CURRENT_USER } from '../../reducers/authentication/actionTypes';
 import { useDispatch } from 'react-redux';
+import { getUsersInfoById } from 'function/callApi';
 
 const LoginModal = () => {
 	const dispach = useDispatch();
@@ -22,25 +23,6 @@ const LoginModal = () => {
 		console.log('Clicked cancel button');
 		setOpen(false);
 	};
-	const getUserInfo = async (userId) => {
-		try {
-			const params = { userId: userId }
-			const response = await authApi.getUserInfoApi(params)
-			if (response.status_code === 9999) {
-				console.log(response)
-				window.localStorage.setItem('currentUser', JSON.stringify(response.payload));
-				dispach({
-					type: SET_CURRENT_USER,
-					payload: response.payload,
-				})
-			}
-			if (response.status_code === -9999) {
-				console.log(response.message)
-			}
-		} catch (error) {
-			console.log(error)
-		}
-	}
 	const onFinish = async (values) => {
 		const postLoginData = async () => {
 			try {
@@ -53,8 +35,15 @@ const LoginModal = () => {
 					window.localStorage.setItem('access_token', JSON.stringify(response.payload.accessToken));
 					window.localStorage.setItem('refresh_token', JSON.stringify(response.payload.refreshToken));
 					window.localStorage.setItem('isLogin', JSON.stringify(true));
-					console.log(response.payload.userId)
-					await getUserInfo(response.payload.userId)
+					getUsersInfoById(response.payload.userId).then(
+						(res, req) => {
+							window.localStorage.setItem('currentUser', JSON.stringify(response.payload));
+							dispach({
+								type: SET_CURRENT_USER,
+								payload: response.payload,
+							})
+						}
+					)
 					dispach({
 						type: LOGIN_SUCCESS,
 						payload: [],
@@ -83,7 +72,6 @@ const LoginModal = () => {
 				phone: user.phoneNumber,
 				fullName: user.displayName
 			}
-			console.log('testttttttt', data)
 			const response = await authApi.registerApi(data)
 			loginWithGg(user)
 		} catch (error) {
@@ -107,8 +95,15 @@ const LoginModal = () => {
 				window.localStorage.setItem('access_token', JSON.stringify(response.payload.accessToken));
 				window.localStorage.setItem('refresh_token', JSON.stringify(response.payload.refreshToken));
 				window.localStorage.setItem('isLogin', JSON.stringify(true));
-				console.log(response.payload.userId)
-				await getUserInfo(response.payload.userId)
+				getUsersInfoById(response.payload.userId).then(
+					(res, req) => {
+						window.localStorage.setItem('currentUser', JSON.stringify(response.payload));
+						dispach({
+							type: SET_CURRENT_USER,
+							payload: response.payload,
+						})
+					}
+				)
 				dispach({
 					type: LOGIN_SUCCESS,
 					payload: [],

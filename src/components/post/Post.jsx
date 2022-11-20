@@ -8,9 +8,10 @@ import { Link, useNavigate } from 'react-router-dom';
 import postApi from 'api/postApi';
 import reactPostApi from 'api/reactPostApi';
 import { useEffect } from 'react';
-import authApi from 'api/authApi';
 import avatarDefault from 'assets/img/avatarDefault.jpg';
 import { useSelector } from 'react-redux';
+import { getUsersInfoById } from 'function/callApi';
+
 export default function Post(props) {
 	const currentUser = useSelector(state => state.authentication.currentUser)
 	const data = props.data
@@ -31,7 +32,7 @@ export default function Post(props) {
 			const res = await reactPostApi.loadRate(params)
 			if (res.status_code === 9999) {
 				const rateByMe = res.payload.find((ele) => ele.userId === currentUser._id)
-				setRateValue(rateByMe.point)
+				setRateValue(rateByMe?.point || 0)
 			}
 			if (res.status_code === -9999) {
 				console.log(false)
@@ -41,20 +42,6 @@ export default function Post(props) {
 		}
 	}
 	useEffect(() => {
-		const getUserInfo = async () => {
-			try {
-				const params = { userId: data.userId }
-				const res = await authApi.getUserInfoApi(params)
-				if (res.status_code === 9999) {
-					setUser(res.payload)
-				}
-				if (res.status_code === -9999) {
-					console.log(false)
-				}
-			} catch (error) {
-				console.log(error)
-			}
-		}
 		const getListLikes = async () => {
 			try {
 				const params = { postId: data._id, page: 1, size: 10 }
@@ -77,7 +64,7 @@ export default function Post(props) {
 			}
 		}
 		getListLikes()
-		getUserInfo()
+		getUsersInfoById(data.userId).then((res, req) => { setUser(res) })
 		getRateValue()
 	}, [])
 	const handleDetelePost = async () => {
@@ -122,7 +109,6 @@ export default function Post(props) {
 		}
 		e.target.style.height = 'inherit';
 		e.target.style.height = `${e.target.scrollHeight}px`;
-
 	}
 	const handleLikePost = async () => {
 		try {
@@ -167,6 +153,7 @@ export default function Post(props) {
 				size: 20
 			}
 			const response = await reactPostApi.loadComment(params)
+			console.log('cmt', response)
 			setListComment(response.payload)
 		} catch (error) {
 			console.log(error)
@@ -271,7 +258,7 @@ export default function Post(props) {
 						<>
 							<hr className='postHr' />
 							<div className='boxComment'>
-								<img src="img/avatar-default.jpg" alt="avt user" className='avt-user-comment' />
+								<img src={currentUser.avatar || avatarDefault} alt="avt user" className='avt-user-comment' />
 								<textarea type="text" placeholder='Viết bình luận...' rows={1}
 									onKeyDown={handleOnkeyDown}
 								/>
@@ -281,13 +268,13 @@ export default function Post(props) {
 									return (
 										<div className='listComment' key={item._id}>
 											<div className="primary-comment-item">
-												<img src={item.avatar || "img/avatar-default.jpg"} alt="avt user" className='avt-user-comment' />
+												<img src={item.avatar || avatarDefault} alt="avt user" className='avt-user-comment' />
 												<div className='comment-item'>
-													<a className='comment-username'>{item.name || "User"}</a>
+													<a className='comment-username'>{item.fullName || "User"}</a>
 													<p>{item.content}</p>
 												</div>
 												<div className='modify-comment-btn'>
-													<Dropdown overlay={menuComment(item._id)} trigger={['click']} placement="bottomLeft">
+													<Dropdown overlay={menuComment(item.userId)} trigger={['click']} placement="bottomLeft">
 														<span>
 															<BsThreeDots />
 														</span>

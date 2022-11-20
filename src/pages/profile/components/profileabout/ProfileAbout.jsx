@@ -6,12 +6,15 @@ import { BsTelephone } from "react-icons/bs";
 import './profileAbout.scss'
 import moment from 'moment';
 import authApi from '../../../../api/authApi';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import avatarDefault from 'assets/img/avatarDefault.jpg'
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
 import { v4 } from 'uuid';
+import { getUsersInfoById } from 'function/callApi';
+import { SET_CURRENT_USER } from 'reducers/authentication/actionTypes';
 export default function ProfileAbout(props) {
-	const { accountInfo } = props
+	const dispach = useDispatch();
+	const { userInfo } = props
 	const currentUser = useSelector(state => state.authentication.currentUser)
 	const [data, setData] = useState({
 		fullName: '',
@@ -22,7 +25,7 @@ export default function ProfileAbout(props) {
 		address: '',
 	})
 	useEffect(() => {
-		const { fullName, phone, email, birthday, avatar, address } = accountInfo
+		const { fullName, phone, email, birthday, avatar, address } = userInfo
 		setData({
 			fullName: fullName,
 			phone: phone,
@@ -31,8 +34,7 @@ export default function ProfileAbout(props) {
 			avatar: avatar,
 			address: address
 		})
-	}, [accountInfo])
-	console.log(data)
+	}, [userInfo])
 	const [showEditFullName, setShowEditFullName] = useState(false)
 	const [showEditPhone, setShowEditPhone] = useState(false)
 	const [showEditAddress, setShowEditAddress] = useState(false)
@@ -43,20 +45,6 @@ export default function ProfileAbout(props) {
 	const handleChangeDate = (date, dateString) => {
 		setData({ ...data, birthday: dateString });
 	}
-	const getUserInfo = async (userId) => {
-		try {
-			const params = { userId: userId }
-			const response = await authApi.getUserInfoApi(params)
-			if (response.status_code === 9999) {
-				window.localStorage.setItem('currentUser', JSON.stringify(response.payload));
-			}
-			if (response.status_code === -9999) {
-				console.log(response.message)
-			}
-		} catch (error) {
-			console.log(error)
-		}
-	}
 	const handleSaveChange = async (e) => {
 		e?.preventDefault()
 		try {
@@ -64,7 +52,15 @@ export default function ProfileAbout(props) {
 			if (response.status_code === 9999) {
 				console.log('update success')
 				message.success('Cập nhật thành công')
-				await getUserInfo(currentUser._id)
+				getUsersInfoById(response.payload.userId).then(
+					(res, req) => {
+						window.localStorage.setItem('currentUser', JSON.stringify(response.payload));
+						dispach({
+							type: SET_CURRENT_USER,
+							payload: response.payload,
+						})
+					}
+				)
 			}
 			if (response.status_code === -9999) {
 				console.log('update fail')
@@ -139,9 +135,9 @@ export default function ProfileAbout(props) {
 				</Col>
 				<Col span={18}>
 					<span className='about-col-2'>
-						<img src={accountInfo.avatar || avatarDefault} alt="avatar" />
+						<img src={userInfo.avatar || avatarDefault} alt="avatar" />
 						{
-							currentUser._id === accountInfo._id &&
+							currentUser._id === userInfo._id &&
 							<span>
 								<Upload {...uploadProps}>
 									<BiPencil /> Chỉnh sửa
@@ -171,7 +167,7 @@ export default function ProfileAbout(props) {
 							<div className='about-col-2'>
 								<h3>{data.fullName}</h3>
 								{
-									currentUser._id === accountInfo._id &&
+									currentUser._id === userInfo._id &&
 									<span onClick={() => {
 										setShowEditFullName(true)
 									}}>
@@ -206,7 +202,7 @@ export default function ProfileAbout(props) {
 							<div className='about-col-2'>
 								<h3>{data.email}</h3>
 								{
-									currentUser._id === accountInfo._id &&
+									currentUser._id === userInfo._id &&
 									<span onClick={() => {
 										setShowEditEmail(true)
 									}}>
@@ -239,7 +235,7 @@ export default function ProfileAbout(props) {
 							<div className='about-col-2'>
 								<h3>{data.birthday}</h3>
 								{
-									currentUser._id === accountInfo._id &&
+									currentUser._id === userInfo._id &&
 									<span onClick={() => { setShowEditBirth(true) }}>
 										<BiPencil /> Chỉnh sửa
 									</span>
@@ -276,7 +272,7 @@ export default function ProfileAbout(props) {
 							<div className='about-col-2'>
 								<h3>{data.phone}</h3>
 								{
-									currentUser._id === accountInfo._id &&
+									currentUser._id === userInfo._id &&
 									<span onClick={setShowEditPhone}>
 										<BiPencil /> Chỉnh sửa
 									</span>
@@ -308,7 +304,7 @@ export default function ProfileAbout(props) {
 							<div className='about-col-2'>
 								<h3>{data.address}</h3>
 								{
-									currentUser._id === accountInfo._id &&
+									currentUser._id === userInfo._id &&
 									<span onClick={() => setShowEditAddress(true)}>
 										<BiPencil /> Chỉnh sửa
 									</span>

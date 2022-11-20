@@ -1,0 +1,13 @@
+@import "src/assets/styles/variables";
+@import "src/assets/styles/mixins";
+.content-home {
+  display: flex;
+  min-width: 100%;
+}
+.wrapper-newfeed {
+  // flex-grow: 1;
+}
+.home-rightbar {
+  margin-left: auto;
+  width: fit-content;
+}

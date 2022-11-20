@@ -14,29 +14,16 @@ import authApi from "api/authApi";
 import followApi from "api/followApi";
 import { BsCheck } from "react-icons/bs";
 import { HiOutlineUserAdd } from "react-icons/hi";
+import { getFollowUser, getUsersInfoById } from "function/callApi";
 
 export default function Profile() {
 	let { userId, tab } = useParams()
-	const [accountInfo, setAccountInfo] = useState({})
+	const [userInfo, setUserInfo] = useState({})
 	const currentUser = useSelector(state => state.authentication.currentUser)
 	const [listPost, setListPost] = useState([])
 	const [followStatus, setFollowStatus] = useState(false)
 	useEffect(() => {
 		window.scrollTo(0, 0);
-		const getUserInfo = async () => {
-			try {
-				const params = { userId: userId }
-				const response = await authApi.getUserInfoApi(params)
-				if (response.status_code === 9999) {
-					await setAccountInfo((state) => ({ ...state, ...response.payload }))
-				}
-				if (response.status_code === -9999) {
-					console.log(response.message)
-				}
-			} catch (error) {
-				console.log(error)
-			}
-		}
 		const getAllPost = async () => {
 			try {
 				const data = {
@@ -55,32 +42,18 @@ export default function Profile() {
 				console.log(error)
 			}
 		}
-		getUserInfo()
+		getUsersInfoById(userId).then((res, req) => {
+			setUserInfo(res)
+		})
 		getAllPost()
 	}, [userId])
 	useEffect(() => {
-		const getMyFollowUser = async () => {
-			const params = {
-				page: 1,
-				size: 10,
-				userId: currentUser._id
+		getFollowUser(currentUser._id).then((res, req) => {
+			const listFollowerId = res.map((ele) => ele.userIdTarget)
+			if (listFollowerId.includes(userId)) {
+				setFollowStatus(true)
 			}
-			try {
-				const response = await followApi.getFollowUser(params)
-				if (response.status_code === 9999) {
-					const listFollowerId = response.payload.map((ele) => ele.userIdTarget)
-					if (listFollowerId.includes(userId)) {
-						setFollowStatus(true)
-					}
-				}
-				if (response.status_code === -9999) {
-					console.log(response.message)
-				}
-			} catch (error) {
-				console.log(error)
-			}
-		}
-		getMyFollowUser()
+		})
 	}, [userId])
 	const handleFolowBtn = async () => {
 		const data = {
@@ -122,13 +95,13 @@ export default function Profile() {
 				<Row justify='center'>
 					<Col span={16} className="profile-image">
 						<div className="coverImg">
-							<img src={accountInfo.avatar || avatarDefault} alt="cover" />
+							<img src={userInfo.avatar || avatarDefault} alt="cover" />
 						</div>
 						<div className="containAvtImg">
 							<div className="avataProfile">
-								<img src={accountInfo.avatar || avatarDefault} alt="avt Img" className="avataProfileImg" />
+								<img src={userInfo.avatar || avatarDefault} alt="avt Img" className="avataProfileImg" />
 							</div>
-							<p className="text-name-user-top-profile">{accountInfo.fullName}</p>
+							<p className="text-name-user-top-profile">{userInfo.fullName}</p>
 							<p className="text-top-profile">Cấp thành viên:<span style={{ fontWeight: 500 }}>VIP</span></p>
 							<div>
 								<span style={{ marginRight: 50 }}>Bài đã đăng: <span style={{ fontWeight: 500 }}>{listPost?.length || 0}</span></span>
@@ -139,28 +112,28 @@ export default function Profile() {
 						<div className="controlProfile">
 							<div className="sub-controlProfile">
 								<div className={tab === 'newfeed' ? "tab-profile-active" : "tab-profile"}>
-									<Link to={`/profile/${accountInfo._id}/newfeed`}>
+									<Link to={`/profile/${userInfo._id}/newfeed`}>
 										Bài viết
 									</Link>
 								</div>
 								<div className={tab === 'about' ? "tab-profile-active" : "tab-profile"}>
-									<Link to={`/profile/${accountInfo._id}/about`}>
+									<Link to={`/profile/${userInfo._id}/about`}>
 										Giới thiệu
 									</Link>
 								</div>
 								<div className={tab === 'follower' ? "tab-profile-active" : "tab-profile"}>
-									<Link to={`/profile/${accountInfo._id}/follower`}>
+									<Link to={`/profile/${userInfo._id}/follower`}>
 										Người theo dõi
 									</Link>
 								</div>
 								<div className={tab === 'following' ? "tab-profile-active" : "tab-profile"}>
-									<Link to={`/profile/${accountInfo._id}/following`}>
+									<Link to={`/profile/${userInfo._id}/following`}>
 										Đang theo dõi
 									</Link>
 								</div>
 							</div>
 							{
-								currentUser._id !== accountInfo._id &&
+								currentUser._id !== userInfo._id &&
 								<button className="btn-follow" onClick={handleFolowBtn}>{followStatus ? <span><BsCheck /> <span>Đang theo dõi</span></span> : <span><HiOutlineUserAdd /> <span>Theo dõi</span></span>}</button>
 							}
 						</div>
@@ -173,7 +146,7 @@ export default function Profile() {
 								tab === 'newfeed' &&
 								<>
 									{
-										currentUser._id === accountInfo._id &&
+										currentUser._id === userInfo._id &&
 										<Share />
 									}
 									{listPost ? listPost.map((ele, idx) => {
@@ -187,15 +160,15 @@ export default function Profile() {
 							}
 							{
 								tab === 'about' &&
-								<ProfileAbout accountInfo={accountInfo} />
+								<ProfileAbout userInfo={userInfo} />
 							}
 							{
 								tab === 'follower' &&
-								<ProfileFollow typetab={'follower'} />
+								<ProfileFollow typetab={'follower'} userInfo={userInfo} />
 							}
 							{
 								tab === 'following' &&
-								<ProfileFollow typetab={'following'} />
+								<ProfileFollow typetab={'following'} userInfo={userInfo} />
 							}
 						</Col>
 					</Row>
