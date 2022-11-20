@@ -34,18 +34,18 @@ export default function Newfeed() {
 	return (
 		<div className="newfeed">
 			<Row justify="center">
-				<Col md={0} lg={22}></Col>
 				<Col md={24} lg={20}>
 					{
 						isLoggedIn && <Share />
 					}
-					{listPost.map((ele) => {
-						return <Post data={ele} key={ele._id} />
-					})
+					{listPost ?
+						listPost.map((ele) => {
+							return <Post data={ele} key={ele._id} />
+						})
+						:
+						<h1 style={{ textAlign: 'center' }}>Không có bài viết nào</h1>
 					}
 				</Col>
-				<Col md={0} lg={2}></Col>
-
 			</Row>
 		</div>
 	)
