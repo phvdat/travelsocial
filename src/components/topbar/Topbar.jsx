@@ -7,15 +7,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { Dropdown, Menu, message } from "antd";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { LOGOUT_SUCCESS } from "reducers/authentication/actionTypes";
-import avaterDefault from 'assets/img/avatarDefault.jpg'
 import { HiOutlineLogout } from 'react-icons/hi'
 import { FiEdit } from 'react-icons/fi'
+import avatarDefault from 'assets/img/avatarDefault.jpg'
 
 export default function Topbar() {
 	const navigate = useNavigate()
 	const { tab } = useParams()
 	const isLogin = useSelector(state => state.authentication.isLoggedIn)
 	const currentUser = useSelector(state => state.authentication.currentUser)
+	console.log('aaaaaaa', currentUser)
 	const dispatch = useDispatch();
 	const handleLogout = () => {
 		window.localStorage.clear()
@@ -30,7 +31,7 @@ export default function Topbar() {
 			items={[
 				{
 					label: <div className="menu-item-profile" onClick={() => { navigate(`/profile/${currentUser._id}/newfeed`) }}>
-						<img src={currentUser.avatar || avaterDefault} alt="avatar" className="avt-topbar" />
+						<img src={currentUser.avatar || avatarDefault} alt="avatar" className="avt-topbar" />
 						<h3>{currentUser.fullName}</h3>
 						<h4>Trang cá nhân</h4>
 					</div>,
@@ -94,7 +95,7 @@ export default function Topbar() {
 						<Dropdown overlay={menu} trigger={['click']}>
 							<div className="iconRightSide">
 								<div className="topbarAvata">
-									<img src={currentUser.avatar || avaterDefault} alt="avatar" className="avt-topbar" />
+									<img src={currentUser.avatar || avatarDefault} alt="avatar" className="avt-topbar" />
 								</div>
 								<p>{currentUser.fullName}</p>
 							</div>
