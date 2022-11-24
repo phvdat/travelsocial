@@ -178,42 +178,47 @@ export default function Share() {
 							name="title"
 							rules={[{ required: true, message: 'Bài viết chưa có tiêu đề!' }]}
 						>
-							<input type="text" placeholder='Tiêu đề bài viết' className='input-title'
+							<input name='title' type="text" placeholder='Tiêu đề bài viết' className='input-title'
 								onChange={e => setDataSubmit({ ...dataSubmit, title: e.target.value })} />
 						</Form.Item>
+
 						<Form.Item
 							name="content"
 							rules={[{ required: true, message: 'Bài viết chưa có nội dung!' }]}
 						>
-							<textarea className='text-area-share' placeholder='Bạn muốn chia sẻ điều gi?' rows={4}
+							<textarea name="content" className='text-area-share' placeholder='Bạn muốn chia sẻ điều gi?' rows={4}
 								onChange={e => setDataSubmit({ ...dataSubmit, content: e.target.value })} />
 						</Form.Item>
 						<div className='sub-form'>
-							<Form.Item
-								name="destination"
-								rules={[{ required: true, message: 'Vui lòng nhập địa điểm !' }]}
-							>
-								<input type="text" placeholder='Địa điểm' className='input-location'
-									onChange={e => setDataSubmit({ ...dataSubmit, destination: e.target.value })} />
-							</Form.Item>
-
-							<Form.Item
-								name="username"
-								rules={[{ required: true, message: 'Vui lòng chọn kiểu du lịch!' }]}
-							>
-								<Select style={{ width: 160 }}
-									onChange={value => setDataSubmit({ ...dataSubmit, type: value })}
+							<div>
+								<Form.Item
+									name="destination"
+									rules={[{ required: true, message: 'Vui lòng nhập địa điểm !' }]}
 								>
-									<Option value="ecotourism">Du lịch sinh thái</Option>
-									<Option value="cultural">Du lịch văn hóa</Option>
-									<Option value="resort">Du lịch nghỉ dưỡng</Option>
-									<Option value="leisure">Du lịch giải trí </Option>
-									<Option value="sports">Du lịch thể thao</Option>
-									<Option value="discover">Du lịch khám phá</Option>
-									<Option value="adventure">Du lịch mạo hiểm</Option>
-									<Option value="combined">Du lịch kết hợp</Option>
-								</Select>
-							</Form.Item>
+									<input name="address" type="text" placeholder='Địa điểm' className='input-location'
+										onChange={e => setDataSubmit({ ...dataSubmit, destination: e.target.value })} />
+								</Form.Item>
+							</div>
+							<div>
+								<Form.Item
+									name="username"
+									rules={[{ required: true, message: 'Vui lòng chọn kiểu du lịch!' }]}
+								>
+
+									<Select discover='discover' style={{ width: 160 }}
+										onChange={value => setDataSubmit({ ...dataSubmit, type: value })}
+									>
+										<Option value="ecotourism">Du lịch sinh thái</Option>
+										<Option value="cultural">Du lịch văn hóa</Option>
+										<Option value="resort">Du lịch nghỉ dưỡng</Option>
+										<Option value="leisure">Du lịch giải trí </Option>
+										<Option value="sports">Du lịch thể thao</Option>
+										<Option value="discover">Du lịch khám phá</Option>
+										<Option value="adventure">Du lịch mạo hiểm</Option>
+										<Option value="combined">Du lịch kết hợp</Option>
+									</Select>
+								</Form.Item>
+							</div>
 						</div>
 						<Dragger {...props}
 						>

@@ -57,10 +57,11 @@
 form {
   .input-title {
     width: 100%;
-    border: none;
+    border: 1px solid $primary-dark-gray;
+    border-radius: $border-radius-sm;
     outline: none;
     width: 100%;
-    padding: 0 4px;
+    padding: 4px;
     font-weight: 500;
   }
   .sub-form {
@@ -70,7 +71,8 @@ form {
     align-items: center;
     .input-location {
       width: 100%;
-      border: none;
+      border: 1px solid $primary-dark-gray;
+      border-radius: $border-radius-sm;
       outline: none;
       padding: 0 4px;
       font-style: italic;
@@ -88,7 +90,8 @@ form {
     margin-top: 20px;
   }
   .text-area-share {
-    border: none;
+    border: 1px solid $primary-dark-gray;
+    border-radius: $border-radius-sm;
     resize: none;
     outline: none;
     width: 100%;

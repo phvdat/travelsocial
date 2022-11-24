@@ -29,7 +29,7 @@
     margin: $spacing-md 0;
     border: none;
     height: 1px;
-    background-color: $primary-dack-gray;
+    background-color: $primary-dark-gray;
   }
 
   button.first-child {
@@ -80,7 +80,7 @@
     @include inputStyle(
       $width-input-full,
       $height-input-sm,
-      $primary-dack-gray
+      $primary-dark-gray
     );
     margin-bottom: $spacing-sm;
   }

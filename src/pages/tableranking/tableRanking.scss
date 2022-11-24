@@ -1,0 +1,33 @@
+@import "src/assets/styles/variables";
+@import "src/assets/styles/mixins";
+
+.top-ranking-container {
+  background-color: #fff !important;
+  margin-top: 4px;
+  border-radius: 10px;
+}
+
+.tableField {
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  // flex-grow: 1;
+  // justify-content: flex-start;
+  h5 {
+    margin-left: 16px;
+  }
+}
+
+.tab-container {
+  display: flex;
+  justify-content: center;
+  button {
+    @include btnStyle(
+      $width-input-sm,
+      $height-input,
+      $primary-color,
+      $font-size-btn
+    );
+    margin: 12px 24px;
+  }
+}
