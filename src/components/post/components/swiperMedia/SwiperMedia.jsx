@@ -1,7 +1,8 @@
 import { Swiper, SwiperSlide, useSwiper } from "swiper/react";
 import "swiper/css";
+import './swiperMedia.scss'
 import { useEffect } from "react";
-const SwiperByKeys = ({ children }) => {// const handleNextPrev = (event) => {
+const SwiperByKeys = ({ children }) => {
 	const swiper = useSwiper()
 	const handleNextPrev = (event) => {
 		if (event.keyCode === 37) {

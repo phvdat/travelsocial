@@ -11,7 +11,6 @@ export default function Dialog(props) {
 			document.documentElement.style.overflow = 'hidden';
 		}
 		return () => {
-			// document.body.removeAttribute('data-scrolling');
 			document.documentElement.style.overflow = 'unset';
 
 		};

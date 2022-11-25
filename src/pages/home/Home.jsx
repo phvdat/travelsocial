@@ -31,7 +31,9 @@ export default function Home() {
 								</Col>
 							</Row>
 						</div>
-						<Rightbar />
+						<div className='home-rightbar'>
+							<Rightbar />
+						</div>
 					</div>
 				</div>
 			}

@@ -11,6 +11,7 @@ import { useEffect } from 'react';
 import avatarDefault from 'assets/img/avatarDefault.jpg';
 import { useSelector } from 'react-redux';
 import { getUsersInfoById } from 'function/callApi';
+import ShowMedia from './components/showMedia/ShowMedia';
 
 export default function Post(props) {
 	const currentUser = useSelector(state => state.authentication.currentUser)
@@ -22,67 +23,33 @@ export default function Post(props) {
 	const [showComment, setShowComment] = useState(false)
 	const [listComment, setListComment] = useState([])
 	const [rateValue, setRateValue] = useState(0);
-	const getRateValue = async () => {
-		try {
-			const params = {
-				postId: data._id,
-				page: 1,
-				size: 20
-			}
-			const res = await reactPostApi.loadRate(params)
-			if (res.status_code === 9999) {
-				const rateByMe = res.payload.find((ele) => ele.userId === currentUser._id)
-				setRateValue(rateByMe?.point || 0)
-			}
-			if (res.status_code === -9999) {
-				console.log(false)
-			}
-		} catch (error) {
-			console.log(error)
-		}
-	}
-	useEffect(() => {
-		const getListLikes = async () => {
-			try {
-				const params = { postId: data._id, page: 1, size: 10 }
-				const res = await reactPostApi.getListLikesApi(params)
-				if (res.status_code === 9999) {
-					const listLikes = res.payload || []
-					const index = listLikes.findIndex(item => item.userId === currentUser._id)
-					if (index !== -1) {
-						setLike(true)
-					}
-					if (index === -1) {
-						setLike(false)
-					}
-				}
-				if (res.status_code === -9999) {
-					console.log(false)
-				}
-			} catch (error) {
-				console.log(error)
-			}
-		}
-		getListLikes()
-		getUsersInfoById(data.userId).then((res, req) => { setUser(res) })
-		getRateValue()
-	}, [])
-	const handleDetelePost = async () => {
-		try {
-			const params = { postId: data._id }
-			const response = await postApi.deletePost(params)
-			if (response.status_code === 9999) {
-				message.success('Xóa bài viết thành công!')
-				navigate(0)
-			}
-			if (response.status_code === -9999) {
-				message.warning('Xoá bài viết không thành công!')
-			}
 
-		} catch (error) {
-			console.log(error)
-		}
-	}
+	useEffect(() => {
+		// const getListLikes = async () => {
+		// 	try {
+		// 		const params = { postId: data._id, page: 1, size: 10 }
+		// 		const res = await reactPostApi.getListLikesApi(params)
+		// 		if (res.status_code === 9999) {
+		// 			const listLikes = res.payload || []
+		// 			const index = listLikes.findIndex(item => item.userId === currentUser._id)
+		// 			if (index !== -1) {
+		// 				setLike(true)
+		// 			}
+		// 			if (index === -1) {
+		// 				setLike(false)
+		// 			}
+		// 		}
+		// 		if (res.status_code === -9999) {
+		// 			console.log(false)
+		// 		}
+		// 	} catch (error) {
+		// 		console.log(error)
+		// 	}
+		// }
+		// getListLikes()
+		// getUsersInfoById(data.userId).then((res, req) => { setUser(res) })
+		// getRateValue()
+	}, [])
 	const handleOnkeyDown = (e) => {
 		if (e.key === 'Enter') {
 			e.preventDefault();
@@ -105,10 +72,26 @@ export default function Post(props) {
 				}
 			}
 			createComment()
-			handleCommentPost()
+			handleLoadCommentPost()
 		}
 		e.target.style.height = 'inherit';
 		e.target.style.height = `${e.target.scrollHeight}px`;
+	}
+	const handleDetelePost = async () => {
+		try {
+			const params = { postId: data._id }
+			const response = await postApi.deletePost(params)
+			if (response.status_code === 9999) {
+				message.success('Xóa bài viết thành công!')
+				navigate(0)
+			}
+			if (response.status_code === -9999) {
+				message.warning('Xoá bài viết không thành công!')
+			}
+
+		} catch (error) {
+			console.log(error)
+		}
 	}
 	const handleLikePost = async () => {
 		try {
@@ -130,6 +113,25 @@ export default function Post(props) {
 			console.log(error)
 		}
 	}
+	const getRateValue = async () => {
+		try {
+			const params = {
+				postId: data._id,
+				page: 1,
+				size: 20
+			}
+			const res = await reactPostApi.loadRate(params)
+			if (res.status_code === 9999) {
+				const rateByMe = res.payload.find((ele) => ele.userId === currentUser._id)
+				setRateValue(rateByMe?.point || 0)
+			}
+			if (res.status_code === -9999) {
+				console.log(false)
+			}
+		} catch (error) {
+			console.log(error)
+		}
+	}
 	const handleRatePost = async (value) => {
 		setRateValue(value)
 		try {
@@ -145,7 +147,7 @@ export default function Post(props) {
 			console.log(error)
 		}
 	}
-	const handleCommentPost = async () => {
+	const handleLoadCommentPost = async () => {
 		try {
 			const params = {
 				postId: data._id,
@@ -167,7 +169,7 @@ export default function Post(props) {
 			const response = await reactPostApi.deleteComment(params)
 			if (response.status_code === 9999) {
 				console.log("delete comment succcess", response)
-				handleCommentPost()
+				handleLoadCommentPost()
 			}
 			if (response.status_code === -9999) {
 				console.log("delete comment fail", response)
@@ -196,6 +198,28 @@ export default function Post(props) {
 			]}
 		/>
 	)
+	const dataMedia = [
+		{
+			type: 'video',
+			url: 'https://freetestdata.com/wp-content/uploads/2022/02/Free_Test_Data_7MB_MP4.mp4'
+		},
+		{
+			type: 'image',
+			url: 'https://picsum.photos/200/300'
+		},
+		// {
+		// 	type: 'image',
+		// 	url: 'https://picsum.photos/500/700'
+		// }
+		// , {
+		// 	type: 'image',
+		// 	url: 'https://picsum.photos/200/300'
+		// }
+		// , {
+		// 	type: 'video',
+		// 	url: 'https://freetestdata.com/wp-content/uploads/2022/02/Free_Test_Data_7MB_MP4.mp40'
+		// }
+	]
 	return (
 		<div className='postContain'>
 			<div className="postBox">
@@ -223,7 +247,8 @@ export default function Post(props) {
 				<p className="titleText">{data.title}</p>
 				<p className="statusText" style={{ whiteSpace: "pre-line" }}>{data.content}</p>
 				<p className="destinationText">Địa điểm: {data.destination}</p>
-				< img src={data?.mediaList[0]?.link} alt="" className='postImg' />
+				{/* <img src={data?.mediaList[0]?.link} alt="" className='postImg' /> */}
+				<ShowMedia dataMedia={dataMedia} />
 				<div className="bottomPost">
 					<div className='inforReact'>
 						<div className="numberLikeShare">
@@ -241,7 +266,7 @@ export default function Post(props) {
 
 						<div className="btnPost" onClick={() => {
 							setShowComment(true)
-							handleCommentPost()
+							handleLoadCommentPost()
 						}}>
 							<BiCommentDetail className='iconBtn' />
 							<span>Bình luận</span>
