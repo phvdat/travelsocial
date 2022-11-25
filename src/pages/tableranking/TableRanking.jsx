@@ -1,9 +1,11 @@
 import { Avatar, Button, List, Skeleton } from 'antd'
 import rankingApi from 'api/ranking';
 import React, { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom';
 
 export default function TableRanking() {
-	const count = 3;
+	const { tabTableRanking } = useParams()
+	const count = 10;
 	const [initLoading, setInitLoading] = useState(true);
 	const [loading, setLoading] = useState(false);
 	const [data, setData] = useState([]);
@@ -57,15 +59,17 @@ export default function TableRanking() {
 				dataSource={list}
 				renderItem={(item) => (
 					<List.Item
-						actions={[<a key="list-loadmore-edit">edit</a>, <a key="list-loadmore-more">more</a>]}
+					// actions={[<a key="list-loadmore-edit">edit</a>, <a key="list-loadmore-more">more</a>]}
 					>
 						<Skeleton avatar title={false} loading={item.loading} active>
 							<List.Item.Meta
-								avatar={<Avatar src={item.picture.large} />}
-								title={<a href="https://ant.design">{item.name?.last}</a>}
-								description="Ant Design, a design language for background applications, is refined by Ant UED Team"
+							// avatar={<Avatar src={item.picture.large} />}
+							// title={<a href="https://ant.design">{item.name?.last}</a>}
+							// description="Ant Design, a design language for background applications, is refined by Ant UED Team"
 							/>
-							<div>content</div>
+							<div>
+								<Avatar src={item.picture.large} />
+							</div>
 						</Skeleton>
 					</List.Item>
 				)}

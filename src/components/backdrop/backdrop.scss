@@ -1,0 +1,24 @@
+@import "src/assets/styles/variables";
+@import "src/assets/styles/mixins";
+
+@keyframes fadeInBackDrop {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0.8;
+  }
+}
+
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  // height: 100%;
+  height: 100vh;
+  z-index: $z-index-backdrop;
+  background-color: #171717;
+  animation: fadeInBackDrop 150ms linear;
+  opacity: 0.8;
+}
