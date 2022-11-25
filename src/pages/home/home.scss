@@ -1,5 +1,8 @@
 @import "src/assets/styles/variables";
 @import "src/assets/styles/mixins";
+.home-container {
+  min-height: 100vh;
+}
 .content-home {
   display: flex;
   min-width: 100%;

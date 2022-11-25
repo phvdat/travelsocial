@@ -15,27 +15,30 @@ export default function Home() {
 	}, [])
 	const isLoggedIn = useSelector(state => state.authentication.isLoggedIn)
 	const { tab } = useParams()
-	return <div>
-		<Topbar />
-		{
-			tab === 'home' &&
-			<div>
-				<Slideshow />
-				<div className='content-home'>
-					<div className="wrapper-newfeed">
-						<Row justify='center'>
-							<Col md={24} lg={16}>
-								<Newfeed />
-							</Col>
-						</Row>
+	return (
+
+		<div className='home-container'>
+			<Topbar />
+			<Slideshow />
+			{
+				tab === 'home' &&
+				<div>
+					<div className='content-home'>
+						<div className="wrapper-newfeed">
+							<Row justify='center'>
+								<Col md={24} lg={16}>
+									<Newfeed />
+								</Col>
+							</Row>
+						</div>
+						<Rightbar />
 					</div>
-					<Rightbar />
 				</div>
-			</div>
-		}
-		{
-			tab === 'table-ranking' &&
-			<TableRanking />
-		}
-	</div >;
+			}
+			{
+				tab === 'table-ranking' &&
+				<TableRanking />
+			}
+		</div >
+	);
 }

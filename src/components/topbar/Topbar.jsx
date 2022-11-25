@@ -16,7 +16,6 @@ export default function Topbar() {
 	const { tab } = useParams()
 	const isLogin = useSelector(state => state.authentication.isLoggedIn)
 	const currentUser = useSelector(state => state.authentication.currentUser)
-	console.log('aaaaaaa', currentUser)
 	const dispatch = useDispatch();
 	const handleLogout = () => {
 		window.localStorage.clear()
