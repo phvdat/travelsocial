@@ -2,7 +2,8 @@
 @import "src/assets/styles/mixins";
 .shareContain {
   .shareBox {
-    width: 100%;
+    width: $width-post;
+    max-width: $width-post;
     background-color: #fff;
     height: auto;
     border-radius: $border-radius-md;
@@ -11,20 +12,6 @@
     .inputShare {
       display: flex;
       align-items: center;
-      input {
-        height: 32px;
-        border-radius: 16px;
-        border: none;
-        background-color: #f0f2f5;
-        padding-left: 16px;
-        flex-grow: 1;
-        font-size: 13px;
-        font-weight: 400;
-        cursor: pointer;
-      }
-      input:focus {
-        outline: none;
-      }
       .btn-share {
         @include btnStyle(
           $width-input-ex,
@@ -47,6 +34,9 @@
   .ant-select {
     border-radius: 20px;
   }
+  .select-status {
+    box-shadow: $box-shadow;
+  }
 }
 .share-modal {
   .ant-modal-content,
@@ -63,6 +53,7 @@ form {
     width: 100%;
     padding: 4px;
     font-weight: 500;
+    box-shadow: $box-shadow;
   }
   .sub-form {
     margin-bottom: 10px;
@@ -71,11 +62,17 @@ form {
     align-items: center;
     .input-location {
       width: 100%;
+      height: $height-input-md;
       border: 1px solid $primary-dark-gray;
       border-radius: $border-radius-sm;
       outline: none;
       padding: 0 4px;
       font-style: italic;
+      box-shadow: $box-shadow;
+    }
+    .select-type-travel {
+      width: 160;
+      box-shadow: $box-shadow;
     }
   }
   .btn-share-create {
@@ -96,6 +93,7 @@ form {
     outline: none;
     width: 100%;
     padding: 0 4px;
+    box-shadow: $box-shadow;
   }
 }
 ::-webkit-scrollbar {

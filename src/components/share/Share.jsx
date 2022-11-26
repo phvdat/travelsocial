@@ -205,7 +205,9 @@ export default function Share() {
 									rules={[{ required: true, message: 'Vui lòng chọn kiểu du lịch!' }]}
 								>
 
-									<Select discover='discover' style={{ width: 160 }}
+									<Select value='discover' style={{}}
+										placeholder='Chọn kiểu du lịch'
+										className='select-type-travel'
 										onChange={value => setDataSubmit({ ...dataSubmit, type: value })}
 									>
 										<Option value="ecotourism">Du lịch sinh thái</Option>
