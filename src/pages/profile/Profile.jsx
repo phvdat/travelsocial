@@ -91,87 +91,81 @@ export default function Profile() {
 	return (
 		<div className="container">
 			<Topbar />
-			<div className="profile">
-				<Row justify='center'>
-					<Col span={16} className="profile-image">
-						<div className="coverImg">
-							<img src={userInfo.avatar || avatarDefault} alt="cover" />
+			<div className="wrapper-profile">
+				<div className="top-profile">
+					<div className="coverImg">
+						<img src={userInfo?.avatar || avatarDefault} alt="cover" />
+					</div>
+					<div className="containAvtImg">
+						<div className="avataProfile">
+							<img src={userInfo?.avatar || avatarDefault} alt="avt Img" className="avataProfileImg" />
 						</div>
-						<div className="containAvtImg">
-							<div className="avataProfile">
-								<img src={userInfo.avatar || avatarDefault} alt="avt Img" className="avataProfileImg" />
+						<p className="text-name-user-top-profile">{userInfo?.fullName}</p>
+						<p className="text-top-profile">Cấp thành viên:<span style={{ fontWeight: 500 }}>VIP</span></p>
+						<div>
+							<span style={{ marginRight: 50 }}>Bài đã đăng: <span style={{ fontWeight: 500 }}>{listPost?.length || 0}</span></span>
+							<span>Lượt theo dõi: <span style={{ fontWeight: 500 }}>1</span></span>
+						</div>
+					</div>
+					<hr className="rightbarHr" />
+					<div className="controlProfile">
+						<div className="sub-controlProfile">
+							<div className={tab === 'newfeed' ? "tab-profile-active" : "tab-profile"}>
+								<Link to={`/profile/${userInfo?._id}/newfeed`}>
+									Bài viết
+								</Link>
 							</div>
-							<p className="text-name-user-top-profile">{userInfo.fullName}</p>
-							<p className="text-top-profile">Cấp thành viên:<span style={{ fontWeight: 500 }}>VIP</span></p>
-							<div>
-								<span style={{ marginRight: 50 }}>Bài đã đăng: <span style={{ fontWeight: 500 }}>{listPost?.length || 0}</span></span>
-								<span>Lượt theo dõi: <span style={{ fontWeight: 500 }}>1</span></span>
+							<div className={tab === 'about' ? "tab-profile-active" : "tab-profile"}>
+								<Link to={`/profile/${userInfo?._id}/about`}>
+									Giới thiệu
+								</Link>
+							</div>
+							<div className={tab === 'follower' ? "tab-profile-active" : "tab-profile"}>
+								<Link to={`/profile/${userInfo?._id}/follower`}>
+									Người theo dõi
+								</Link>
+							</div>
+							<div className={tab === 'following' ? "tab-profile-active" : "tab-profile"}>
+								<Link to={`/profile/${userInfo?._id}/following`}>
+									Đang theo dõi
+								</Link>
 							</div>
 						</div>
-						<hr className="rightbarHr" />
-						<div className="controlProfile">
-							<div className="sub-controlProfile">
-								<div className={tab === 'newfeed' ? "tab-profile-active" : "tab-profile"}>
-									<Link to={`/profile/${userInfo._id}/newfeed`}>
-										Bài viết
-									</Link>
-								</div>
-								<div className={tab === 'about' ? "tab-profile-active" : "tab-profile"}>
-									<Link to={`/profile/${userInfo._id}/about`}>
-										Giới thiệu
-									</Link>
-								</div>
-								<div className={tab === 'follower' ? "tab-profile-active" : "tab-profile"}>
-									<Link to={`/profile/${userInfo._id}/follower`}>
-										Người theo dõi
-									</Link>
-								</div>
-								<div className={tab === 'following' ? "tab-profile-active" : "tab-profile"}>
-									<Link to={`/profile/${userInfo._id}/following`}>
-										Đang theo dõi
-									</Link>
-								</div>
-							</div>
-							{
-								currentUser._id !== userInfo._id &&
-								<button className="btn-follow" onClick={handleFolowBtn}>{followStatus ? <span><BsCheck /> <span>Đang theo dõi</span></span> : <span><HiOutlineUserAdd /> <span>Theo dõi</span></span>}</button>
-							}
-						</div>
-					</Col>
-				</Row>
+						{
+							currentUser._id !== userInfo?._id &&
+							<button className="btn-follow" onClick={handleFolowBtn}>{followStatus ? <span><BsCheck /> <span>Đang theo dõi</span></span> : <span><HiOutlineUserAdd /> <span>Theo dõi</span></span>}</button>
+						}
+					</div>
+				</div>
 				<div className="downProfile">
-					<Row justify="center">
-						<Col span={12} >
+					{
+						tab === 'newfeed' &&
+						<>
 							{
-								tab === 'newfeed' &&
-								<>
-									{
-										currentUser._id === userInfo._id &&
-										<Share />
-									}
-									{listPost ? listPost.map((ele, idx) => {
-										return <Post data={ele} key={idx} />
-									}) :
-										<div className="container-no-data">
-											<h1>Chưa có bài viêt nào</h1>
-										</div>
-									}
-								</>
+								currentUser._id === userInfo?._id &&
+								<Share />
 							}
-							{
-								tab === 'about' &&
-								<ProfileAbout userInfo={userInfo} />
+							{listPost ? listPost.map((ele, idx) => {
+								return <Post data={ele} key={idx} />
+							}) :
+								<div className="container-no-data">
+									<h1>Chưa có bài viêt nào</h1>
+								</div>
 							}
-							{
-								tab === 'follower' &&
-								<ProfileFollow typetab={'follower'} userInfo={userInfo} />
-							}
-							{
-								tab === 'following' &&
-								<ProfileFollow typetab={'following'} userInfo={userInfo} />
-							}
-						</Col>
-					</Row>
+						</>
+					}
+					{
+						tab === 'about' &&
+						<ProfileAbout userInfo={userInfo} />
+					}
+					{
+						tab === 'follower' &&
+						<ProfileFollow typetab={'follower'} userInfo={userInfo} />
+					}
+					{
+						tab === 'following' &&
+						<ProfileFollow typetab={'following'} userInfo={userInfo} />
+					}
 				</div>
 			</div>
 		</div >

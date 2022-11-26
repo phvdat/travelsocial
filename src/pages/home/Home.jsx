@@ -22,20 +22,7 @@ export default function Home() {
 			<Slideshow />
 			{
 				tab === 'home' &&
-				<div>
-					<div className='content-home'>
-						<div className="wrapper-newfeed">
-							<Row justify='center'>
-								<Col md={24} lg={16}>
-									<Newfeed />
-								</Col>
-							</Row>
-						</div>
-						<div className='home-rightbar'>
-							<Rightbar />
-						</div>
-					</div>
-				</div>
+				<Newfeed />
 			}
 			{
 				tab === 'table-ranking' &&

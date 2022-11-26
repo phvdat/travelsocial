@@ -47,38 +47,33 @@ export default function ProfileFollow(props) {
 	return (
 		<div className='profile-follow-content'>
 			{listUsersInfo.length !== 0 ?
-				<Row>
-					{
-						listUsersInfo.map((ele, idx) => {
-							return (
-								<Col md={24} lg={12} key={idx} justify="center">
-									<Link to={`/profile/${ele._id}/newfeed`}>
+				listUsersInfo.map((ele, idx) => {
+					return (
+						// <div  className='item'>
+						<Link key={idx} to={`/profile/${ele._id}/newfeed`}>
+							<div className="container-item-friends">
+								<div>
+									<img alt="avata" src={ele.avatar || avatarDefault} />
+									<span>{ele.fullName}</span>
 
-										<div className="container-item-friends">
-											<div>
-												<img alt="avata" src={ele.avatar || avatarDefault} />
-												<span>{ele.fullName}</span>
+								</div>
+								{typetab === 'following' ?
+									<Dropdown
+										overlay={menu}
+										trigger={["click"]}
+										placement="bottomRight"
+									>
+										<BsThreeDotsVertical className="dropdown-btn" />
+									</Dropdown>
+									:
+									<></>
+								}
 
-											</div>
-											{typetab === 'following' ?
-												<Dropdown
-													overlay={menu}
-													trigger={["click"]}
-													placement="bottomRight"
-												>
-													<BsThreeDotsVertical className="dropdown-btn" />
-												</Dropdown>
-												:
-												<></>
-											}
-
-										</div>
-									</Link>
-								</Col>
-							);
-						})
-					}
-				</Row>
+							</div>
+						</Link>
+						// </div>
+					);
+				})
 				:
 				<h2 className='no-data-message'>Không có dữ liệu</h2>
 			}

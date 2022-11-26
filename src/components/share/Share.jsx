@@ -1,5 +1,5 @@
 import { Form, message, Modal, Select } from 'antd';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './share.scss'
 import Dragger from 'antd/lib/upload/Dragger';
 import { AiOutlineUpload } from 'react-icons/ai'
@@ -12,7 +12,6 @@ import avatarDefault from 'assets/img/avatarDefault.jpg'
 const { Option } = Select;
 
 export default function Share() {
-	const navigate = useNavigate()
 	const currentUser = useSelector(state => state.authentication.currentUser)
 	const [form] = Form.useForm();
 	const storage = getStorage();
@@ -24,9 +23,6 @@ export default function Share() {
 		status: 'public',
 		mediaList: [],
 	})
-	const [previewOpen, setPreviewOpen] = useState(false);
-	const [previewImage, setPreviewImage] = useState('');
-	const [previewTitle, setPreviewTitle] = useState('');
 
 	const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -41,6 +37,16 @@ export default function Share() {
 	const handleCancel = () => {
 		setIsModalOpen(false);
 	};
+	useEffect(() => {
+		if (isModalOpen) {
+			console.log('hien thi pop up')
+			document.documentElement.style.overflow = 'hidden';
+		}
+		return () => {
+			document.documentElement.style.overflow = 'unset';
+
+		};
+	}, [isModalOpen]);
 
 	// upload
 	const [fileUploaded, setFileUploaded] = useState([]);

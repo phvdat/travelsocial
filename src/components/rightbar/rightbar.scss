@@ -7,7 +7,7 @@
   top: 60px;
   right: 10px;
   overflow-y: scroll;
-  margin-top: 16px;
+  margin-top: $spacing-md;
   background-color: #fff;
   border-radius: $border-radius-md;
   width: 300px;
@@ -34,8 +34,8 @@
   height: auto;
   background-color: #fff;
   border-radius: 8px;
-  margin-top: 16px;
-  padding: 16px;
+  margin-top: $spacing-md;
+  padding: $spacing-md;
 }
 
 .friendReqIcon {
@@ -50,7 +50,7 @@
   display: flex;
   align-items: center;
   border-radius: 8px;
-  padding: 16px;
+  padding: $spacing-md;
   border-radius: 10px;
   cursor: pointer;
 }
@@ -60,7 +60,7 @@
 }
 
 .avt-user {
-  margin-right: 16px;
+  margin-right: $spacing-md;
   width: 44px;
   height: 44px;
   border-radius: 30px;
@@ -116,7 +116,7 @@
   margin-right: 6px;
   width: 32px;
   height: 32px;
-  border-radius: 16px;
+  border-radius: $spacing-md;
   object-fit: cover;
 }
 
@@ -151,8 +151,8 @@
   background-color: #fff;
   min-height: 100px;
   border-radius: 10px;
-  margin: 16px;
-  padding: 16px 12px;
+  margin: $spacing-md;
+  padding: $spacing-md 12px;
 }
 .friendsProfile p:first-child {
   color: #000;

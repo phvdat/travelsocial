@@ -31,6 +31,22 @@ export default function TableRanking() {
 			fullName: 'Pham Dat',
 			point: 30
 		},
+
+		{
+			avatar: 'https://picsum.photos/200/300',
+			fullName: 'Pham Dat',
+			point: 30
+		},
+		{
+			avatar: 'https://picsum.photos/200/300',
+			fullName: 'Pham Dat',
+			point: 30
+		},
+		{
+			avatar: 'https://picsum.photos/200/300',
+			fullName: 'Pham Dat',
+			point: 30
+		},
 	]
 	const { tabTableRanking } = useParams()
 	// const [listUsersInfo, setListUsersInfo] = useState([])
@@ -97,71 +113,57 @@ export default function TableRanking() {
 			</div>
 		) : null;
 	return (
-		<div>
-			<div className='tab-container'>
-				<button>
-					Top User
-				</button>
-				<button>
-					Top Post
-				</button>
+		<div className='container-ranking'>
+			<div className='wapper-ranking'>
+				<div className='tab-container'>
+					<button>
+						Top User
+					</button>
+					<button>
+						Top Post
+					</button>
+				</div>
+				<div className="top-three">
+					{list[1] &&
+						<div className='item-card two'>
+							<img src={list[1].avatar} alt="avatar" />
+							<h6 className='item-level'>2</h6>
+							<h6 className='name'>{list[1].fullName}</h6>
+							<h6 className='score'>{list[1].point}</h6>
+						</div>
+					}
+					{list[0] &&
+						<div className='item-card one'>
+							<img src={list[0].avatar} alt="avatar" />
+							<h6 className='item-level'>1</h6>
+							<h6 className='name'>{list[0].fullName}</h6>
+							<h6 className='score'>{list[0].point}</h6>
+						</div>
+					}
+					{list[2] &&
+						<div className='item-card three'>
+							<img src={list[1].avatar} alt="avatar" />
+							<h6 className='item-level'>3</h6>
+							<h6 className='name'>{list[1].fullName}</h6>
+							<h6 className='score'>{list[1].point}</h6>
+						</div>
+					}
+				</div>
+				<div className='out-of-top-three'>
+					{
+						list.slice(3).map((item, idx) =>
+							<div className='item-list'>
+								<h6 className='item-level'>{idx}</h6>
+								<img alt='avatar' src={item.avatar} />
+								<h6 className='name'>
+									{item.fullName}
+								</h6>
+								<h6 className='point'>{item.point}</h6>
+							</div>
+						)
+					}
+				</div>
 			</div>
-			<Row justify='center'>
-				<Col md={24} lg={12} className='top-ranking-container'>
-					<div className="top-three">
-						{list[1] &&
-							<div className='item-card two'>
-								<img src={list[1].avatar} alt="avatar" />
-								<h6 className='item-level'>2</h6>
-								<h6 className='name'>{list[1].fullName}</h6>
-								<h6 className='score'>{list[1].point}</h6>
-							</div>
-						}
-						{list[0] &&
-							<div className='item-card one'>
-								<img src={list[0].avatar} alt="avatar" />
-								<h6 className='item-level'>1</h6>
-								<h6 className='name'>{list[0].fullName}</h6>
-								<h6 className='score'>{list[0].point}</h6>
-							</div>
-						}
-						{list[2] &&
-							<div className='item-card three'>
-								<img src={list[1].avatar} alt="avatar" />
-								<h6 className='item-level'>3</h6>
-								<h6 className='name'>{list[1].fullName}</h6>
-								<h6 className='score'>{list[1].point}</h6>
-							</div>
-						}
-					</div>
-
-					<List
-						loading={initLoading}
-						itemLayout="horizontal"
-						loadMore={loadMore}
-						dataSource={list}
-						renderItem={(item, idx) => {
-							if ([0, 1, 2].includes(idx)) {
-								return null
-							}
-							return (
-								<Skeleton avatar title={false} loading={item.loading} active className='list-container'>
-									<div className='item-list'>
-
-										<h6 className='item-level'>{idx}</h6>
-										<img alt='avatar' src={item.avatar} />
-										<h6 className='name'>
-											{item.fullName}
-										</h6>
-										<h6 className='point'>{item.point}</h6>
-									</div>
-								</Skeleton>
-							)
-						}}
-					/>
-				</Col>
-			</Row>
-
 		</div>
 	)
 }

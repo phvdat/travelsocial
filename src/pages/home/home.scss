@@ -2,11 +2,12 @@
 @import "src/assets/styles/mixins";
 .home-container {
   min-height: 100vh;
+  width: 100%;
 }
 .content-home {
   // display: inline-flex;
-  width: 100%;
-  min-width: 100%;
+  // width: 100%;
+  // min-width: 100%;
 }
 .wrapper-newfeed {
   // flex-grow: 1;

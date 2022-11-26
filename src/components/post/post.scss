@@ -1,7 +1,7 @@
 @import "src/assets/styles/variables";
 @import "src/assets/styles/mixins";
 .postContain {
-  margin-top: 16px;
+  margin-top: $spacing-md;
   width: $width-post;
   max-width: $width-post;
 }
@@ -11,7 +11,7 @@
   background-color: #fff;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
   border-radius: 10px;
-  padding: 16px 0 4px;
+  padding: $spacing-md 0 4px;
 }
 
 .topPost {
@@ -19,7 +19,7 @@
     display: flex;
     flex-direction: row;
     img {
-      margin-right: 16px;
+      margin-right: $spacing-md;
       width: 44px;
       height: 44px;
       border-radius: 30px;

@@ -37,10 +37,10 @@ const LoginModal = () => {
 					window.localStorage.setItem('isLogin', JSON.stringify(true));
 					getUsersInfoById(response.payload.userId).then(
 						(res, req) => {
-							window.localStorage.setItem('currentUser', JSON.stringify(response.payload));
+							window.localStorage.setItem('currentUser', JSON.stringify(res));
 							dispach({
 								type: SET_CURRENT_USER,
-								payload: response.payload,
+								payload: res,
 							})
 						}
 					)
@@ -96,10 +96,10 @@ const LoginModal = () => {
 				window.localStorage.setItem('isLogin', JSON.stringify(true));
 				getUsersInfoById(response.payload.userId).then(
 					(res, req) => {
-						window.localStorage.setItem('currentUser', JSON.stringify(response.payload));
+						window.localStorage.setItem('currentUser', JSON.stringify(res));
 						dispach({
 							type: SET_CURRENT_USER,
-							payload: response.payload,
+							payload: res,
 						})
 					}
 				)

@@ -54,7 +54,7 @@ export default function ProfileAbout(props) {
 				message.success('Cập nhật thành công')
 				getUsersInfoById(response.payload.userId).then(
 					(res, req) => {
-						window.localStorage.setItem('currentUser', JSON.stringify(response.payload));
+						window.localStorage.setItem('currentUser', JSON.stringify(res));
 						dispach({
 							type: SET_CURRENT_USER,
 							payload: response.payload,
