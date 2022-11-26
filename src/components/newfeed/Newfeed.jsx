@@ -33,20 +33,16 @@ export default function Newfeed() {
 
 	return (
 		<div className="newfeed">
-			<Row justify="center">
-				<Col md={24} lg={20}>
-					{
-						isLoggedIn && <Share />
-					}
-					{listPost ?
-						listPost.map((ele) => {
-							return <Post data={ele} key={ele._id} />
-						})
-						:
-						<h1 style={{ textAlign: 'center' }}>Không có bài viết nào</h1>
-					}
-				</Col>
-			</Row>
+			{
+				isLoggedIn && <Share />
+			}
+			{listPost ?
+				listPost.map((ele) => {
+					return <Post data={ele} key={ele._id} />
+				})
+				:
+				<h1 style={{ textAlign: 'center' }}>Không có bài viết nào</h1>
+			}
 		</div>
 	)
 }
