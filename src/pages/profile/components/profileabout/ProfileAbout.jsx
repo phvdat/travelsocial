@@ -76,7 +76,6 @@ export default function ProfileAbout(props) {
 		multiple: false,
 		showUploadList: false,
 		customRequest({ file, onSuccess }) {
-			console.log(1)
 			const handleUpload = async () => {
 				try {
 					const typeMedia = file.type.split('/')[0]
@@ -112,7 +111,6 @@ export default function ProfileAbout(props) {
 			}
 		},
 		beforeUpload(file) {
-			console.log(2)
 			if (!["image/jpeg", "image/png"].includes(file.type)) {
 				message.error(`${file.name} is not a valid image / video type`, 2);
 				return null;

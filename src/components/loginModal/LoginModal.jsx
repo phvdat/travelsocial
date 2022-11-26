@@ -51,7 +51,6 @@ const LoginModal = () => {
 				}
 				if (response.status_code === -9999) {
 					message.warning('Username hoặc mật khẩu không đúng!')
-					console.log(data)
 				}
 			} catch (error) {
 				console.log(error, 'login fail')
@@ -150,7 +149,6 @@ const LoginModal = () => {
 		const provider = new FacebookAuthProvider();
 		signInWithPopup(auth, provider).then((result) => {
 			const user = result.user;
-			console.log(user);
 			message.success('Đăng nhập thành công!')
 			setOpen(false)
 		}).catch((error) => {

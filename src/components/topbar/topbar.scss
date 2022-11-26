@@ -20,7 +20,7 @@
   position: sticky;
   background-color: $primary-white;
   top: 0;
-  z-index: 100;
+  z-index: $z-index-topbar;
   height: 50px;
   width: 100%;
   display: flex;

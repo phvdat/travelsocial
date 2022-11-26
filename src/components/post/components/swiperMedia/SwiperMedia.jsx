@@ -22,6 +22,7 @@ const SwiperByKeys = ({ children }) => {
 };
 export default function swiperRef(props) {
 	const { dataMedia } = props
+	console.log(dataMedia)
 
 	return (
 		<Swiper
@@ -37,16 +38,16 @@ export default function swiperRef(props) {
 					if (ele.type === 'image') {
 						return (
 							<SwiperSlide key={idx}>
-								<img alt="media" src={ele.url} />
+								<img className="image-item-slide" alt="media" src={ele.link} />
 							</SwiperSlide>
 						)
 					}
 					if (ele.type === 'video') {
 						return (
 							<SwiperSlide key={idx}>
-								<video width="320" height="240" autoPlay controls preload="auto">
+								<video controls preload="auto">
 									<source
-										src={ele.url}
+										src={ele.link}
 										type="video/mp4"
 									></source>
 								</video>

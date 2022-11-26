@@ -3,7 +3,6 @@ import followApi from "api/followApi"
 
 export const getUsersInfoById = async (id) => {
 	try {
-		console.log(id)
 		const param = { userId: id }
 		const response = await authApi.getUserInfoApi(param)
 		if (response.status_code === 9999) {
