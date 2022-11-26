@@ -2,6 +2,8 @@
 @import "src/assets/styles/mixins";
 .postContain {
   margin-top: 16px;
+  width: $width-post;
+  max-width: $width-post;
 }
 .postBox {
   width: 100%;

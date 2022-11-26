@@ -12,6 +12,7 @@ import avatarDefault from 'assets/img/avatarDefault.jpg';
 import { useSelector } from 'react-redux';
 import { getUsersInfoById } from 'function/callApi';
 import ShowMedia from './components/showMedia/ShowMedia';
+import moment from 'moment';
 
 export default function Post(props) {
 	const currentUser = useSelector(state => state.authentication.currentUser)
@@ -23,32 +24,32 @@ export default function Post(props) {
 	const [showComment, setShowComment] = useState(false)
 	const [listComment, setListComment] = useState([])
 	const [rateValue, setRateValue] = useState(0);
-
+	const timeStamp = new Date(data.lastUpdateTime)
 	useEffect(() => {
-		// const getListLikes = async () => {
-		// 	try {
-		// 		const params = { postId: data._id, page: 1, size: 10 }
-		// 		const res = await reactPostApi.getListLikesApi(params)
-		// 		if (res.status_code === 9999) {
-		// 			const listLikes = res.payload || []
-		// 			const index = listLikes.findIndex(item => item.userId === currentUser._id)
-		// 			if (index !== -1) {
-		// 				setLike(true)
-		// 			}
-		// 			if (index === -1) {
-		// 				setLike(false)
-		// 			}
-		// 		}
-		// 		if (res.status_code === -9999) {
-		// 			console.log(false)
-		// 		}
-		// 	} catch (error) {
-		// 		console.log(error)
-		// 	}
-		// }
-		// getListLikes()
-		// getUsersInfoById(data.userId).then((res, req) => { setUser(res) })
-		// getRateValue()
+		const getListLikes = async () => {
+			try {
+				const params = { postId: data._id, page: 1, size: 10 }
+				const res = await reactPostApi.getListLikesApi(params)
+				if (res.status_code === 9999) {
+					const listLikes = res.payload || []
+					const index = listLikes.findIndex(item => item.userId === currentUser._id)
+					if (index !== -1) {
+						setLike(true)
+					}
+					if (index === -1) {
+						setLike(false)
+					}
+				}
+				if (res.status_code === -9999) {
+					console.log(false)
+				}
+			} catch (error) {
+				console.log(error)
+			}
+		}
+		getListLikes()
+		getUsersInfoById(data.userId).then((res, req) => { setUser(res) })
+		getRateValue()
 	}, [])
 	const handleOnkeyDown = (e) => {
 		if (e.key === 'Enter') {
@@ -155,7 +156,6 @@ export default function Post(props) {
 				size: 20
 			}
 			const response = await reactPostApi.loadComment(params)
-			console.log('cmt', response)
 			setListComment(response.payload)
 		} catch (error) {
 			console.log(error)
@@ -198,28 +198,6 @@ export default function Post(props) {
 			]}
 		/>
 	)
-	const dataMedia = [
-		{
-			type: 'video',
-			url: 'https://freetestdata.com/wp-content/uploads/2022/02/Free_Test_Data_7MB_MP4.mp4'
-		},
-		{
-			type: 'image',
-			url: 'https://picsum.photos/200/300'
-		},
-		// {
-		// 	type: 'image',
-		// 	url: 'https://picsum.photos/500/700'
-		// }
-		// , {
-		// 	type: 'image',
-		// 	url: 'https://picsum.photos/200/300'
-		// }
-		// , {
-		// 	type: 'video',
-		// 	url: 'https://freetestdata.com/wp-content/uploads/2022/02/Free_Test_Data_7MB_MP4.mp40'
-		// }
-	]
 	return (
 		<div className='postContain'>
 			<div className="postBox">
@@ -232,7 +210,9 @@ export default function Post(props) {
 							<Link to={`/profile/${data.userId}/newfeed`}>
 								<span className='textName'>{user.fullName}</span>
 							</Link>
-							<span className='textTime'>4 giờ</span>
+							<span className='textTime'>
+								{moment.utc(timeStamp.toUTCString()).fromNow()}
+							</span>
 						</span>
 					</div>
 					{
@@ -248,7 +228,7 @@ export default function Post(props) {
 				<p className="statusText" style={{ whiteSpace: "pre-line" }}>{data.content}</p>
 				<p className="destinationText">Địa điểm: {data.destination}</p>
 				{/* <img src={data?.mediaList[0]?.link} alt="" className='postImg' /> */}
-				<ShowMedia dataMedia={dataMedia} />
+				<ShowMedia dataMedia={data?.mediaList} />
 				<div className="bottomPost">
 					<div className='inforReact'>
 						<div className="numberLikeShare">
