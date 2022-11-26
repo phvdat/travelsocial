@@ -6,7 +6,6 @@ import { AiOutlineUpload } from 'react-icons/ai'
 import { deleteObject, getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import { v4 } from 'uuid';
 import postApi from 'api/postApi';
-import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import avatarDefault from 'assets/img/avatarDefault.jpg'
 const { Option } = Select;
