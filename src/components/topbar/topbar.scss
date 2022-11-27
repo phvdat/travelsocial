@@ -52,6 +52,7 @@
 }
 
 .searchbar {
+  padding: 0 0 0 $spacing-md;
   width: 300px;
   margin: auto;
   display: flex;
@@ -60,13 +61,22 @@
   border-radius: 20px;
   background-color: #f0f2f5;
   .searchIcon {
+    cursor: pointer;
     font-size: 20px;
-    margin: 0 10px;
+    margin: 0 2px 0 0;
+    width: 28px;
+    height: 28px;
+    text-align: center;
+    border-radius: 50%;
+    background-color: #fff;
+    svg {
+      color: $primary-color;
+    }
   }
-  .searchInput {
-    width: 100%;
-    margin: 0 10px 0 0;
+  input {
+    flex-grow: 1;
     border: none;
+    margin-right: 8px;
     background-color: #f0f2f5;
     font-size: 14px;
     font-weight: 400;

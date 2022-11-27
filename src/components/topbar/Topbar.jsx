@@ -5,19 +5,30 @@ import { IoMdNotifications } from "react-icons/io";
 import LoginModal from "../loginModal/LoginModal";
 import { useDispatch, useSelector } from "react-redux";
 import { Dropdown, Menu, message } from "antd";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { createSearchParams, Link, useNavigate, useParams } from "react-router-dom";
 import { LOGOUT_SUCCESS } from "reducers/authentication/actionTypes";
 import { HiOutlineLogout } from 'react-icons/hi'
 import { FiEdit } from 'react-icons/fi'
 import avatarDefault from 'assets/img/avatarDefault.jpg'
+import { useState } from "react";
 
 export default function Topbar() {
 	const navigate = useNavigate()
 	const { tab } = useParams()
 	const isLogin = useSelector(state => state.authentication.isLoggedIn)
 	const currentUser = useSelector(state => state.authentication.currentUser)
-	console.log(currentUser);
 	const dispatch = useDispatch();
+
+	const [searchValue, setSearchValue] = useState('')
+	const handleOnSubmit = (e) => {
+		e.preventDefault()
+		navigate({
+			pathname: '/search-post',
+			search: `?${createSearchParams({
+				keyword: searchValue
+			})}`
+		})
+	}
 	const handleLogout = () => {
 		window.localStorage.clear()
 		dispatch({
@@ -41,18 +52,18 @@ export default function Topbar() {
 					type: 'divider',
 				},
 				{
-					label: <a onClick={() => { navigate(`/profile/${currentUser._id}/about`) }} className="menu-item-logout">
+					label: <Link to={`/profile/${currentUser._id}/about`} className="menu-item-logout">
 						<FiEdit></FiEdit>
-						Chỉnh sửa thông tin</a>,
+						Chỉnh sửa thông tin</Link>,
 					key: '1',
 				},
 				{
 					type: 'divider',
 				},
 				{
-					label: <a onClick={handleLogout} className="menu-item-logout">
+					label: <span onClick={handleLogout} className="menu-item-logout">
 						<HiOutlineLogout></HiOutlineLogout>
-						Đăng xuất</a>,
+						Đăng xuất</span>,
 					key: '2',
 				},
 			]}
@@ -76,10 +87,12 @@ export default function Topbar() {
 					</Link>
 				</div>
 
-				<div className="searchbar">
-					<AiOutlineSearch className="searchIcon" />
-					<input type="text" className="searchInput" placeholder="Tìm kiếm trên Travel" />
-				</div>
+				<form onSubmit={handleOnSubmit} className="searchbar">
+					<input type="text" placeholder="Tìm kiếm trên Travel" onChange={(event) => setSearchValue(event.target.value)} />
+					<div className="searchIcon" onClick={handleOnSubmit}>
+						<AiOutlineSearch />
+					</div>
+				</form>
 			</div>
 
 			<div className="topbarRight">

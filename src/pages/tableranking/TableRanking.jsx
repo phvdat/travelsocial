@@ -1,4 +1,3 @@
-import { Avatar, Button, Col, List, Row, Skeleton } from 'antd'
 import rankingApi from 'api/rankingApi';
 import { getUsersInfoById } from 'function/callApi';
 import React, { useEffect, useState } from 'react'
@@ -14,13 +13,13 @@ export default function TableRanking() {
 				const response = await rankingApi.getListLeaderBoardUser(params)
 				console.log('tessss', response.payload)
 				response.payload.map(
-					(ele, idx) => {
+					(ele, idx) => (
 						getUsersInfoById(ele.userId).then(
 							(res, req) => {
 								setList(prev => [...prev, { ...res, position: ele.position }]);
 							}
 						).catch(err => console.log(err))
-					}
+					)
 				)
 			} catch (error) {
 				console.log(error)
