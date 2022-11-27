@@ -1,4 +1,4 @@
-import { Col, message, Row } from "antd";
+import { message } from "antd";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
@@ -10,7 +10,6 @@ import ProfileAbout from "./components/profileabout/ProfileAbout";
 import ProfileFollow from "./components/profilefollow/ProfileFollow";
 import "./profile.scss";
 import avatarDefault from "assets/img/avatarDefault.jpg";
-import authApi from "api/authApi";
 import followApi from "api/followApi";
 import { BsCheck } from "react-icons/bs";
 import { HiOutlineUserAdd } from "react-icons/hi";
@@ -54,7 +53,7 @@ export default function Profile() {
 				setFollowStatus(true)
 			}
 		})
-	}, [userId])
+	}, [userId, currentUser._id])
 	const handleFolowBtn = async () => {
 		const data = {
 			userIdTarget: userId

@@ -60,9 +60,10 @@
     justify-content: flex-start;
   }
   .btn-follow {
-    @include btnStyle(100px, 32px, $primary-color, $font-size-paragraph);
+    @include btnStyle(180px, 32px, $primary-color, $font-size-paragraph);
     margin-right: 8px;
-    min-width: 100px !important;
+    width: auto !important;
+    // min-width: 100px !important;
     span {
       margin: 0 12px;
       display: flex;

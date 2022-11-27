@@ -6,7 +6,7 @@ const followApi = {
 		return axiosClient.post(url, userIdTarget);
 	},
 	unFollow: (userIdTarget) => {
-		const url = '/follow/follow-user';
+		const url = '/follow/unfollow-user';
 		return axiosClient.post(url, userIdTarget);
 	},
 	getFollower: (params) => {
