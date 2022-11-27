@@ -1,7 +1,7 @@
 @import "src/assets/styles/variables";
 @import "src/assets/styles/mixins";
 .postContain {
-  margin-top: $spacing-md;
+  margin-bottom: $spacing-md;
   width: $width-post;
   max-width: $width-post;
 }
@@ -61,6 +61,10 @@
     float: right;
     cursor: pointer;
   }
+}
+
+.wrapper-rate-average {
+  padding: 0 20px;
 }
 .titleText {
   font-weight: 500;

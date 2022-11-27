@@ -13,44 +13,47 @@ import { useSelector } from 'react-redux';
 import { getUsersInfoById } from 'function/callApi';
 import ShowMedia from './components/showMedia/ShowMedia';
 import moment from 'moment';
+import { getAllRate, getListLike } from './functions/callApi';
 
 export default function Post(props) {
-	const currentUser = useSelector(state => state.authentication.currentUser)
 	const data = props.data
-	const [user, setUser] = useState({})
+
+	const currentUser = useSelector(state => state.authentication.currentUser)
 	const navigate = useNavigate()
+	const timeStamp = new Date(data.createTime)
+
+	const [user, setUser] = useState({})
 	const [like, setLike] = useState(false)
 	const [noLike, setNoLike] = useState(data.likeSize)
 	const [showComment, setShowComment] = useState(false)
 	const [listComment, setListComment] = useState([])
 	const [rateValue, setRateValue] = useState(0);
-	const timeStamp = new Date(data.createTime)
+	const [rateAverage, setRateAverage] = useState(0);
+
 	useEffect(() => {
-		const getListLikes = async () => {
-			try {
-				const params = { postId: data._id, page: 1, size: 10 }
-				const res = await reactPostApi.getListLikesApi(params)
-				if (res.status_code === 9999) {
-					const listLikes = res.payload || []
-					const index = listLikes.findIndex(item => item.userId === currentUser._id)
-					if (index !== -1) {
-						setLike(true)
-					}
-					if (index === -1) {
-						setLike(false)
-					}
-				}
-				if (res.status_code === -9999) {
-					console.log(false)
-				}
-			} catch (error) {
-				console.log(error)
+		//check like or not
+		const params = { postId: data._id, page: 1, size: 1000000 }
+		getListLike(params).then((res, req) => {
+			const index = res.findIndex(item => item.userId === currentUser._id)
+			if (index !== -1) {
+				setLike(true)
 			}
-		}
-		getListLikes()
+		})
+		// get user info by id
 		getUsersInfoById(data.userId).then((res, req) => { setUser(res) })
-		getRateValue()
-	}, [])
+
+		getAllRate(params).then((res, req) => {
+			//average rate
+			const rateSum = res.reduce((prev, current) => {
+				return prev + current.point
+			}, 0)
+			const avg = (rateSum / res.length)
+			setRateAverage(Number.isNaN(avg) ? 0 : avg.toFixed(1))
+			// rate by me
+			const rateByMe = res.find((ele) => ele.userId === currentUser._id)
+			setRateValue(rateByMe?.point || 0)
+		})
+	}, [currentUser._id, data._id, data.userId])
 	const handleOnkeyDown = (e) => {
 		if (e.key === 'Enter') {
 			e.preventDefault();
@@ -102,37 +105,19 @@ export default function Post(props) {
 			if (like === false) {
 				setLike(true)
 				setNoLike((state) => state + 1)
-				const response = await reactPostApi.postLike(dataLike)
+				await reactPostApi.postLike(dataLike)
 			}
 			if (like === true) {
 				setLike(false)
 				setNoLike((state) => state - 1)
-				const response = await reactPostApi.postUnLike(dataLike)
+				await reactPostApi.postUnLike(dataLike)
 			}
 
 		} catch (error) {
 			console.log(error)
 		}
 	}
-	const getRateValue = async () => {
-		try {
-			const params = {
-				postId: data._id,
-				page: 1,
-				size: 20
-			}
-			const res = await reactPostApi.loadRate(params)
-			if (res.status_code === 9999) {
-				const rateByMe = res.payload.find((ele) => ele.userId === currentUser._id)
-				setRateValue(rateByMe?.point || 0)
-			}
-			if (res.status_code === -9999) {
-				console.log(false)
-			}
-		} catch (error) {
-			console.log(error)
-		}
-	}
+
 	const handleRatePost = async (value) => {
 		setRateValue(value)
 		try {
@@ -182,7 +167,7 @@ export default function Post(props) {
 		<Menu
 			items={[
 				{
-					label: <a onClick={handleDetelePost}>Xoá bài viết</a>,
+					label: <span onClick={handleDetelePost}>Xoá bài viết</span>,
 					key: '0',
 				},
 			]}
@@ -224,10 +209,12 @@ export default function Post(props) {
 						</Dropdown>
 					}
 				</div>
+				<div className='wrapper-rate-average'>
+					<Rate style={{ fontSize: 16 }} allowHalf disabled value={Number(rateAverage)} />
+				</div>
 				<p className="titleText">{data.title}</p>
 				<p className="statusText" style={{ whiteSpace: "pre-line" }}>{data.content}</p>
 				<p className="destinationText">Địa điểm: {data.destination}</p>
-				{/* <img src={data?.mediaList[0]?.link} alt="" className='postImg' /> */}
 				<ShowMedia dataMedia={data?.mediaList} />
 				<div className="bottomPost">
 					<div className='inforReact'>
