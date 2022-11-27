@@ -24,7 +24,7 @@ export default function Post(props) {
 	const [showComment, setShowComment] = useState(false)
 	const [listComment, setListComment] = useState([])
 	const [rateValue, setRateValue] = useState(0);
-	const timeStamp = new Date(data.lastUpdateTime)
+	const timeStamp = new Date(data.createTime)
 	useEffect(() => {
 		const getListLikes = async () => {
 			try {
