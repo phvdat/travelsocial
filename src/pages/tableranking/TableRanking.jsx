@@ -4,9 +4,11 @@ import React, { useEffect, useState } from 'react'
 import avatarDefault from 'assets/img/avatarDefault.jpg';
 
 import './tableRanking.scss'
+import { Link } from 'react-router-dom';
 export default function TableRanking() {
 	const [list, setList] = useState([]);
 	useEffect(() => {
+		window.scrollTo(0, 0);
 		const getListRanking = async () => {
 			try {
 				const params = { page: 1, size: 10 }
@@ -32,41 +34,49 @@ export default function TableRanking() {
 			<div className='wapper-ranking'>
 				<div className="top-three">
 					{list[2] &&
-						<div className='item-card two'>
-							<img src={list[2].avatar || avatarDefault} alt="avatar" />
-							<h6 className='item-level'>{list[2].position + 1}</h6>
-							<h6 className='name'>{list[2].fullName}</h6>
-							<h6 className='point'>{list[2].experiencePoint}</h6>
-						</div>
+						<Link to={`/profile/${list[2]._id}/newfeed`}>
+							<div className='item-card two'>
+								<img src={list[2].avatar || avatarDefault} alt="avatar" />
+								<h6 className='item-level'>{list[2].position + 1}</h6>
+								<h6 className='name'>{list[2].fullName}</h6>
+								<h6 className='point'>{list[2].experiencePoint}</h6>
+							</div>
+						</Link>
 					}
 					{list[0] &&
-						<div className='item-card one'>
-							<img src={list[0].avatar || avatarDefault} alt="avatar" />
-							<h6 className='item-level'>{list[0].position + 1}</h6>
-							<h6 className='name'>{list[0].fullName}</h6>
-							<h6 className='point'>{list[0].experiencePoint}</h6>
-						</div>
+						<Link to={`/profile/${list[0]._id}/newfeed`}>
+							<div className='item-card one'>
+								<img src={list[0].avatar || avatarDefault} alt="avatar" />
+								<h6 className='item-level'>{list[0].position + 1}</h6>
+								<h6 className='name'>{list[0].fullName}</h6>
+								<h6 className='point'>{list[0].experiencePoint}</h6>
+							</div>
+						</Link>
 					}
 					{list[1] &&
-						<div className='item-card three'>
-							<img src={list[1].avatar || avatarDefault} alt="avatar" />
-							<h6 className='item-level'>{list[1].position + 1}</h6>
-							<h6 className='name'>{list[1].fullName}</h6>
-							<h6 className='point'>{list[1].experiencePoint}</h6>
-						</div>
+						<Link to={`/profile/${list[1]._id}/newfeed`}>
+							<div className='item-card three'>
+								<img src={list[1].avatar || avatarDefault} alt="avatar" />
+								<h6 className='item-level'>{list[1].position + 1}</h6>
+								<h6 className='name'>{list[1].fullName}</h6>
+								<h6 className='point'>{list[1].experiencePoint}</h6>
+							</div>
+						</Link>
 					}
 				</div>
 				<div className='out-of-top-three'>
 					{
 						list.slice(3).map((item, idx) =>
-							<div className='item-list' key={idx}>
-								<h6 className='item-level'> {item.position + 1}</h6>
-								<img alt='avatar' src={item.avatar || avatarDefault} />
-								<h6 className='name'>
-									{item.fullName}
-								</h6>
-								<h6 className='point'>{item.experiencePoint}</h6>
-							</div>
+							<Link to={`/profile/${item._id}/newfeed`}>
+								<div className='item-list' key={idx}>
+									<h6 className='item-level'> {item.position + 1}</h6>
+									<img alt='avatar' src={item.avatar || avatarDefault} />
+									<h6 className='name'>
+										{item.fullName}
+									</h6>
+									<h6 className='point'>{item.experiencePoint} </h6>
+								</div>
+							</Link>
 						)
 					}
 				</div>

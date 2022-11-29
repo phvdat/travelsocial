@@ -25,6 +25,7 @@ export default function ProfileAbout(props) {
 		address: '',
 	})
 	useEffect(() => {
+		window.scrollTo(0, 0);
 		const { fullName, phone, email, birthday, avatar, address } = userInfo
 		setData({
 			fullName: fullName,

@@ -1,6 +1,7 @@
 @import "src/assets/styles/variables";
 @import "src/assets/styles/mixins";
 .shareContain {
+  margin-bottom: $spacing-md;
   .shareBox {
     width: $width-post;
     max-width: $width-post;

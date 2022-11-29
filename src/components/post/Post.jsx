@@ -13,7 +13,7 @@ import { useSelector } from 'react-redux';
 import { getUsersInfoById } from 'function/callApi';
 import ShowMedia from './components/showMedia/ShowMedia';
 import moment from 'moment';
-import { getAllRate, getListLike } from './functions/callApi';
+import { deteleCommentPost, getAllRate, getListLike, loadCommentPost } from './functions/callApi';
 
 export default function Post(props) {
 	const data = props.data
@@ -133,36 +133,38 @@ export default function Post(props) {
 			console.log(error)
 		}
 	}
-	const handleLoadCommentPost = async () => {
-		try {
-			const params = {
-				postId: data._id,
-				page: 1,
-				size: 20
-			}
-			const response = await reactPostApi.loadComment(params)
-			setListComment(response.payload)
-		} catch (error) {
-			console.log(error)
+
+	const handleLoadCommentPost = () => {
+		const params = {
+			postId: data._id,
+			page: 1,
+			size: 20
 		}
+		loadCommentPost(params).then((res, req) => {
+			setListComment(res)
+		})
+		// try {
+		// 	const params = {
+		// 		postId: data._id,
+		// 		page: 1,
+		// 		size: 20
+		// 	}
+		// 	const response = await reactPostApi.loadComment(params)
+		// 	setListComment(response.payload)
+		// } catch (error) {
+		// 	console.log(error)
+		// }
 	}
+
 	const handleDeteleComment = async (commentId) => {
-		try {
-			const params = {
-				commentId: commentId,
-			}
-			const response = await reactPostApi.deleteComment(params)
-			if (response.status_code === 9999) {
-				console.log("delete comment succcess", response)
-				handleLoadCommentPost()
-			}
-			if (response.status_code === -9999) {
-				console.log("delete comment fail", response)
-			}
-		} catch (error) {
-			console.log(error)
+		console.log('mày chạy bn lần')
+		const params = {
+			commentId: commentId,
 		}
+		await deteleCommentPost(params)
+		handleLoadCommentPost()
 	}
+
 	const menu = (
 		<Menu
 			items={[
@@ -177,7 +179,7 @@ export default function Post(props) {
 		<Menu
 			items={[
 				{
-					label: <a onClick={() => handleDeteleComment(commentId)}>Xoá bình luận</a>,
+					label: <span onClick={() => handleDeteleComment(commentId)}>Xoá bình luận</span>,
 					key: '0',
 				},
 			]}
@@ -210,7 +212,7 @@ export default function Post(props) {
 					}
 				</div>
 				<div className='wrapper-rate-average'>
-					<Rate style={{ fontSize: 16 }} allowHalf disabled value={Number(rateAverage)} />
+					<Rate style={{ fontSize: 12 }} allowHalf disabled value={Number(rateAverage)} />
 				</div>
 				<p className="titleText">{data.title}</p>
 				<p className="statusText" style={{ whiteSpace: "pre-line" }}>{data.content}</p>
