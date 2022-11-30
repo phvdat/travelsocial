@@ -1,7 +1,6 @@
 import { AiFillLike, AiOutlineLike } from 'react-icons/ai';
 import { BsThreeDots } from 'react-icons/bs';
 import { BiCommentDetail } from 'react-icons/bi';
-import './post.scss';
 import { useState } from 'react/cjs/react.development';
 import { Dropdown, Menu, message, Rate } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
@@ -13,8 +12,9 @@ import { useSelector } from 'react-redux';
 import { getUsersInfoById } from 'function/callApi';
 import ShowMedia from './components/showMedia/ShowMedia';
 import moment from 'moment';
-import { deteleCommentPost, getAllRate, getListLike, loadCommentPost } from './functions/callApi';
+import { createRate, getAllRate, getListLike, updateRate } from './functions/callApi';
 import Comment from './components/comment/Comment';
+import './post.scss';
 
 export default function Post(props) {
 	const dataPost = props.data
@@ -93,19 +93,17 @@ export default function Post(props) {
 	}
 
 	const handleRatePost = async (value) => {
-		setRateValue(value)
-		try {
-			const dataRate = {
-				postId: dataPost._id,
-				point: value
-			}
-			const response = await reactPostApi.postRate(dataRate)
-			if (response.status_code === -9999) {
-				message.warning('Đánh giá không thành công!')
-			}
-		} catch (error) {
-			console.log(error)
+		const dataRate = {
+			postId: dataPost._id,
+			point: value
 		}
+		if (rateValue === 0) {
+			await createRate(dataRate)
+		}
+		if (rateValue !== 0) {
+			await updateRate(dataRate)
+		}
+		setRateValue(value)
 	}
 
 
@@ -150,9 +148,10 @@ export default function Post(props) {
 				<div className='wrapper-rate-average'>
 					<Rate style={{ fontSize: 12 }} allowHalf disabled value={Number(rateAverage)} />
 				</div>
-				<p className="titleText">{dataPost.title}</p>
+				<h2 className="titleText">{dataPost.title}</h2>
 				<p className="statusText" style={{ whiteSpace: "pre-line" }}>{dataPost.content}</p>
 				<p className="destinationText">Địa điểm: {dataPost.destination}</p>
+				<p className="typeTravel">Kiểu du lịch: {dataPost.type}</p>
 				<ShowMedia dataMedia={dataPost?.mediaList} />
 				<div className="bottomPost">
 					<div className='inforReact'>

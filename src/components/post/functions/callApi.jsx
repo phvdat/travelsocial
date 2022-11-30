@@ -56,3 +56,31 @@ export const createComment = async (params) => {
 		console.log(error)
 	}
 }
+
+export const createRate = async (params) => {
+	try {
+		const response = await reactPostApi.postRate(params)
+		if (response.status_code === 9999) {
+			console.log('Đánh giá thành công!')
+		}
+		if (response.status_code === -9999) {
+			console.log('Đánh giá không thành công!')
+		}
+	} catch (error) {
+		console.log(error)
+	}
+}
+
+export const updateRate = async (params) => {
+	try {
+		const response = await reactPostApi.updateRate(params)
+		if (response.status_code === 9999) {
+			console.log('Đánh giá thành công!')
+		}
+		if (response.status_code === -9999) {
+			console.log('Đánh giá không thành công!')
+		}
+	} catch (error) {
+		console.log(error)
+	}
+}

@@ -73,12 +73,13 @@
 }
 .statusText {
   font-weight: 400;
-  padding: 12px 20px;
+  padding: 4px 20px;
   margin: 0;
 }
-.destinationText {
+.destinationText,
+.typeTravel {
   font-weight: 300;
-  padding: 12px 20px;
+  padding: 4px 20px;
   font-style: italic;
   margin: 0;
 }
