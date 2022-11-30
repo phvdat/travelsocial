@@ -15,10 +15,12 @@ import moment from 'moment';
 import { createRate, getAllRate, getListLike, updateRate } from './functions/callApi';
 import Comment from './components/comment/Comment';
 import './post.scss';
+import LoginModal from 'components/loginModal/LoginModal';
 
 export default function Post(props) {
 	const dataPost = props.data
 
+	const isLogin = localStorage.getItem('isLogin')
 	const currentUser = useSelector(state => state.authentication.currentUser)
 	const navigate = useNavigate()
 	const timeStamp = new Date(dataPost.createTime)
@@ -29,6 +31,9 @@ export default function Post(props) {
 	const [showComment, setShowComment] = useState(false)
 	const [rateValue, setRateValue] = useState(0);
 	const [rateAverage, setRateAverage] = useState(0);
+
+	const [open, setOpen] = useState(false);
+
 
 	useEffect(() => {
 		//check like or not
@@ -72,42 +77,50 @@ export default function Post(props) {
 		}
 	}
 	const handleLikePost = async () => {
-		try {
-			const dataLike = {
-				postId: dataPost._id,
-			}
-			if (like === false) {
-				setLike(true)
-				setNoLike((state) => state + 1)
-				await reactPostApi.postLike(dataLike)
-			}
-			if (like === true) {
-				setLike(false)
-				setNoLike((state) => state - 1)
-				await reactPostApi.postUnLike(dataLike)
-			}
+		if (isLogin) {
+			try {
+				const dataLike = {
+					postId: dataPost._id,
+				}
+				if (like === false) {
+					setLike(true)
+					setNoLike((state) => state + 1)
+					await reactPostApi.postLike(dataLike)
+				}
+				if (like === true) {
+					setLike(false)
+					setNoLike((state) => state - 1)
+					await reactPostApi.postUnLike(dataLike)
+				}
 
-		} catch (error) {
-			console.log(error)
+			} catch (error) {
+				console.log(error)
+			}
+		}
+		if (!isLogin) {
+			setOpen(true)
 		}
 	}
 
 	const handleRatePost = async (value) => {
-		const dataRate = {
-			postId: dataPost._id,
-			point: value
+
+		if (isLogin) {
+			const dataRate = {
+				postId: dataPost._id,
+				point: value
+			}
+			if (rateValue === 0) {
+				await createRate(dataRate)
+			}
+			if (rateValue !== 0) {
+				await updateRate(dataRate)
+			}
+			setRateValue(value)
 		}
-		if (rateValue === 0) {
-			await createRate(dataRate)
+		if (!isLogin) {
+			setOpen(true)
 		}
-		if (rateValue !== 0) {
-			await updateRate(dataRate)
-		}
-		setRateValue(value)
 	}
-
-
-
 
 	const menu = (
 		<Menu
@@ -121,6 +134,8 @@ export default function Post(props) {
 	)
 	return (
 		<div className='postContain'>
+			<LoginModal open={open} onClose={() => setOpen(false)} />
+
 			<div className="postBox">
 				<div className="topPost">
 					<div className='sub-topPost'>
@@ -161,7 +176,9 @@ export default function Post(props) {
 						</div>
 						<span className="numberComment">{dataPost.commentSize} bình luận</span>
 					</div>
+
 					<hr className='postHr' />
+
 					<div className='boxControl'>
 						<div className={like ? 'likeActive btnPost' : 'btnPost'} onClick={() => handleLikePost()}>
 							<AiOutlineLike className='iconBtn' />
@@ -169,7 +186,8 @@ export default function Post(props) {
 						</div>
 
 						<div className="btnPost" onClick={() => {
-							setShowComment(true)
+							setShowComment(isLogin)
+							setOpen(!isLogin)
 						}}>
 							<BiCommentDetail className='iconBtn' />
 							<span>Bình luận</span>

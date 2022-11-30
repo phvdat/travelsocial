@@ -1,5 +1,5 @@
 import "./topbar.scss"
-import { AiFillHome, AiOutlineSearch } from "react-icons/ai"
+import { AiFillHome, AiOutlineLogin, AiOutlineSearch } from "react-icons/ai"
 import { FaUserFriends } from 'react-icons/fa'
 import { IoMdNotifications } from "react-icons/io";
 import LoginModal from "../loginModal/LoginModal";
@@ -16,6 +16,7 @@ export default function Topbar() {
 	const navigate = useNavigate()
 	const { tab } = useParams()
 	const isLogin = useSelector(state => state.authentication.isLoggedIn)
+	const [open, setOpen] = useState(false);
 	const currentUser = useSelector(state => state.authentication.currentUser)
 	const dispatch = useDispatch();
 
@@ -71,6 +72,7 @@ export default function Topbar() {
 	)
 	return (
 		<div className="topbarContainer">
+			<LoginModal open={open} onClose={() => setOpen(false)} />
 			<div className="topbarLeft">
 				<Link to="/home">
 					<span className="logo">Travel</span>
@@ -115,7 +117,12 @@ export default function Topbar() {
 						</Dropdown>
 					</>
 					:
-					<LoginModal />
+					<div onClick={() => setOpen(true)} className="iconRightSide">
+						<div className="subIconRight">
+							<AiOutlineLogin className="topbarIcon-2" />
+						</div>
+						<p>Đăng nhập</p>
+					</div>
 				}
 
 			</div >

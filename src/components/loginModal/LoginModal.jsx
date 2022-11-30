@@ -10,18 +10,14 @@ import { LOGIN_SUCCESS, SET_CURRENT_USER } from '../../reducers/authentication/a
 import { useDispatch } from 'react-redux';
 import { getUsersInfoById } from 'function/callApi';
 
-const LoginModal = () => {
+const LoginModal = (props) => {
+	const { open, onClose } = props
 	const dispach = useDispatch();
 	const auth = getAuth(app);
 	const navigate = useNavigate()
-	const [open, setOpen] = useState(false);
 	const [confirmLoading, setConfirmLoading] = useState(false);
-	const showModal = () => {
-		setOpen(true);
-	};
 	const handleCancel = () => {
-		console.log('Clicked cancel button');
-		setOpen(false);
+		onClose()
 	};
 	const onFinish = async (values) => {
 		const postLoginData = async () => {
@@ -29,7 +25,7 @@ const LoginModal = () => {
 				const data = { ...values, isAdmin: false }
 				const response = await authApi.loginApi(data)
 				if (response.status_code === 9999) {
-					setOpen(false)
+					onClose()
 					message.success('Đăng nhập thành công!')
 					navigate('/home')
 					window.localStorage.setItem('access_token', JSON.stringify(response.payload.accessToken));
@@ -87,7 +83,7 @@ const LoginModal = () => {
 			}
 			const response = await authApi.loginApi(data)
 			if (response.status_code === 9999) {
-				setOpen(false)
+				onClose()
 				message.success('Đăng nhập thành công!')
 				updateProfileWithGg(user)
 				navigate('/home')
@@ -137,7 +133,7 @@ const LoginModal = () => {
 		signInWithPopup(auth, provider).then((result) => {
 			const user = result.user;
 			registerWithGg(user)
-			setOpen(false)
+			onClose()
 		}).catch((error) => {
 			const errorCode = error.code;
 			const errorMessage = error.message;
@@ -150,7 +146,7 @@ const LoginModal = () => {
 		signInWithPopup(auth, provider).then((result) => {
 			const user = result.user;
 			message.success('Đăng nhập thành công!')
-			setOpen(false)
+			onClose()
 		}).catch((error) => {
 			const errorCode = error.code;
 			const errorMessage = error.message;
@@ -160,12 +156,6 @@ const LoginModal = () => {
 	}
 	return (
 		<>
-			<div onClick={showModal} className="iconRightSide">
-				<div className="subIconRight">
-					<AiOutlineLogin className="topbarIcon-2" />
-				</div>
-				<p>Đăng nhập</p>
-			</div>
 			<Modal
 				title="Đăng nhập"
 				open={open}
