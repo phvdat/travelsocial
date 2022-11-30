@@ -14,25 +14,25 @@ import { getUsersInfoById } from 'function/callApi';
 import ShowMedia from './components/showMedia/ShowMedia';
 import moment from 'moment';
 import { deteleCommentPost, getAllRate, getListLike, loadCommentPost } from './functions/callApi';
+import Comment from './components/comment/Comment';
 
 export default function Post(props) {
-	const data = props.data
+	const dataPost = props.data
 
 	const currentUser = useSelector(state => state.authentication.currentUser)
 	const navigate = useNavigate()
-	const timeStamp = new Date(data.createTime)
+	const timeStamp = new Date(dataPost.createTime)
 
 	const [user, setUser] = useState({})
 	const [like, setLike] = useState(false)
-	const [noLike, setNoLike] = useState(data.likeSize)
+	const [noLike, setNoLike] = useState(dataPost.likeSize)
 	const [showComment, setShowComment] = useState(false)
-	const [listComment, setListComment] = useState([])
 	const [rateValue, setRateValue] = useState(0);
 	const [rateAverage, setRateAverage] = useState(0);
 
 	useEffect(() => {
 		//check like or not
-		const params = { postId: data._id, page: 1, size: 1000000 }
+		const params = { postId: dataPost._id, page: 1, size: 1000000 }
 		getListLike(params).then((res, req) => {
 			const index = res.findIndex(item => item.userId === currentUser._id)
 			if (index !== -1) {
@@ -40,7 +40,7 @@ export default function Post(props) {
 			}
 		})
 		// get user info by id
-		getUsersInfoById(data.userId).then((res, req) => { setUser(res) })
+		getUsersInfoById(dataPost.userId).then((res, req) => { setUser(res) })
 
 		getAllRate(params).then((res, req) => {
 			//average rate
@@ -53,37 +53,11 @@ export default function Post(props) {
 			const rateByMe = res.find((ele) => ele.userId === currentUser._id)
 			setRateValue(rateByMe?.point || 0)
 		})
-	}, [currentUser._id, data._id, data.userId])
-	const handleOnkeyDown = (e) => {
-		if (e.key === 'Enter') {
-			e.preventDefault();
-			const createComment = async () => {
-				try {
-					const dataComment = {
-						postId: data._id,
-						content: e.target.value
-					}
-					const response = await reactPostApi.postComment(dataComment)
-					if (response.status_code === 9999) {
-						message.success('Bình luận thành công!')
-						// navigate(0)
-					}
-					if (response.status_code === -9999) {
-						message.warning('Tạo comment không thành công!')
-					}
-				} catch (error) {
-					console.log(error)
-				}
-			}
-			createComment()
-			handleLoadCommentPost()
-		}
-		e.target.style.height = 'inherit';
-		e.target.style.height = `${e.target.scrollHeight}px`;
-	}
+	}, [currentUser._id, dataPost._id, dataPost.userId])
+
 	const handleDetelePost = async () => {
 		try {
-			const params = { postId: data._id }
+			const params = { postId: dataPost._id }
 			const response = await postApi.deletePost(params)
 			if (response.status_code === 9999) {
 				message.success('Xóa bài viết thành công!')
@@ -100,7 +74,7 @@ export default function Post(props) {
 	const handleLikePost = async () => {
 		try {
 			const dataLike = {
-				postId: data._id,
+				postId: dataPost._id,
 			}
 			if (like === false) {
 				setLike(true)
@@ -122,7 +96,7 @@ export default function Post(props) {
 		setRateValue(value)
 		try {
 			const dataRate = {
-				postId: data._id,
+				postId: dataPost._id,
 				point: value
 			}
 			const response = await reactPostApi.postRate(dataRate)
@@ -134,36 +108,8 @@ export default function Post(props) {
 		}
 	}
 
-	const handleLoadCommentPost = () => {
-		const params = {
-			postId: data._id,
-			page: 1,
-			size: 20
-		}
-		loadCommentPost(params).then((res, req) => {
-			setListComment(res)
-		})
-		// try {
-		// 	const params = {
-		// 		postId: data._id,
-		// 		page: 1,
-		// 		size: 20
-		// 	}
-		// 	const response = await reactPostApi.loadComment(params)
-		// 	setListComment(response.payload)
-		// } catch (error) {
-		// 	console.log(error)
-		// }
-	}
 
-	const handleDeteleComment = async (commentId) => {
-		console.log('mày chạy bn lần')
-		const params = {
-			commentId: commentId,
-		}
-		await deteleCommentPost(params)
-		handleLoadCommentPost()
-	}
+
 
 	const menu = (
 		<Menu
@@ -175,26 +121,16 @@ export default function Post(props) {
 			]}
 		/>
 	)
-	const menuComment = (commentId) => (
-		<Menu
-			items={[
-				{
-					label: <span onClick={() => handleDeteleComment(commentId)}>Xoá bình luận</span>,
-					key: '0',
-				},
-			]}
-		/>
-	)
 	return (
 		<div className='postContain'>
 			<div className="postBox">
 				<div className="topPost">
 					<div className='sub-topPost'>
-						<Link to={`/profile/${data.userId}/newfeed`}>
+						<Link to={`/profile/${dataPost.userId}/newfeed`}>
 							<img src={user.avatar || avatarDefault} alt="avt user" className='avt-user' />
 						</Link>
 						<span className='nameUser'>
-							<Link to={`/profile/${data.userId}/newfeed`}>
+							<Link to={`/profile/${dataPost.userId}/newfeed`}>
 								<span className='textName'>{user.fullName}</span>
 							</Link>
 							<span className='textTime'>
@@ -203,7 +139,7 @@ export default function Post(props) {
 						</span>
 					</div>
 					{
-						currentUser._id === data.userId &&
+						currentUser._id === dataPost.userId &&
 						<Dropdown overlay={menu} trigger={['click']} placement="bottomRight">
 							<span className='btn-modify-post'>
 								<BsThreeDots />
@@ -214,17 +150,17 @@ export default function Post(props) {
 				<div className='wrapper-rate-average'>
 					<Rate style={{ fontSize: 12 }} allowHalf disabled value={Number(rateAverage)} />
 				</div>
-				<p className="titleText">{data.title}</p>
-				<p className="statusText" style={{ whiteSpace: "pre-line" }}>{data.content}</p>
-				<p className="destinationText">Địa điểm: {data.destination}</p>
-				<ShowMedia dataMedia={data?.mediaList} />
+				<p className="titleText">{dataPost.title}</p>
+				<p className="statusText" style={{ whiteSpace: "pre-line" }}>{dataPost.content}</p>
+				<p className="destinationText">Địa điểm: {dataPost.destination}</p>
+				<ShowMedia dataMedia={dataPost?.mediaList} />
 				<div className="bottomPost">
 					<div className='inforReact'>
 						<div className="numberLikeShare">
 							<AiFillLike className='smLikeIcon' />
 							<span className='numberReact'>{noLike}</span>
 						</div>
-						<span className="numberComment">{data.commentSize} bình luận</span>
+						<span className="numberComment">{dataPost.commentSize} bình luận</span>
 					</div>
 					<hr className='postHr' />
 					<div className='boxControl'>
@@ -235,7 +171,6 @@ export default function Post(props) {
 
 						<div className="btnPost" onClick={() => {
 							setShowComment(true)
-							handleLoadCommentPost()
 						}}>
 							<BiCommentDetail className='iconBtn' />
 							<span>Bình luận</span>
@@ -248,38 +183,7 @@ export default function Post(props) {
 						</div>
 					</div>
 					{
-						showComment &&
-						<>
-							<hr className='postHr' />
-							<div className='boxComment'>
-								<img src={currentUser.avatar || avatarDefault} alt="avt user" className='avt-user-comment' />
-								<textarea type="text" placeholder='Viết bình luận...' rows={1}
-									onKeyDown={handleOnkeyDown}
-								/>
-							</div>
-							{
-								listComment.map((item) => {
-									return (
-										<div className='listComment' key={item._id}>
-											<div className="primary-comment-item">
-												<img src={item.avatar || avatarDefault} alt="avt user" className='avt-user-comment' />
-												<div className='comment-item'>
-													<a className='comment-username'>{item.fullName || "User"}</a>
-													<p>{item.content}</p>
-												</div>
-												<div className='modify-comment-btn'>
-													<Dropdown overlay={menuComment(item.userId)} trigger={['click']} placement="bottomLeft">
-														<span>
-															<BsThreeDots />
-														</span>
-													</Dropdown>
-												</div>
-											</div>
-										</div>
-									)
-								})
-							}
-						</>
+						showComment && <Comment dataPost={dataPost} />
 					}
 				</div>
 			</div>

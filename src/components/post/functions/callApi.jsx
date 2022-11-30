@@ -1,3 +1,4 @@
+import { message } from "antd"
 import reactPostApi from "api/reactPostApi"
 
 export const getListLike = async (params) => {
@@ -38,7 +39,19 @@ export const loadCommentPost = async (params) => {
 	try {
 		const response = await reactPostApi.loadComment(params)
 		return response.payload
-		// setListComment(response.payload)
+	} catch (error) {
+		console.log(error)
+	}
+}
+export const createComment = async (params) => {
+	try {
+		const response = await reactPostApi.postComment(params)
+		if (response.status_code === 9999) {
+			message.success('Bình luận thành công!')
+		}
+		if (response.status_code === -9999) {
+			message.warning('Tạo comment không thành công!')
+		}
 	} catch (error) {
 		console.log(error)
 	}
