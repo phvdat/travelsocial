@@ -32,7 +32,11 @@ const reactPostApi = {
 	loadRate: (data) => {
 		const url = "/rate/load";
 		return axiosClient.post(url, data);
-	}
+	},
+	updateRate: (data) => {
+		const url = "/rate/update";
+		return axiosClient.post(url, data);
+	},
 }
 
 export default reactPostApi;
