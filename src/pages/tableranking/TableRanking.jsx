@@ -13,16 +13,10 @@ export default function TableRanking() {
 			try {
 				const params = { page: 1, size: 10 }
 				const response = await rankingApi.getListLeaderBoardUser(params)
-				console.log('tessss', response.payload)
-				response.payload.map(
-					(ele, idx) => (
-						getUsersInfoById(ele.userId).then(
-							(res, req) => {
-								setList(prev => [...prev, { ...res, position: ele.position }]);
-							}
-						).catch(err => console.log(err))
-					)
-				)
+				await Promise.all(response.payload.map(async (ele) => {
+					const res = await getUsersInfoById(ele.userId)
+					setList(prev => [...prev, { ...res, position: ele.position }])
+				}))
 			} catch (error) {
 				console.log(error)
 			}
@@ -67,7 +61,7 @@ export default function TableRanking() {
 				<div className='out-of-top-three'>
 					{
 						list.slice(3).map((item, idx) =>
-							<Link to={`/profile/${item._id}/newfeed`}>
+							<Link to={`/profile/${item._id}/newfeed`} key={idx}>
 								<div className='item-list' key={idx}>
 									<h6 className='item-level'> {item.position + 1}</h6>
 									<img alt='avatar' src={item.avatar || avatarDefault} />
