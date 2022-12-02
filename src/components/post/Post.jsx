@@ -140,11 +140,11 @@ export default function Post(props) {
 				<div className="topPost">
 					<div className='sub-topPost'>
 						<Link to={`/profile/${dataPost.userId}/newfeed`}>
-							<img src={user.avatar || avatarDefault} alt="avt user" className='avt-user' />
+							<img src={user?.avatar || avatarDefault} alt="avt user" className='avt-user' />
 						</Link>
 						<span className='nameUser'>
 							<Link to={`/profile/${dataPost.userId}/newfeed`}>
-								<span className='textName'>{user.fullName}</span>
+								<span className='textName'>{user?.fullName}</span>
 							</Link>
 							<span className='textTime'>
 								{moment.utc(timeStamp.toUTCString()).fromNow()}

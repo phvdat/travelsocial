@@ -1,6 +1,5 @@
 import { Form, Input, message, Modal } from 'antd';
 import React, { useState } from 'react';
-import { AiOutlineLogin } from 'react-icons/ai';
 import { useNavigate } from 'react-router-dom';
 import authApi from '../../api/authApi';
 import { getAuth, signInWithPopup, GoogleAuthProvider, FacebookAuthProvider } from "firebase/auth";
@@ -15,7 +14,7 @@ const LoginModal = (props) => {
 	const dispach = useDispatch();
 	const auth = getAuth(app);
 	const navigate = useNavigate()
-	const [confirmLoading, setConfirmLoading] = useState(false);
+	// const [confirmLoading, setConfirmLoading] = useState(false);
 	const handleCancel = () => {
 		onClose()
 	};
@@ -159,7 +158,7 @@ const LoginModal = (props) => {
 			<Modal
 				title="Đăng nhập"
 				open={open}
-				confirmLoading={confirmLoading}
+				// confirmLoading={confirmLoading}
 				onCancel={handleCancel}
 				footer={null}
 				className="login-modal"
