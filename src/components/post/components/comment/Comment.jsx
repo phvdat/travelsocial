@@ -10,7 +10,7 @@ import { useEffect } from 'react';
 import { useRef } from 'react';
 
 export default function Comment(props) {
-	const { dataPost } = props
+	const { postData } = props
 	const currentUser = useSelector(state => state.authentication.currentUser)
 	const [listComment, setListComment] = useState([])
 
@@ -20,7 +20,7 @@ export default function Comment(props) {
 
 	const handleLoadCommentPost = () => {
 		const params = {
-			postId: dataPost._id,
+			postId: postData._id,
 			page: 1,
 			size: 20
 		}
@@ -38,7 +38,7 @@ export default function Comment(props) {
 		if (e.key === 'Enter') {
 			e.preventDefault();
 			const dataComment = {
-				postId: dataPost._id,
+				postId: postData._id,
 				content: e.target.value
 			}
 			await createComment(dataComment)

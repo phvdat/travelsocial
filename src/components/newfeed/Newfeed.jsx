@@ -38,7 +38,7 @@ export default function Newfeed() {
 			}
 			{listPost ?
 				listPost.map((ele) => {
-					return <Post data={ele} key={ele._id} />
+					return <Post postData={ele} key={ele._id} />
 				})
 				:
 				<h1 style={{ textAlign: 'center' }}>Không có bài viết nào</h1>

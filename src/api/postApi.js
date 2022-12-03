@@ -9,6 +9,10 @@ const postApi = {
 		const url = "/post/load-all";
 		return axiosClient.post(url, data);
 	},
+	getPostById: (param) => {
+		const url = "/post/get";
+		return axiosClient.post(url, param);
+	},
 	getAllPostByUserId: (data) => {
 		const url = "/post/load-by-userId";
 		return axiosClient.post(url, data);

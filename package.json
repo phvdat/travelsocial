@@ -7,6 +7,7 @@
     "@testing-library/jest-dom": "^5.16.1",
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.5.0",
+    "ably": "^1.2.33",
     "antd": "^4.23.2",
     "axios": "^0.27.2",
     "firebase": "^9.10.0",

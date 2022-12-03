@@ -18,16 +18,16 @@ import './post.scss';
 import LoginModal from 'components/loginModal/LoginModal';
 
 export default function Post(props) {
-	const dataPost = props.data
+	const { postData } = props
 
 	const isLogin = localStorage.getItem('isLogin')
 	const currentUser = useSelector(state => state.authentication.currentUser)
 	const navigate = useNavigate()
-	const timeStamp = new Date(dataPost.createTime)
+	const timeStamp = new Date(postData.createTime)
 
 	const [user, setUser] = useState({})
 	const [like, setLike] = useState(false)
-	const [noLike, setNoLike] = useState(dataPost.likeSize)
+	const [noLike, setNoLike] = useState(postData.likeSize)
 	const [showComment, setShowComment] = useState(false)
 	const [rateValue, setRateValue] = useState(0);
 	const [rateAverage, setRateAverage] = useState(0);
@@ -37,7 +37,7 @@ export default function Post(props) {
 
 	useEffect(() => {
 		//check like or not
-		const params = { postId: dataPost._id, page: 1, size: 1000000 }
+		const params = { postId: postData._id, page: 1, size: 1000000 }
 		getListLike(params).then((res, req) => {
 			const index = res.findIndex(item => item.userId === currentUser._id)
 			if (index !== -1) {
@@ -45,7 +45,7 @@ export default function Post(props) {
 			}
 		})
 		// get user info by id
-		getUsersInfoById(dataPost.userId).then((res, req) => { setUser(res) })
+		getUsersInfoById(postData.userId).then((res, req) => { setUser(res) })
 
 		getAllRate(params).then((res, req) => {
 			//average rate
@@ -58,11 +58,11 @@ export default function Post(props) {
 			const rateByMe = res.find((ele) => ele.userId === currentUser._id)
 			setRateValue(rateByMe?.point || 0)
 		})
-	}, [currentUser._id, dataPost._id, dataPost.userId])
+	}, [currentUser._id, postData._id, postData.userId])
 
 	const handleDetelePost = async () => {
 		try {
-			const params = { postId: dataPost._id }
+			const params = { postId: postData._id }
 			const response = await postApi.deletePost(params)
 			if (response.status_code === 9999) {
 				message.success('Xóa bài viết thành công!')
@@ -80,7 +80,7 @@ export default function Post(props) {
 		if (isLogin) {
 			try {
 				const dataLike = {
-					postId: dataPost._id,
+					postId: postData._id,
 				}
 				if (like === false) {
 					setLike(true)
@@ -106,7 +106,7 @@ export default function Post(props) {
 
 		if (isLogin) {
 			const dataRate = {
-				postId: dataPost._id,
+				postId: postData._id,
 				point: value
 			}
 			if (rateValue === 0) {
@@ -139,11 +139,11 @@ export default function Post(props) {
 			<div className="postBox">
 				<div className="topPost">
 					<div className='sub-topPost'>
-						<Link to={`/profile/${dataPost.userId}/newfeed`}>
+						<Link to={`/profile/${postData.userId}/newfeed`}>
 							<img src={user?.avatar || avatarDefault} alt="avt user" className='avt-user' />
 						</Link>
 						<span className='nameUser'>
-							<Link to={`/profile/${dataPost.userId}/newfeed`}>
+							<Link to={`/profile/${postData.userId}/newfeed`}>
 								<span className='textName'>{user?.fullName}</span>
 							</Link>
 							<span className='textTime'>
@@ -152,7 +152,7 @@ export default function Post(props) {
 						</span>
 					</div>
 					{
-						currentUser._id === dataPost.userId &&
+						currentUser._id === postData.userId &&
 						<Dropdown overlay={menu} trigger={['click']} placement="bottomRight">
 							<span className='btn-modify-post'>
 								<BsThreeDots />
@@ -163,18 +163,18 @@ export default function Post(props) {
 				<div className='wrapper-rate-average'>
 					<Rate style={{ fontSize: 12 }} allowHalf disabled value={Number(rateAverage)} />
 				</div>
-				<h2 className="titleText">{dataPost.title}</h2>
-				<p className="statusText" style={{ whiteSpace: "pre-line" }}>{dataPost.content}</p>
-				<p className="destinationText">Địa điểm: {dataPost.destination}</p>
-				<p className="typeTravel">Kiểu du lịch: {dataPost.type}</p>
-				<ShowMedia dataMedia={dataPost?.mediaList} />
+				<h2 className="titleText">{postData.title}</h2>
+				<p className="statusText" style={{ whiteSpace: "pre-line" }}>{postData.content}</p>
+				<p className="destinationText">Địa điểm: {postData.destination}</p>
+				<p className="typeTravel">Kiểu du lịch: {postData.type}</p>
+				<ShowMedia dataMedia={postData?.mediaList} />
 				<div className="bottomPost">
 					<div className='inforReact'>
 						<div className="numberLikeShare">
 							<AiFillLike className='smLikeIcon' />
 							<span className='numberReact'>{noLike}</span>
 						</div>
-						<span className="numberComment">{dataPost.commentSize} bình luận</span>
+						<span className="numberComment">{postData.commentSize} bình luận</span>
 					</div>
 
 					<hr className='postHr' />
@@ -200,7 +200,7 @@ export default function Post(props) {
 						</div>
 					</div>
 					{
-						showComment && <Comment dataPost={dataPost} />
+						showComment && <Comment postData={postData} />
 					}
 				</div>
 			</div>

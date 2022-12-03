@@ -9,7 +9,7 @@
   width: 100%;
   height: auto;
   background-color: #fff;
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  box-shadow: $box-shadow-bold;
   border-radius: 10px;
   padding: $spacing-md 0 4px;
 }
