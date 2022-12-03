@@ -149,7 +149,7 @@ export default function Share() {
 		<div className='shareContain' >
 			<div className="shareBox">
 				<div className="inputShare">
-					<img src={currentUser.avatar || avatarDefault} alt="avate user" className="avt-user" />
+					<img src={currentUser.avatar || avatarDefault} alt="avatar user" className="avt-user" />
 					<button onClick={() => showModal()} type="button" className='btn-share'>Viết bài đăng</button>
 				</div>
 

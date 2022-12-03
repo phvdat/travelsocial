@@ -1,7 +1,6 @@
 import App from 'App'
 import DefaultLayout from 'layout/defaultLayout/DefaultLayout'
 import NotFound from 'pages/notFound/NotFound'
-import ErrorLayout from 'layout/errorLayout/ErrorLayout'
 import Home from 'pages/home/Home'
 import PostPage from 'pages/post'
 import Profile from 'pages/profile/Profile'
