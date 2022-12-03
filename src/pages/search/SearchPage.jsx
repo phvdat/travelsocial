@@ -1,4 +1,5 @@
 import elasticSearchApi from 'api/elasticSearchApi'
+import Loading from 'components/baseUI/loading/Loading'
 import Post from 'components/post/Post'
 import Slideshow from 'components/slideshow/Slideshow'
 import React, { useEffect, useState } from 'react'
@@ -7,6 +8,7 @@ import './searchPage.scss'
 
 export default function SearchPage() {
 	const [listPost, setListPost] = useState([])
+	const [isLoading, setIsLoading] = useState(true)
 
 	const [searchParams] = useSearchParams();
 
@@ -20,9 +22,11 @@ export default function SearchPage() {
 				}
 				const response = await elasticSearchApi.searchPost(params)
 				setListPost(response.payload)
+				console.log(response.payload)
 			} catch (error) {
 				console.log(error)
 			}
+			setIsLoading(false)
 		}
 		handleSearch()
 	}, [searchParams])
@@ -32,9 +36,11 @@ export default function SearchPage() {
 			<Slideshow />
 			<div className="wrapper-search-result">
 				<h3 className='lable'>Kết quả tìm kiếm cho: <span>{searchParams.get('keyword')}</span></h3>
-				{
-					listPost?.map((item, idx) => {
-						return <Post data={item} key={item._id} />
+				{isLoading ?
+					<Loading />
+					:
+					listPost?.map((item) => {
+						return <Post postData={item} key={item._id} />
 					})
 				}
 			</div>
