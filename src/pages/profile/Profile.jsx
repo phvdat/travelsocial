@@ -14,7 +14,7 @@ import { BsCheck } from "react-icons/bs";
 import { HiOutlineUserAdd } from "react-icons/hi";
 import { getFollowUser, getUsersInfoById } from "function/callApi";
 
-export default function Profile() {
+export default function ProfilePage() {
 	let { userId, tab } = useParams()
 	const [userInfo, setUserInfo] = useState({})
 	const currentUser = useSelector(state => state.authentication.currentUser)

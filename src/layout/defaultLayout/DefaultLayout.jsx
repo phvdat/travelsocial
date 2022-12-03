@@ -1,13 +1,66 @@
+import { Realtime } from 'ably'
 import AlertMsg from 'components/alert/AlertMsg'
 import Topbar from 'components/topbar/Topbar'
-import React from 'react'
+import React, { useState } from 'react'
 import { Outlet } from 'react-router-dom'
-
+import './DefaultLayoutStyle.scss'
 export default function DefaultLayout() {
-	const message = 'ban co 1 luot theo doi moi'
+	const [notify, setNotify] = useState(null)
+	const realtime = new Realtime({ key: process.env.REACT_APP_ABLY_API_KEY })
+	const cmtChannel = realtime.channels.get('comment')
+	const likeChannel = realtime.channels.get('like')
+	const rateChannel = realtime.channels.get('rate')
+	const FollowChannel = realtime.channels.get('follow')
+
+	cmtChannel.subscribe(function (message) {
+		const res = JSON.parse(message.data)
+		setNotify({
+			title: res?.title,
+			content: res?.content,
+			path: `/post/${res._id}`,
+		})
+		setTimeout(() => {
+			setNotify(null)
+		}, 4000)
+	});
+	likeChannel.subscribe(function (message) {
+		const res = JSON.parse(message.data)
+		setNotify({
+			title: res?.title,
+			content: res?.content,
+			path: `/post/${res._id}`,
+		})
+		setTimeout(() => {
+			setNotify(null)
+		}, 4000)
+	});
+	rateChannel.subscribe(function (message) {
+		const res = JSON.parse(message.data)
+		setNotify({
+			title: res?.title,
+			content: res?.content,
+			path: `/post/${res._id}`,
+		})
+		setTimeout(() => {
+			setNotify(null)
+		}, 4000)
+	});
+	FollowChannel.subscribe(function (message) {
+		const res = JSON.parse(message.data)
+		setNotify({
+			title: res?.title,
+			content: res?.content,
+			path: `/profile/${res._id}/newfeed`,
+		})
+		setTimeout(() => {
+			setNotify(null)
+		}, 4000)
+	});
 	return (
-		<div>
-			<AlertMsg message={message} />
+		<div className='defalt-layout-container'>
+			{
+				notify && <AlertMsg {...notify} />
+			}
 			<Topbar />
 			<Outlet />
 		</div>

@@ -1,14 +1,17 @@
-import { Alert } from 'antd'
 import React from 'react'
+import { Link } from 'react-router-dom'
 import './alertMsg.scss'
 export default function AlertMsg(props) {
-	const { message } = props
+	const { title, content, path } = props
+	console.log(title)
 	return (
-		<div className="alert-msg">
-			<h4>Thông báo mới</h4>
-			<div></div>
-			<p>{message}</p>
-		</div>
+		<Link to={path}>
+			<div className={title ? "alert-msg" : ""}>
+				<h4>{title}</h4>
+				<hr className='time-line' />
+				<p>{content}</p>
+			</div>
+		</Link>
 
 	)
 }

@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import authApi from '../../api/authApi';
 import './register.scss'
 
-export default function Register() {
+export default function RegisterPage() {
 	const navigate = useNavigate()
 	const onFinish = (values) => {
 		var data = { ...values }

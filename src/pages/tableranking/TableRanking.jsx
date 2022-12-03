@@ -1,11 +1,11 @@
+import './tableRanking.scss'
 import rankingApi from 'api/rankingApi';
 import { getUsersInfoById } from 'function/callApi';
 import React, { useEffect, useState } from 'react'
 import avatarDefault from 'assets/img/avatarDefault.jpg';
-
-import './tableRanking.scss'
 import { Link } from 'react-router-dom';
-export default function TableRanking() {
+
+export default function TableRankingPage() {
 	const [list, setList] = useState([]);
 	useEffect(() => {
 		window.scrollTo(0, 0);
