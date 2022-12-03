@@ -142,7 +142,7 @@ export default function ProfilePage() {
 								<Share />
 							}
 							{listPost ? listPost.map((ele, idx) => {
-								return <Post data={ele} key={idx} />
+								return <Post postData={ele} key={idx} />
 							}) :
 								<div className="container-no-data">
 									<h1>Chưa có bài viêt nào</h1>

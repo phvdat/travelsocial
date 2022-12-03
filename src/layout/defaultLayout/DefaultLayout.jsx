@@ -1,5 +1,5 @@
 import { Realtime } from 'ably'
-import AlertMsg from 'components/alert/AlertMsg'
+import AlertMsg from 'components/baseUI/alert/AlertMsg'
 import Topbar from 'components/topbar/Topbar'
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
