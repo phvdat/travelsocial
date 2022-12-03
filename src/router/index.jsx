@@ -20,13 +20,6 @@ const routesConfig = [
 		element: <App />,
 		children: [
 			{
-				path: '*',
-				element: <ErrorLayout />,
-				children: [
-					{ path: '*', element: <NotFound /> },
-				],
-			},
-			{
 				element: <DefaultLayout />,
 				children: [
 					{ path: RoutePath.Register, element: <Register />, errorElement: <NotFound /> },
