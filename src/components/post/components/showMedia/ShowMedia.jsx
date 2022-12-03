@@ -66,15 +66,15 @@ export default function ShowMedia(props) {
 		<div>
 			<div className="media-container" onClick={setVisible}>
 				{
-					dataMedia.length === 1 &&
+					dataMedia?.length === 1 &&
 					<OneMedia dataMedia={dataMedia} />
 				}
 				{
-					dataMedia.length === 2 &&
+					dataMedia?.length === 2 &&
 					<TwoMedia dataMedia={dataMedia} />
 				}
 				{
-					dataMedia.length > 2 &&
+					dataMedia?.length > 2 &&
 					<ManyMedia dataMedia={dataMedia} />
 				}
 			</div>
