@@ -25,6 +25,7 @@ const routesConfig = [
 					{ path: RoutePath.TableRaking, element: <TableRanking /> },
 					{ path: RoutePath.Profile, element: <Profile /> },
 					{ path: RoutePath.Search, element: <SearchPage /> },
+					{ path: RoutePath.Index, element: <Navigate to={RoutePath.Home} /> },
 				],
 			},
 		]
