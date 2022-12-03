@@ -26,7 +26,7 @@ const routesConfig = [
 					{ path: RoutePath.TableRaking, element: <TableRanking />, errorElement: <NotFound /> },
 					{ path: RoutePath.Profile, element: <Profile />, errorElement: <NotFound /> },
 					{ path: RoutePath.Post, element: <PostPage />, errorElement: <NotFound /> },
-					{ path: RoutePath.Search, element: <SearchPage /> },
+					{ path: RoutePath.Search, element: <SearchPage />, errorElement: <NotFound /> },
 					{ path: RoutePath.Index, element: <Navigate to={RoutePath.Home} />, errorElement: <NotFound /> },
 				],
 			},
