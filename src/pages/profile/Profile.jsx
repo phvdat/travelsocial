@@ -5,7 +5,6 @@ import { Link, useParams } from "react-router-dom";
 import postApi from "../../api/postApi";
 import Post from "../../components/post/Post";
 import Share from "../../components/share/Share";
-import Topbar from "../../components/topbar/Topbar";
 import ProfileAbout from "./components/profileabout/ProfileAbout";
 import ProfileFollow from "./components/profilefollow/ProfileFollow";
 import "./profile.scss";
@@ -88,7 +87,6 @@ export default function Profile() {
 	}
 	return (
 		<div className="container">
-			<Topbar />
 			<div className="wrapper-profile">
 				<div className="top-profile">
 					<div className="coverImg">

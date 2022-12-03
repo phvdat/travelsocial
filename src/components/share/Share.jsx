@@ -1,6 +1,6 @@
+import './share.scss'
 import { Form, message, Modal, Select } from 'antd';
 import { useEffect, useState } from 'react';
-import './share.scss'
 import Dragger from 'antd/lib/upload/Dragger';
 import { AiOutlineUpload } from 'react-icons/ai'
 import { deleteObject, getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";

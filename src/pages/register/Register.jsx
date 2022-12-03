@@ -2,7 +2,6 @@ import { Form, Input, message } from 'antd';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import authApi from '../../api/authApi';
-import Topbar from '../../components/topbar/Topbar';
 import './register.scss'
 
 export default function Register() {
@@ -33,7 +32,6 @@ export default function Register() {
 
 	return (
 		<div className="register-container">
-			<Topbar />
 			<Form
 				name="basic"
 				labelCol={{ span: 1 }}

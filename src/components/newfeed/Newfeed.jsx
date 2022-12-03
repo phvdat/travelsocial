@@ -1,7 +1,7 @@
 import "./newfeed.scss"
 import Share from './../share/Share';
 import Post from "../post/Post";
-import { Col, message, Row } from "antd";
+import { message } from "antd";
 import { useEffect, useState } from "react";
 import postApi from "../../api/postApi";
 import { useSelector } from "react-redux";

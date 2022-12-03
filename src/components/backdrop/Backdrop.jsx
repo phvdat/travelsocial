@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import './backdrop.scss'
 export default function Backdrop() {
 	return (
