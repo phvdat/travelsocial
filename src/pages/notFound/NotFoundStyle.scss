@@ -1,0 +1,22 @@
+@import "src/assets/styles/variables";
+@import "src/assets/styles/mixins";
+
+.not-found-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  h2 {
+    font-size: 100px;
+  }
+  h3 {
+    font-size: 30px;
+  }
+  a {
+    border-radius: $border-radius-sm;
+    text-align: center;
+    width: 160px;
+    padding: 16px;
+    background-color: $primary-color;
+  }
+}
