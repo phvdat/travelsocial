@@ -167,7 +167,7 @@ export default function Post(props) {
 				<p className="statusText" style={{ whiteSpace: "pre-line" }}>{postData?.content}</p>
 				<p className="destinationText">Địa điểm: {postData?.destination}</p>
 				<p className="typeTravel">Kiểu du lịch: {postData?.type}</p>
-				<ShowMedia dataMedia={postData?.mediaList} />
+				{postData.mediaList && <ShowMedia dataMedia={postData.mediaList} />}
 				<div className="bottomPost">
 					<div className='inforReact'>
 						<div className="numberLikeShare">

@@ -9,7 +9,7 @@ export const getUsersInfoById = async (id) => {
 			return response.payload
 		}
 		if (response.status_code === -9999) {
-			console.log(response.message)
+			console.log('not found')
 		}
 	} catch (error) {
 		console.log(error)

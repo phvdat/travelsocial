@@ -8,6 +8,7 @@ import './loginModal.scss';
 import { LOGIN_SUCCESS, SET_CURRENT_USER } from '../../reducers/authentication/actionTypes';
 import { useDispatch } from 'react-redux';
 import { getUsersInfoById } from 'function/callApi';
+import { RoutePath } from 'router/routePath';
 
 const LoginModal = (props) => {
 	const { open, onClose } = props
@@ -26,7 +27,7 @@ const LoginModal = (props) => {
 				if (response.status_code === 9999) {
 					onClose()
 					message.success('Đăng nhập thành công!')
-					navigate('/home')
+					navigate(RoutePath.Home)
 					window.localStorage.setItem('access_token', JSON.stringify(response.payload.accessToken));
 					window.localStorage.setItem('refresh_token', JSON.stringify(response.payload.refreshToken));
 					window.localStorage.setItem('isLogin', JSON.stringify(true));
@@ -85,7 +86,7 @@ const LoginModal = (props) => {
 				onClose()
 				message.success('Đăng nhập thành công!')
 				updateProfileWithGg(user)
-				navigate('/home')
+				navigate(RoutePath.Home)
 				window.localStorage.setItem('access_token', JSON.stringify(response.payload.accessToken));
 				window.localStorage.setItem('refresh_token', JSON.stringify(response.payload.refreshToken));
 				window.localStorage.setItem('isLogin', JSON.stringify(true));
@@ -193,7 +194,7 @@ const LoginModal = (props) => {
 						<button type='submit' className='btn-login'>Đăng nhập</button>
 						<button type='button' className='btn-register'
 							onClick={() => {
-								navigate('/register')
+								navigate(RoutePath.Register)
 								handleCancel()
 							}}>Đăng ký</button>
 					</div>

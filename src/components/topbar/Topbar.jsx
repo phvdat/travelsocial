@@ -5,16 +5,16 @@ import { IoMdNotifications } from "react-icons/io";
 import LoginModal from "../loginModal/LoginModal";
 import { useDispatch, useSelector } from "react-redux";
 import { Dropdown, Menu, message } from "antd";
-import { createSearchParams, Link, useNavigate, useParams } from "react-router-dom";
+import { createSearchParams, Link, NavLink, useNavigate, useParams } from "react-router-dom";
 import { LOGOUT_SUCCESS } from "reducers/authentication/actionTypes";
 import { HiOutlineLogout } from 'react-icons/hi'
 import { FiEdit } from 'react-icons/fi'
 import avatarDefault from 'assets/img/avatarDefault.jpg'
 import { useState } from "react";
+import { RoutePath } from "router/routePath";
 
 export default function Topbar() {
 	const navigate = useNavigate()
-	const { tab } = useParams()
 	const isLogin = useSelector(state => state.authentication.isLoggedIn)
 	const [open, setOpen] = useState(false);
 	const currentUser = useSelector(state => state.authentication.currentUser)
@@ -24,7 +24,7 @@ export default function Topbar() {
 	const handleOnSubmit = (e) => {
 		e.preventDefault()
 		navigate({
-			pathname: '/search-post',
+			pathname: RoutePath.Search,
 			search: `?${createSearchParams({
 				keyword: searchValue
 			})}`
@@ -81,12 +81,12 @@ export default function Topbar() {
 
 			<div className="topbarCenter">
 				<div className="topbarLink">
-					<Link to='/home' className={tab === 'home' ? "activeLink" : "noactiveLink"}>
+					<NavLink to={RoutePath.Home} className={({ isActive }) => (isActive ? "activeLink" : "noactiveLink")}>
 						<AiFillHome className="topbarIcon-1" />Trang Chủ
-					</Link>
-					<Link to='/table-ranking' className={tab === 'table-ranking' ? "activeLink" : "noactiveLink"}>
+					</NavLink>
+					<NavLink to={RoutePath.TableRaking} className={({ isActive }) => (isActive ? "activeLink" : "noactiveLink")}>
 						<FaUserFriends className="topbarIcon-1" />Bảng xếp hạng
-					</Link>
+					</NavLink>
 				</div>
 
 				<form onSubmit={handleOnSubmit} className="searchbar">

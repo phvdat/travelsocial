@@ -1,6 +1,7 @@
 import { Form, Input, message } from 'antd';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { RoutePath } from 'router/routePath';
 import authApi from '../../api/authApi';
 import './register.scss'
 
@@ -14,7 +15,7 @@ export default function RegisterPage() {
 				const response = await authApi.registerApi(data)
 				message.success('Đăng ký thành công!')
 				if (response.status_code === 9999) {
-					navigate('/home')
+					navigate(RoutePath.Home)
 				}
 				if (response.status_code === -9999) {
 					message.error(response.message)
