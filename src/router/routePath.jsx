@@ -6,7 +6,7 @@ export const RoutePath = {
 
 	TableRaking: '/table-ranking',
 	Profile: '/profile/:userId/:tab',
-
+	Post: '/post/:postId',
 	Search: 'search-post',
 	NotFound: 'error-404',
 

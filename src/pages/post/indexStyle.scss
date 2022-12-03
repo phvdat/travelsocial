@@ -1,0 +1,8 @@
+@import "src/assets/styles/variables";
+@import "src/assets/styles/mixins";
+
+.post-page-container {
+  margin-top: $spacing-md;
+  display: flex;
+  justify-content: center;
+}
