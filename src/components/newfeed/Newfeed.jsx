@@ -5,11 +5,14 @@ import { message } from "antd";
 import { useEffect, useState } from "react";
 import postApi from "../../api/postApi";
 import { useSelector } from "react-redux";
+import Loading from "components/baseUI/loading/Loading";
 
 export default function Newfeed() {
 	const [listPost, setListPost] = useState([])
+	const [isLoading, setIsLoading] = useState(true)
 	const isLoggedIn = useSelector(state => state.authentication.isLoggedIn)
 	useEffect(() => {
+		console.log(isLoading)
 		const getAllPost = async () => {
 			try {
 				const data = {
@@ -29,6 +32,7 @@ export default function Newfeed() {
 			}
 		}
 		getAllPost()
+		setIsLoading(false)
 	}, [])
 
 	return (
@@ -36,6 +40,7 @@ export default function Newfeed() {
 			{
 				isLoggedIn && <Share />
 			}
+			{isLoading && <Loading />}
 			{listPost ?
 				listPost.map((ele) => {
 					return <Post postData={ele} key={ele._id} />

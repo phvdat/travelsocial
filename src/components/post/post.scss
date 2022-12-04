@@ -141,6 +141,7 @@
     color: #606266;
     &:hover {
       background-color: #f0f2f5;
+      color: $primary-color;
     }
     span {
       margin-left: 4px;
@@ -151,94 +152,5 @@
   }
   .likeActive {
     color: $primary-color;
-  }
-}
-
-.postHr {
-  border: none;
-  height: 1px;
-  background-color: #ced0d4;
-}
-.boxComment {
-  display: flex;
-  align-items: flex-start;
-  padding: 10px 0;
-  .avt-user-comment {
-    width: 36px;
-    height: 36px;
-    border-radius: 30px;
-    object-fit: cover;
-    margin-right: 4px;
-  }
-  textarea {
-    width: calc(100% - 34px);
-    border-radius: 18px;
-    border: none;
-    outline: none;
-    background-color: $primary-gray-background;
-    padding: 8px 12px;
-    resize: none;
-    min-height: 30px;
-    max-height: 100px;
-  }
-}
-
-.primary-comment-item {
-  display: flex;
-  align-items: flex-start;
-  padding: 10px 0 0;
-  .avt-user-comment {
-    width: 36px;
-    height: 36px;
-    border-radius: 30px;
-    object-fit: cover;
-    margin-right: 4px;
-  }
-  .comment-item {
-    max-width: calc(100% - 34px);
-    width: fit-content;
-    background-color: $primary-gray-background;
-    border-radius: 8px;
-    padding: 4px 8px;
-  }
-  .comment-username {
-    color: $primary-black;
-    font-weight: 500;
-    cursor: pointer;
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-  p {
-    margin: 0;
-  }
-  .modify-comment-btn {
-    display: flex;
-    align-items: center;
-    span {
-      margin-left: 4px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #fff;
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      background-color: #b4b6bb;
-      float: right;
-      cursor: pointer;
-    }
-  }
-}
-.sub-comment-item {
-  margin-left: 40px;
-  padding-left: 4px;
-  span {
-    color: $secondary-gray;
-    font-weight: 500;
-    cursor: pointer;
-    &:hover {
-      text-decoration: underline;
-    }
   }
 }

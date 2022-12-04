@@ -1,21 +1,26 @@
+import './CommentStyle.scss'
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import avatarDefault from 'assets/img/avatarDefault.jpg';
-import { Dropdown, Menu, message } from 'antd';
+import { Dropdown, Menu } from 'antd';
 import { createComment, deteleCommentPost, loadCommentPost } from 'components/post/functions/callApi';
 import { BsThreeDots } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
-import reactPostApi from 'api/reactPostApi';
 import { useEffect } from 'react';
-import { useRef } from 'react';
+import { IoSendSharp } from 'react-icons/io5';
+import TextArea from 'antd/lib/input/TextArea';
+import Loading from 'components/baseUI/loading/Loading';
 
 export default function Comment(props) {
 	const { postData } = props
 	const currentUser = useSelector(state => state.authentication.currentUser)
 	const [listComment, setListComment] = useState([])
-
+	const [valueComment, setValueComment] = useState('')
+	const [isLoading, setIsLoading] = useState(true)
+	console.log(valueComment)
 	useEffect(() => {
 		handleLoadCommentPost()
+		setIsLoading(false)
 	}, [])
 
 	const handleLoadCommentPost = () => {
@@ -34,19 +39,18 @@ export default function Comment(props) {
 		handleLoadCommentPost()
 	}
 
-	const handleOnkeyDown = async (e) => {
-		if (e.key === 'Enter') {
-			e.preventDefault();
+	const handleSendComment = async () => {
+		if (valueComment) {
+			setIsLoading(true)
 			const dataComment = {
 				postId: postData._id,
-				content: e.target.value
+				content: valueComment
 			}
 			await createComment(dataComment)
 			handleLoadCommentPost()
-			inputRef.current.value = ''//clear input
+			setValueComment('')
+			setIsLoading(false)
 		}
-		e.target.style.height = 'inherit';
-		e.target.style.height = `${e.target.scrollHeight}px`;
 	}
 
 	const menuComment = (commentId) => (
@@ -59,21 +63,30 @@ export default function Comment(props) {
 			]}
 		/>
 	)
-	const inputRef = useRef()
 	return (
 		<>
 			<hr className='postHr' />
 			<div className='boxComment'>
 				<img src={currentUser.avatar || avatarDefault} alt="avt user" className='avt-user-comment' />
-				<textarea ref={inputRef} type="text" placeholder='Viết bình luận...' rows={1}
-					onKeyDown={handleOnkeyDown}
+				<TextArea
+					value={valueComment}
+					onChange={(e) => setValueComment(e.target.value)}
+					placeholder="Viết bình luận..."
+					autoSize={{
+						minRows: 1,
+						maxRows: 3
+					}}
 				/>
+				<span type='submit' className='send-icon' onClick={handleSendComment}>
+					<IoSendSharp />
+				</span>
 			</div>
+			{isLoading && <Loading />}
 			{
 				listComment.map((item) => {
 					return (
 						<div className='listComment' key={item._id}>
-							<div className="primary-comment-item">
+							<div className="container-comment-item">
 								<img src={item.avatar || avatarDefault} alt="avt user" className='avt-user-comment' />
 								<div className='comment-item'>
 									<Link to={`/profile/${item.userId}/newfeed`} className='comment-username'>{item.fullName || "User"}</Link>
