@@ -1,6 +1,7 @@
 import { Realtime } from 'ably'
 import AlertMsg from 'components/baseUI/alert/AlertMsg'
 import Topbar from 'components/topbar/Topbar'
+import { getUsersInfoById } from 'function/callApi'
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Outlet } from 'react-router-dom'
@@ -16,12 +17,15 @@ export default function DefaultLayout() {
 	const FollowChannel = realtime.channels.get('follow')
 
 	cmtChannel.subscribe(function (message) {
-		const res = JSON.parse(message.data)
-		if (currentUser._id === res.userId) {
-			setNotify({
-				title: res?.title,
-				content: res?.content,
-				path: `/post/${res._id}`,
+		const data = JSON.parse(message.data)
+		if (currentUser._id === data.userId && data.userId !== data.userIdTrigger) {
+			getUsersInfoById(data.userIdTrigger).then((res, req) => {
+				setNotify({
+					createTime: data.createTime,
+					content: data?.content,
+					path: `/post/${data._id}`,
+					avatar: res.avatar,
+				})
 			})
 			setTimeout(() => {
 				setNotify(null)
@@ -29,12 +33,15 @@ export default function DefaultLayout() {
 		}
 	});
 	likeChannel.subscribe(function (message) {
-		const res = JSON.parse(message.data)
-		if (currentUser._id === res.userId && res.userId !== res.userIdTrigger) {
-			setNotify({
-				title: res?.title,
-				content: res?.content,
-				path: `/post/${res._id}`,
+		const data = JSON.parse(message.data)
+		if (currentUser._id === data.userId && data.userId !== data.userIdTrigger) {
+			getUsersInfoById(data.userIdTrigger).then((res, req) => {
+				setNotify({
+					createTime: data.createTime,
+					content: data?.content,
+					path: `/post/${data._id}`,
+					avatar: res.avatar,
+				})
 			})
 			setTimeout(() => {
 				setNotify(null)
@@ -42,12 +49,15 @@ export default function DefaultLayout() {
 		}
 	});
 	rateChannel.subscribe(function (message) {
-		const res = JSON.parse(message.data)
-		if (currentUser._id === res.userId) {
-			setNotify({
-				title: res?.title,
-				content: res?.content,
-				path: `/post/${res._id}`,
+		const data = JSON.parse(message.data)
+		if (currentUser._id === data.userId && data.userId !== data.userIdTrigger) {
+			getUsersInfoById(data.userIdTrigger).then((res, req) => {
+				setNotify({
+					createTime: data.createTime,
+					content: data?.content,
+					path: `/post/${data._id}`,
+					avatar: res.avatar,
+				})
 			})
 			setTimeout(() => {
 				setNotify(null)
@@ -55,12 +65,15 @@ export default function DefaultLayout() {
 		}
 	});
 	FollowChannel.subscribe(function (message) {
-		const res = JSON.parse(message.data)
-		if (currentUser._id === res.userId) {
-			setNotify({
-				title: res?.title,
-				content: res?.content,
-				path: `/profile/${res._id}/newfeed`,
+		const data = JSON.parse(message.data)
+		if (currentUser._id === data.userId && data.userId !== data.userIdTrigger) {
+			getUsersInfoById(data.userIdTrigger).then((res, req) => {
+				setNotify({
+					createTime: data.createTime,
+					content: data?.content,
+					path: `/profile/${res._id}/newfeed`,
+					avatar: res.avatar,
+				})
 			})
 			setTimeout(() => {
 				setNotify(null)
@@ -70,7 +83,7 @@ export default function DefaultLayout() {
 	return (
 		<div className='defalt-layout-container'>
 			{
-				notify && <AlertMsg {...notify} />
+				notify && <AlertMsg notify={notify} />
 			}
 			<Topbar />
 			<Outlet />
