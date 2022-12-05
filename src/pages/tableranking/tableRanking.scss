@@ -142,17 +142,3 @@
     }
   }
 }
-
-.tab-container {
-  display: flex;
-  justify-content: center;
-  button {
-    @include btnStyle(
-      $width-input-sm,
-      $height-input,
-      $primary-color,
-      $font-size-btn
-    );
-    margin: 12px 24px;
-  }
-}

@@ -22,7 +22,6 @@ export default function SearchPage() {
 				}
 				const response = await elasticSearchApi.searchPost(params)
 				setListPost(response.payload)
-				console.log(response.payload)
 			} catch (error) {
 				console.log(error)
 			}

@@ -123,7 +123,6 @@ const LoginModal = (props) => {
 				address: "",
 			}
 			const response = await authApi.upadateUserInfoApi(data)
-			console.log(response)
 		} catch (error) {
 			console.log(error)
 		}

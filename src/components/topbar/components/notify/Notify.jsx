@@ -23,7 +23,6 @@ export default function Notify() {
 			}
 			const res = await notifyApi.getNotifications(params)
 			if (res.status_code === 9999) {
-				console.log(res.payload)
 				const data = res.payload
 				data.forEach(async (item) => {
 					const userTrigger = await getUsersInfoById(item?.userIdTrigger)

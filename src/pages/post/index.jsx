@@ -18,7 +18,7 @@ export default function PostPage() {
 					setPostData(prev => res.payload)
 				}
 				if (res.status_code === -9999) {
-					console.log(res.message)
+					console.log('get post error')
 				}
 			} catch (error) {
 				console.log(error);

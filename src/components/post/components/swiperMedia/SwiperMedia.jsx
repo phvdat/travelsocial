@@ -22,8 +22,6 @@ const SwiperByKeys = ({ children }) => {
 };
 export default function swiperRef(props) {
 	const { dataMedia } = props
-	console.log(dataMedia)
-
 	return (
 		<Swiper
 			className="swiper-container"
