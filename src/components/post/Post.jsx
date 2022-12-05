@@ -141,42 +141,36 @@ export default function Post(props) {
 			<LoginModal open={open} onClose={() => setOpen(false)} />
 
 			<div className="postBox">
-				<div className="topPost">
-					<div className='sub-topPost'>
-						<Link to={`/profile/${postData?.userId}/newfeed`}>
-							<img src={user?.avatar || avatarDefault} alt="avt user" className='avt-user' />
-						</Link>
-						<span className='nameUser'>
+				<div className="top-post">
+					<div className="header-post">
+						<div className='account-container'>
 							<Link to={`/profile/${postData?.userId}/newfeed`}>
-								<span className='textName'>{user?.fullName}</span>
+								<img src={user?.avatar || avatarDefault} alt="avt user" className='avt-user' />
 							</Link>
-							<span className='textTime'>
-								{moment.utc(timeStamp.toUTCString()).fromNow()}
+							<span className='nameUser'>
+								<Link to={`/profile/${postData?.userId}/newfeed`}>
+									<span className='textName'>{user?.fullName}</span>
+								</Link>
+								<span className='textTime'>
+									{moment.utc(timeStamp.toUTCString()).fromNow()}
+								</span>
 							</span>
-						</span>
+						</div>
+						{
+							currentUser._id === postData?.userId &&
+							<Dropdown overlay={menu} trigger={['click']} placement="bottomRight">
+								<span className='btn-modify-post'>
+									<BsThreeDots />
+								</span>
+							</Dropdown>
+						}
 					</div>
-					{
-						currentUser._id === postData?.userId &&
-						<Dropdown overlay={menu} trigger={['click']} placement="bottomRight">
-							<span className='btn-modify-post'>
-								<BsThreeDots />
-							</span>
-						</Dropdown>
-					}
-				</div>
-				<div className='wrapper-rate-average'>
 					<Rate style={{ fontSize: 12 }} allowHalf disabled value={Number(rateAverage)} />
+					<h2 className="title-post">{postData?.title}</h2>
+					<p onClick={() => setExpand(!expand)} className={expand ? 'content-post' : 'content-post text-collapse'} style={{ whiteSpace: "pre-line" }}>{postData?.content}</p>
+					<p className="destinationText">Địa điểm: {postData?.destination}</p>
+					<p className="typeTravel">Kiểu du lịch: {postData?.type}</p>
 				</div>
-				<h2 className="titleText">{postData?.title}</h2>
-				<p className={expand ? 'statusText' : 'statusText text-collapse'} style={{ whiteSpace: "pre-line" }}>{postData?.content}</p>
-				{
-					expand ?
-						<b onClick={() => setExpand(false)}>Thu gọn</b>
-						:
-						<b onClick={() => setExpand(true)}>Xem thêm</b>
-				}
-				<p className="destinationText">Địa điểm: {postData?.destination}</p>
-				<p className="typeTravel">Kiểu du lịch: {postData?.type}</p>
 				{postData.mediaList && <ShowMedia dataMedia={postData.mediaList} />}
 				<div className="bottomPost">
 					<div className='inforReact'>

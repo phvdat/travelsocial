@@ -13,9 +13,13 @@
   border-radius: 10px;
   padding: $spacing-md 0 4px;
 }
-
-.topPost {
-  .sub-topPost {
+.top-post {
+  padding: 16px 20px;
+}
+.header-post {
+  display: flex;
+  justify-content: space-between;
+  .account-container {
     display: flex;
     flex-direction: row;
     img {
@@ -27,9 +31,6 @@
       cursor: pointer;
     }
   }
-  margin: 0 20px;
-  display: flex;
-  justify-content: space-between;
   .nameUser {
     display: flex;
     flex-direction: column;
@@ -63,23 +64,26 @@
   }
 }
 
-.wrapper-rate-average {
-  padding: 0 20px;
-}
-.titleText {
+.title-post {
   font-weight: 500;
-  padding: 12px 20px;
+  padding: 12px 0;
   margin: 0;
 }
-.statusText {
+.content-post {
   font-weight: 400;
-  padding: 4px 20px;
+  padding: 4px 0;
   margin: 0;
+}
+.text-collapse {
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  display: -webkit-box;
 }
 .destinationText,
 .typeTravel {
   font-weight: 300;
-  padding: 4px 20px;
+  padding: 4px 0;
   font-style: italic;
   margin: 0;
 }
