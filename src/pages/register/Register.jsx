@@ -47,17 +47,17 @@ export default function RegisterPage() {
 					<Input placeholder="Nhập họ tên" className="input-field" />
 				</Form.Item>
 				<Form.Item name="phone" rules={[{ required: true, message: 'Vui lòng nhập số điện thoại' }]}>
-					{/* <InputNumber placeholder="Số điện thoại" className="input-field" /> */}
 					<input type="number" placeholder="Số điện thoại" className="ant-input ant-input-status-error input-field" />
 				</Form.Item>
-				<Form.Item name="username" rules={[{ required: true, message: 'Vui lòng nhập username' }]}>
+				<Form.Item name="username" rules={[{ required: true, message: 'Vui lòng nhập tên đăng nhập' }]}>
 					<Input placeholder="Username" className="input-field" />
 				</Form.Item>
-				<Form.Item name="password" rules={[{ required: true, message: 'Vui lòng nhập password' }]}>
+				<Form.Item name="password" rules={[{ required: true, message: 'Vui lòng nhập mật khẩu' },
+				{ min: 8, message: 'Mật khẩu phải ít nhất 8 ký tự' },]}>
 					<Input.Password placeholder="Mật khẩu" className="input-field" />
 				</Form.Item>
 				<Form.Item name="passwordConfirm" rules={[
-					{ required: true, message: 'Vui lòng nhập lại password' },
+					{ required: true, message: 'Vui lòng nhập lại mật khẩu' },
 					({ getFieldValue }) => ({
 						validator(rule, value) {
 							if (!value || getFieldValue('password') === value) {
