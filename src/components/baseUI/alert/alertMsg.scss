@@ -2,10 +2,6 @@
 @import "src/assets/styles/mixins";
 
 .alert-msg {
-  position: fixed;
-  bottom: 50px;
-  left: 10px;
-  z-index: $z-index-alert-msg;
   width: 300px;
   min-height: 40px;
   border-radius: $border-radius-sm;
@@ -13,10 +9,10 @@
   box-shadow: $box-shadow-green;
   background-color: $primary-white;
   cursor: pointer;
-  animation: alertAnimation 4s forwards;
-  -moz-animation: alertAnimation 4s forwards;
-  -webkit-animation: alertAnimation 4s forwards;
-  -o-animation: alertAnimation 4s forwards;
+  animation: alertAnimation 14s forwards;
+  -moz-animation: alertAnimation 14s forwards;
+  -webkit-animation: alertAnimation 14s forwards;
+  -o-animation: alertAnimation 14s forwards;
   h4,
   p {
     color: $secondary-color;

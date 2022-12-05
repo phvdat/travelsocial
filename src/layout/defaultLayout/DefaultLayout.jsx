@@ -1,3 +1,4 @@
+import './DefaultLayoutStyle.scss'
 import { Realtime } from 'ably'
 import AlertMsg from 'components/baseUI/alert/AlertMsg'
 import Topbar from 'components/topbar/Topbar'
@@ -5,11 +6,10 @@ import { getUsersInfoById } from 'function/callApi'
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Outlet } from 'react-router-dom'
-import './DefaultLayoutStyle.scss'
 export default function DefaultLayout() {
 
 	const currentUser = useSelector(state => state.authentication.currentUser)
-	const [notify, setNotify] = useState(null)
+	const [alertNotifyList, setAlertNotifyList] = useState([])
 	const realtime = new Realtime({ key: process.env.REACT_APP_ABLY_API_KEY })
 	const cmtChannel = realtime.channels.get('comment')
 	const likeChannel = realtime.channels.get('like')
@@ -19,72 +19,72 @@ export default function DefaultLayout() {
 	cmtChannel.subscribe(function (message) {
 		const data = JSON.parse(message.data)
 		if (currentUser._id === data.userId && data.userId !== data.userIdTrigger) {
-			getUsersInfoById(data.userIdTrigger).then((res, req) => {
-				setNotify({
+			getUsersInfoById(data.userIdTrigger).then((res) => {
+				const notify = {
 					createTime: data.createTime,
 					content: data?.content,
 					path: `/post/${data._id}`,
-					avatar: res.avatar,
-				})
+					avatar: res?.avatar || "",
+				}
+				setAlertNotifyList(alertNotifyList.concat(
+					<AlertMsg key={data._id} notify={notify} />
+				))
 			})
-			setTimeout(() => {
-				setNotify(null)
-			}, 4000)
 		}
 	});
 	likeChannel.subscribe(function (message) {
 		const data = JSON.parse(message.data)
 		if (currentUser._id === data.userId && data.userId !== data.userIdTrigger) {
 			getUsersInfoById(data.userIdTrigger).then((res, req) => {
-				setNotify({
+				const notify = {
 					createTime: data.createTime,
 					content: data?.content,
 					path: `/post/${data._id}`,
-					avatar: res.avatar,
-				})
+					avatar: res?.avatar || "",
+				}
+				setAlertNotifyList(alertNotifyList.concat(
+					<AlertMsg key={data._id} notify={notify} />
+				))
 			})
-			setTimeout(() => {
-				setNotify(null)
-			}, 4000)
 		}
 	});
 	rateChannel.subscribe(function (message) {
 		const data = JSON.parse(message.data)
 		if (currentUser._id === data.userId && data.userId !== data.userIdTrigger) {
 			getUsersInfoById(data.userIdTrigger).then((res, req) => {
-				setNotify({
+				const notify = {
 					createTime: data.createTime,
 					content: data?.content,
 					path: `/post/${data._id}`,
-					avatar: res.avatar,
-				})
+					avatar: res?.avatar || "",
+				}
+				setAlertNotifyList(alertNotifyList.concat(
+					<AlertMsg key={data._id} notify={notify} />
+				))
 			})
-			setTimeout(() => {
-				setNotify(null)
-			}, 4000)
 		}
 	});
 	FollowChannel.subscribe(function (message) {
 		const data = JSON.parse(message.data)
 		if (currentUser._id === data.userId && data.userId !== data.userIdTrigger) {
 			getUsersInfoById(data.userIdTrigger).then((res, req) => {
-				setNotify({
+				const notify = {
 					createTime: data.createTime,
 					content: data?.content,
 					path: `/profile/${res._id}/newfeed`,
-					avatar: res.avatar,
-				})
+					avatar: res?.avatar || "",
+				}
+				setAlertNotifyList(alertNotifyList.concat(
+					<AlertMsg key={data._id} notify={notify} />
+				))
 			})
-			setTimeout(() => {
-				setNotify(null)
-			}, 4000)
 		}
 	});
 	return (
 		<div className='defalt-layout-container'>
-			{
-				notify && <AlertMsg notify={notify} />
-			}
+			<div className='notify-list-container'>
+				{alertNotifyList}
+			</div>
 			<Topbar />
 			<Outlet />
 		</div>
