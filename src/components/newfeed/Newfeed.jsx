@@ -12,7 +12,6 @@ export default function Newfeed() {
 	const [isLoading, setIsLoading] = useState(true)
 	const isLoggedIn = useSelector(state => state.authentication.isLoggedIn)
 	useEffect(() => {
-		console.log(isLoading)
 		const getAllPost = async () => {
 			try {
 				const data = {

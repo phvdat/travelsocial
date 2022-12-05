@@ -12,6 +12,7 @@ import { FiEdit } from 'react-icons/fi'
 import avatarDefault from 'assets/img/avatarDefault.jpg'
 import { useState } from "react";
 import { RoutePath } from "router/routePath";
+import Notify from "./components/notify/Notify";
 
 export default function Topbar() {
 	const navigate = useNavigate()
@@ -100,15 +101,19 @@ export default function Topbar() {
 			<div className="topbarRight">
 				{isLogin ?
 					<>
-						<div className="iconRightSide">
-							<div className="subIconRight">
-								<IoMdNotifications className="topbarIcon-2" />
-								<span className="iconBadge">1</span>
-							</div>
-							<p>Thông báo</p>
-						</div>
-						<Dropdown overlay={menu} trigger={['click']}>
+
+						{/* <Dropdown overlay={menu} trigger={['click']}>
 							<div className="iconRightSide">
+								<div className="subIconRight">
+									<IoMdNotifications className="topbarIcon-2" />
+									<span className="iconBadge">1</span>
+								</div>
+								<p>Thông báo</p>
+							</div>
+						</Dropdown> */}
+						<Notify />
+						<Dropdown overlay={menu} trigger={['click']}>
+							<div className="account-manager">
 								<div className="topbarAvata">
 									<img src={currentUser.avatar || avatarDefault} alt="avatar" className="avt-topbar" />
 								</div>
@@ -117,7 +122,7 @@ export default function Topbar() {
 						</Dropdown>
 					</>
 					:
-					<div onClick={() => setOpen(true)} className="iconRightSide">
+					<div onClick={() => setOpen(true)} className="sign-in">
 						<div className="subIconRight">
 							<AiOutlineLogin className="topbarIcon-2" />
 						</div>

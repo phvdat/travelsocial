@@ -1,0 +1,107 @@
+@import "src/assets/styles/variables";
+@import "src/assets/styles/mixins";
+.iconRightSide {
+  min-width: 80px;
+  max-width: 120px;
+  cursor: pointer;
+  margin: 0 4px;
+  p {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+    margin: 0;
+  }
+}
+.subIconRight {
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  .topbarIcon-2 {
+    font-size: 24px;
+    color: $primary-gray;
+  }
+  .iconBadge {
+    width: 15px;
+    height: 15px;
+    border-radius: 100%;
+    background-color: #e41e3f;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: $primary-white;
+    font-size: 10px;
+    position: absolute;
+    right: 20px;
+    top: -1px;
+  }
+}
+
+// custome dropdown
+.dropdown-notify > li {
+  overflow-y: scroll;
+  cursor: default;
+  &:hover {
+    background-color: #fff;
+  }
+}
+.notify-container {
+  width: 360px;
+  max-width: 360px;
+  height: 60vh;
+  li.notify-item {
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    border-radius: $border-radius-sm;
+    padding: 8px;
+    &:hover {
+      background-color: $primary-dark-gray;
+    }
+    img {
+      width: 50px;
+      height: 50px;
+      object-fit: cover;
+      border-radius: 50%;
+      margin-right: $spacing-sm;
+      margin-top: $spacing-sm;
+    }
+    .text-content {
+      flex-grow: 1;
+      // display: flex;
+      // align-items: start;
+      // flex-direction: column;
+    }
+    p {
+      margin: 0;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    span {
+      display: block;
+      font-weight: 300;
+      font-size: 14px;
+    }
+  }
+}
+.status-container {
+  display: flex;
+  align-items: center;
+  .onlStatus {
+    width: 12px;
+    height: 12px;
+    background-color: #478a4c;
+    border: #fff 1px solid;
+    border-radius: 50%;
+  }
+}
+
+.line-separate {
+  margin: $spacing-sm 0;
+  border: none;
+  height: 1px;
+  background-color: #ced0d4;
+}

@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom'
 import './alertMsg.scss'
 export default function AlertMsg(props) {
 	const { title, content, path } = props
-	console.log(title)
 	return (
 		<Link to={path}>
 			<div className={title ? "alert-msg" : ""}>

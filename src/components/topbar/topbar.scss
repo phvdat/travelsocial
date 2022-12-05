@@ -1,4 +1,5 @@
 @import "src/assets/styles/variables";
+@import "src/assets/styles/mixins";
 @mixin topbarLink($color) {
   display: flex;
   align-items: center;
@@ -86,6 +87,19 @@
   }
 }
 
+.iconRightSide {
+  min-width: 80px;
+  max-width: 120px;
+  cursor: pointer;
+  margin: 0 4px;
+  p {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+    margin: 0;
+  }
+}
+
 .topbarLink {
   height: 100%;
   display: flex;
@@ -105,7 +119,52 @@
   }
 }
 
-.iconRightSide {
+.account-manager {
+  min-width: 80px;
+  max-width: 120px;
+  cursor: pointer;
+  margin: 0 4px;
+  p {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+    margin: 0;
+  }
+}
+.topbarAvata {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .avt-topbar {
+    width: 24px;
+    height: 24px;
+    border-radius: 20px;
+    object-fit: cover;
+  }
+}
+
+.menu-item-profile {
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+}
+.menu-item-logout {
+  display: flex;
+  align-items: center;
+  svg {
+    font-size: 20px;
+    margin-right: 8px;
+  }
+}
+
+.sign-in {
   min-width: 80px;
   max-width: 120px;
   cursor: pointer;
@@ -140,38 +199,5 @@
     position: absolute;
     right: 20px;
     top: -1px;
-  }
-}
-
-.topbarAvata {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  .avt-topbar {
-    width: 24px;
-    height: 24px;
-    border-radius: 20px;
-    object-fit: cover;
-  }
-}
-
-.menu-item-profile {
-  width: 200px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  img {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    object-fit: cover;
-  }
-}
-.menu-item-logout {
-  display: flex;
-  align-items: center;
-  svg {
-    font-size: 20px;
-    margin-right: 8px;
   }
 }

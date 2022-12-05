@@ -51,7 +51,6 @@ export default function ProfileAbout(props) {
 		try {
 			const response = await authApi.upadateUserInfoApi(data)
 			if (response.status_code === 9999) {
-				console.log('update success')
 				message.success('Cập nhật thành công')
 				getUsersInfoById(response.payload.userId).then(
 					(res, req) => {

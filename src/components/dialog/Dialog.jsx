@@ -7,7 +7,6 @@ export default function Dialog(props) {
 	const { visible, onClose, children } = props
 	useEffect(() => {
 		if (visible) {
-			console.log('hien thi pop up')
 			document.documentElement.style.overflow = 'hidden';
 		}
 		return () => {

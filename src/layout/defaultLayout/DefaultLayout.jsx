@@ -17,7 +17,6 @@ export default function DefaultLayout() {
 
 	cmtChannel.subscribe(function (message) {
 		const res = JSON.parse(message.data)
-		console.log(message.data)
 		if (currentUser._id === res.userId) {
 			setNotify({
 				title: res?.title,
@@ -31,7 +30,6 @@ export default function DefaultLayout() {
 	});
 	likeChannel.subscribe(function (message) {
 		const res = JSON.parse(message.data)
-
 		if (currentUser._id === res.userId) {
 			setNotify({
 				title: res?.title,

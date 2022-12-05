@@ -38,7 +38,6 @@ export default function Share() {
 	};
 	useEffect(() => {
 		if (isModalOpen) {
-			console.log('hien thi pop up')
 			document.documentElement.style.overflow = 'hidden';
 		}
 		return () => {

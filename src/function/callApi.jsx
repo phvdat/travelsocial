@@ -28,7 +28,7 @@ export const getFollowUser = async (id) => {
 			return response.payload
 		}
 		if (response.status_code === -9999) {
-			console.log(response.message)
+			console.log('fail')
 		}
 	} catch (error) {
 		console.log(error)
@@ -48,7 +48,7 @@ export const getFollower = async (id) => {
 
 		}
 		if (response.status_code === -9999) {
-			console.log(response.message)
+			console.log('fail')
 		}
 	} catch (error) {
 		console.log(error)

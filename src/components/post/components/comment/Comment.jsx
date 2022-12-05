@@ -17,7 +17,6 @@ export default function Comment(props) {
 	const [listComment, setListComment] = useState([])
 	const [valueComment, setValueComment] = useState('')
 	const [isLoading, setIsLoading] = useState(true)
-	console.log(valueComment)
 	useEffect(() => {
 		handleLoadCommentPost()
 		setIsLoading(false)
