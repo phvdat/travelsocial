@@ -34,6 +34,8 @@ export default function Post(props) {
 
 	const [open, setOpen] = useState(false);
 
+	const [expand, setExpand] = useState(false)
+
 
 	useEffect(() => {
 		//check like or not
@@ -164,7 +166,13 @@ export default function Post(props) {
 					<Rate style={{ fontSize: 12 }} allowHalf disabled value={Number(rateAverage)} />
 				</div>
 				<h2 className="titleText">{postData?.title}</h2>
-				<p className="statusText" style={{ whiteSpace: "pre-line" }}>{postData?.content}</p>
+				<p className={expand ? 'statusText' : 'statusText text-collapse'} style={{ whiteSpace: "pre-line" }}>{postData?.content}</p>
+				{
+					expand ?
+						<b onClick={() => setExpand(false)}>Thu gọn</b>
+						:
+						<b onClick={() => setExpand(true)}>Xem thêm</b>
+				}
 				<p className="destinationText">Địa điểm: {postData?.destination}</p>
 				<p className="typeTravel">Kiểu du lịch: {postData?.type}</p>
 				{postData.mediaList && <ShowMedia dataMedia={postData.mediaList} />}
