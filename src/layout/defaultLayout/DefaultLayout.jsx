@@ -30,7 +30,7 @@ export default function DefaultLayout() {
 	});
 	likeChannel.subscribe(function (message) {
 		const res = JSON.parse(message.data)
-		if (currentUser._id === res.userId) {
+		if (currentUser._id === res.userId && res.userId !== res.userIdTrigger) {
 			setNotify({
 				title: res?.title,
 				content: res?.content,
