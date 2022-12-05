@@ -1,9 +1,12 @@
+import './alertMsg.scss'
 import moment from 'moment'
 import React from 'react'
 import { Link } from 'react-router-dom'
-import './alertMsg.scss'
+import viLocale from "moment/locale/vi";
+
 export default function AlertMsg(props) {
 	const { notify } = props
+	moment.locale('vi', [viLocale])
 	const timeStamp = new Date(notify.createTime)
 	return (
 		<Link to={notify.path}>

@@ -16,6 +16,7 @@ import { createRate, getAllRate, getListLike, updateRate } from './functions/cal
 import Comment from './components/comment/Comment';
 import './post.scss';
 import LoginModal from 'components/loginModal/LoginModal';
+import viLocale from "moment/locale/vi";
 
 export default function Post(props) {
 	const { postData } = props
@@ -23,6 +24,7 @@ export default function Post(props) {
 	const isLogin = localStorage.getItem('isLogin')
 	const currentUser = useSelector(state => state.authentication.currentUser)
 	const navigate = useNavigate()
+	moment.locale('vi', [viLocale])
 	const timeStamp = new Date(postData?.createTime)
 
 	const [user, setUser] = useState({})

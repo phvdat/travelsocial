@@ -8,7 +8,10 @@ import moment from 'moment';
 import { getUsersInfoById } from 'function/callApi';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import Loading from 'components/baseUI/loading/Loading';
+import viLocale from "moment/locale/vi";
+
 export default function Notify() {
+	moment.locale('vi', [viLocale])
 	const navigate = useNavigate()
 	const [notifications, setNotifications] = useState([])
 	const [isLoading, setIsLoading] = useState(true)
