@@ -101,3 +101,14 @@
     }
   }
 }
+
+.load-more-cmt {
+  display: inline-block;
+  cursor: pointer;
+  font-weight: 500;
+  margin: 8px 0;
+  transition: 0.3;
+  &:hover {
+    text-decoration: underline;
+  }
+}

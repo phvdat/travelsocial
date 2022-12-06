@@ -17,19 +17,23 @@ export default function Comment(props) {
 	const [listComment, setListComment] = useState([])
 	const [valueComment, setValueComment] = useState('')
 	const [isLoading, setIsLoading] = useState(true)
+	const [page, setPage] = useState(1)
 	useEffect(() => {
-		handleLoadCommentPost()
-		setIsLoading(false)
-	}, [])
+		setIsLoading(true)
+		handleLoadCommentPost(page)
+	}, [page])
 
-	const handleLoadCommentPost = () => {
+	const handleLoadCommentPost = (page) => {
 		const params = {
 			postId: postData._id,
-			page: 1,
-			size: 20
+			page: page,
+			size: 5
 		}
-		loadCommentPost(params).then((res, req) => {
-			setListComment(res)
+		loadCommentPost(params).then((res) => {
+			setListComment(prev => [...prev, ...res])
+			setTimeout(() => {
+				setIsLoading(false)
+			}, 300)
 		})
 	}
 
@@ -38,7 +42,7 @@ export default function Comment(props) {
 		handleLoadCommentPost()
 	}
 
-	const handleSendComment = async () => {
+	const handleCreateComment = async () => {
 		if (valueComment) {
 			setIsLoading(true)
 			const dataComment = {
@@ -51,7 +55,9 @@ export default function Comment(props) {
 			setIsLoading(false)
 		}
 	}
-
+	const handleLoadMoreCmt = () => {
+		setPage(prev => prev + 1)
+	}
 	const menuComment = (commentId) => (
 		<Menu
 			items={[
@@ -76,11 +82,10 @@ export default function Comment(props) {
 						maxRows: 3
 					}}
 				/>
-				<span type='submit' className='send-icon' onClick={handleSendComment}>
+				<span type='submit' className='send-icon' onClick={handleCreateComment}>
 					<IoSendSharp />
 				</span>
 			</div>
-			{isLoading && <Loading />}
 			{
 				listComment.map((item) => {
 					return (
@@ -103,6 +108,10 @@ export default function Comment(props) {
 					)
 				})
 			}
+			{isLoading && <Loading />}
+			<div>
+				<span className='load-more-cmt' onClick={() => handleLoadMoreCmt()}>Tải thêm bình luận</span>
+			</div>
 		</>
 	)
 }
