@@ -11,42 +11,60 @@ export default function Newfeed() {
 	const [listPost, setListPost] = useState([])
 	const [isLoading, setIsLoading] = useState(true)
 	const isLoggedIn = useSelector(state => state.authentication.isLoggedIn)
-	useEffect(() => {
-		const getAllPost = async () => {
-			try {
-				const data = {
-					page: 1,
-					size: 20,
-					status: "public"
-				}
-				const response = await postApi.getAllPost(data)
-				if (response.status_code === 9999) {
-					setListPost(response.payload)
-				}
-				if (response.status_code === -9999) {
-					message.warning('Tải bài viết không thành công!')
-				}
-			} catch (error) {
-				console.log(error)
+	const [page, setPage] = useState(1)
+
+	const getAllPost = async (pageNum) => {
+		try {
+			const data = {
+				page: pageNum,
+				size: 10,
+				status: "public"
 			}
+			const response = await postApi.getAllPost(data)
+			if (response.status_code === 9999) {
+				setListPost(prev => [...prev, ...(response.payload)])
+				console.log(response.payload)
+			}
+			if (response.status_code === -9999) {
+				message.warning('Tải bài viết không thành công!')
+			}
+		} catch (error) {
+			console.log(error)
 		}
-		getAllPost()
 		setIsLoading(false)
-	}, [])
+	}
+
+	useEffect(() => {
+		setIsLoading(true)
+		getAllPost(page)
+	}, [page])
+
+	const handleScroll = () => {
+		console.log(window.innerHeight)
+		console.log(document.documentElement.scrollTop)
+		console.log(document.documentElement.offsetHeight)
+		console.log('============')
+		if (window.innerHeight + document.documentElement.scrollTop !== document.documentElement.offsetHeight) return;
+		console.log('loadmore')
+		setPage(prev => prev + 1)
+	}
+
+	useEffect(() => {
+		window.addEventListener('scroll', handleScroll);
+		return () => window.removeEventListener('scroll', handleScroll);
+	}, []);
 
 	return (
 		<div className="newfeed">
 			{
 				isLoggedIn && <Share />
 			}
-			{isLoading && <Loading />}
-			{listPost ?
+			{listPost.length !== 0 &&
 				listPost.map((ele) => {
 					return <Post postData={ele} key={ele._id} />
 				})
-				:
-				<h1 style={{ textAlign: 'center' }}>Không có bài viết nào</h1>
 			}
+			{isLoading && <Loading />}
 		</div>
 	)
 }

@@ -9,24 +9,37 @@ import Loading from 'components/baseUI/loading/Loading';
 export default function TableRankingPage() {
 	const [list, setList] = useState([]);
 	const [isLoading, setIsLoading] = useState(true)
+	const [page, setPage] = useState(1)
+
+	const getListRanking = async (pageNum) => {
+		try {
+			const params = { page: pageNum, size: 10 }
+			const response = await rankingApi.getListLeaderBoardUser(params)
+			Promise.all(response.payload.map((item) => {
+				return getUsersInfoById(item.userId)
+			})).then((res) => {
+				setList(prev => [...prev, ...res])
+			})
+			setIsLoading(false)
+		} catch (error) {
+			console.log(error)
+		}
+	}
 	useEffect(() => {
 		window.scrollTo(0, 0);
-		const getListRanking = async () => {
-			try {
-				const params = { page: 1, size: 10 }
-				const response = await rankingApi.getListLeaderBoardUser(params)
-				Promise.all(response.payload.map((item) => {
-					return getUsersInfoById(item.userId)
-				})).then((res) => {
-					setList(prev => [...prev, ...res])
-				})
-				setIsLoading(false)
-			} catch (error) {
-				console.log(error)
-			}
-		}
 		getListRanking()
 	}, []);
+	// handle loadmore
+	const handleScroll = () => {
+		if (window.innerHeight + document.documentElement.scrollTop !== document.documentElement.offsetHeight) return;
+		setPage(prev => prev + 1)
+		getListRanking(page)
+	}
+	useEffect(() => {
+		window.addEventListener('scroll', handleScroll);
+		return () => window.removeEventListener('scroll', handleScroll);
+	}, []);
+
 	return (
 		<div className='container-ranking'>
 			<div className='wapper-ranking'>
