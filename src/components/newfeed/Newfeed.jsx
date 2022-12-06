@@ -40,12 +40,7 @@ export default function Newfeed() {
 	}, [page])
 
 	const handleScroll = () => {
-		console.log(window.innerHeight)
-		console.log(document.documentElement.scrollTop)
-		console.log(document.documentElement.offsetHeight)
-		console.log('============')
-		if (window.innerHeight + document.documentElement.scrollTop !== document.documentElement.offsetHeight) return;
-		console.log('loadmore')
+		if (window.innerHeight + document.documentElement.scrollTop !== document.getElementById('root').offsetHeight) return;
 		setPage(prev => prev + 1)
 	}
 
