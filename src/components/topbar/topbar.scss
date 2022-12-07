@@ -4,12 +4,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 88%;
+  height: 100%;
   margin: 0 4px;
   padding: 0 12px;
   cursor: pointer;
-  border-radius: 10px;
   color: $color;
+  span {
+    font-weight: 600;
+  }
   .topbarIcon-1 {
     font-size: 24px;
     margin-right: 10px;
@@ -107,14 +109,21 @@
   align-items: center;
   .noactiveLink {
     @include topbarLink($primary-gray);
+    --_p: 0%;
+    -webkit-background-clip: text, padding-box;
+    background-clip: text, padding-box;
+    background: linear-gradient(90deg, $primary-color 50%, $primary-gray 0)
+        calc(100% - var(--_p)) / 200% 100%,
+      linear-gradient($primary-color 0 0) 0% 100% / var(--_p) 3px no-repeat;
+    background-clip: text, padding-box;
+    -webkit-background-clip: text, padding-box;
+    transition: 0.5s;
     &:hover {
-      background-color: #f0f2f5;
+      --_p: 100%;
     }
   }
   .activeLink {
     @include topbarLink($primary-color);
-    height: 99%;
-    border-radius: 0px;
     border-bottom: 3px $primary-color solid;
   }
 }

@@ -83,10 +83,12 @@ export default function Topbar() {
 			<div className="topbarCenter">
 				<div className="topbarLink">
 					<NavLink to={RoutePath.Home} className={({ isActive }) => (isActive ? "activeLink" : "noactiveLink")}>
-						<AiFillHome className="topbarIcon-1" />Trang Chủ
+						<AiFillHome className="topbarIcon-1" />
+						<span>Trang Chủ</span>
 					</NavLink>
 					<NavLink to={RoutePath.TableRaking} className={({ isActive }) => (isActive ? "activeLink" : "noactiveLink")}>
-						<FaUserFriends className="topbarIcon-1" />Bảng xếp hạng
+						<FaUserFriends className="topbarIcon-1" />
+						<span>Bảng xếp hạng</span>
 					</NavLink>
 				</div>
 
