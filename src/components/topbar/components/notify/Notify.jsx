@@ -58,9 +58,7 @@ export default function Notify() {
 						<div className="notify-container" >
 							<h4>Thông báo</h4>
 							<ul>
-								{isLoading ?
-									<Loading />
-									:
+								{
 									notifications.map((item, idx) => {
 										const timeStamp = new Date(item?.createTime)
 										return (
@@ -82,6 +80,7 @@ export default function Notify() {
 										)
 									})
 								}
+								{isLoading && <Loading position="center-loading" />}
 							</ul>
 						</div >,
 					key: '0',

@@ -108,7 +108,7 @@ export default function Comment(props) {
 					)
 				})
 			}
-			{isLoading && <Loading />}
+			{isLoading && <Loading position="center-loading" />}
 			<div>
 				<span className='load-more-cmt' onClick={() => handleLoadMoreCmt()}>Tải thêm bình luận</span>
 			</div>

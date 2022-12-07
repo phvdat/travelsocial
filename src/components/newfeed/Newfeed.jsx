@@ -59,7 +59,7 @@ export default function Newfeed() {
 					return <Post postData={ele} key={ele._id} />
 				})
 			}
-			{isLoading && <Loading />}
+			{isLoading && <Loading position="center-loading" />}
 		</div>
 	)
 }

@@ -1,21 +1,15 @@
+import './LoadingStyle.scss'
 import React from 'react'
-import { LoadingOutlined } from '@ant-design/icons';
-import { Spin } from 'antd';
-
-const antIcon = (
-	<LoadingOutlined
-		style={{
-			fontSize: 40,
-			color: '#ff8c01',
-		}}
-		spin
-	/>
-);
-export default function Loading() {
-
+/**
+ * position: "center-loading" | ""
+ */
+export default function Loading(props) {
+	const { position } = props
+	console.log(position)
 	return (
-		<div style={{ textAlign: 'center' }}>
-			<Spin indicator={antIcon} />
-		</div>
+		<div className={position} >
+			<div className="loader">
+			</div>
+		</div >
 	)
 }

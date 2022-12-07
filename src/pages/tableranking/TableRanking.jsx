@@ -91,10 +91,7 @@ export default function TableRankingPage() {
 						)
 					}
 				</div>
-				{
-					isLoading &&
-					<Loading />
-				}
+				{isLoading && <Loading position="center-loading" />}
 			</div>
 		</div>
 	)

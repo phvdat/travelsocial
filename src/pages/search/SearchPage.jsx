@@ -35,9 +35,8 @@ export default function SearchPage() {
 			<Slideshow />
 			<div className="wrapper-search-result">
 				<h3 className='lable'>Kết quả tìm kiếm cho: <span>{searchParams.get('keyword')}</span></h3>
-				{isLoading ?
-					<Loading />
-					:
+				{isLoading && <Loading />}
+				{
 					listPost?.map((item) => {
 						return <Post postData={item} key={item._id} />
 					})
