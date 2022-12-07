@@ -12,12 +12,12 @@
   }
   .ant-modal-title {
     text-align: center;
-    font-size: $font-size-title;
+    font-size: $font-size-xl;
   }
   .ant-modal-body {
     text-align: center;
     .login-text-1 {
-      font-size: $font-size-paragraph;
+      font-size: $font-size-md;
       color: #666666;
     }
     .btn-facebook,
@@ -26,7 +26,7 @@
       color: $primary-white;
       width: $width-input-lg;
       height: $height-input;
-      font-size: $font-size-btn;
+      font-size: $font-size-md;
       border-radius: 8px;
       border: none;
       cursor: pointer;
@@ -39,7 +39,7 @@
     }
     .login-text-2 {
       margin-top: 20px;
-      font-size: $font-size-paragraph;
+      font-size: $font-size-md;
       color: #666666;
     }
     .login-form {
@@ -58,7 +58,7 @@
         $width-input-sm,
         $height-input,
         $primary-color,
-        $font-size-btn
+        $font-size-md
       );
     }
     .btn-register {
@@ -66,7 +66,7 @@
         $width-input-sm,
         $height-input,
         $primary-green,
-        $font-size-btn
+        $font-size-md
       );
     }
     .btn-container {

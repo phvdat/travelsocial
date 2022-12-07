@@ -46,7 +46,7 @@
     background: #fff;
   }
   .text-top-profile {
-    font-size: $font-size-paragraph;
+    font-size: $font-size-md;
   }
 }
 
@@ -60,7 +60,7 @@
     justify-content: flex-start;
   }
   .btn-follow {
-    @include btnStyle(180px, 32px, $primary-color, $font-size-paragraph);
+    @include btnStyle(180px, 32px, $primary-color, $font-size-md);
     margin-right: 8px;
     width: auto !important;
     // min-width: 100px !important;

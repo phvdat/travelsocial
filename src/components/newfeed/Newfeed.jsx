@@ -22,8 +22,7 @@ export default function Newfeed() {
 			}
 			const response = await postApi.getAllPost(data)
 			if (response.status_code === 9999) {
-				setListPost(prev => [...prev, ...(response.payload)])
-				console.log(response.payload)
+				setListPost(prev => [...prev, ...(response.payload.items)])
 			}
 			if (response.status_code === -9999) {
 				message.warning('Tải bài viết không thành công!')

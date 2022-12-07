@@ -9,11 +9,10 @@ import Loading from 'components/baseUI/loading/Loading';
 export default function TableRankingPage() {
 	const [list, setList] = useState([]);
 	const [isLoading, setIsLoading] = useState(true)
-	const [page, setPage] = useState(1)
 
-	const getListRanking = async (pageNum) => {
+	const getListRanking = async () => {
 		try {
-			const params = { page: pageNum, size: 10 }
+			const params = { page: 1, size: 100 }
 			const response = await rankingApi.getListLeaderBoardUser(params)
 			Promise.all(response.payload.map((item) => {
 				return getUsersInfoById(item.userId)
@@ -28,16 +27,6 @@ export default function TableRankingPage() {
 	useEffect(() => {
 		window.scrollTo(0, 0);
 		getListRanking()
-	}, []);
-	// handle loadmore
-	const handleScroll = () => {
-		if (window.innerHeight + document.documentElement.scrollTop !== document.documentElement.offsetHeight) return;
-		setPage(prev => prev + 1)
-		getListRanking(page)
-	}
-	useEffect(() => {
-		window.addEventListener('scroll', handleScroll);
-		return () => window.removeEventListener('scroll', handleScroll);
 	}, []);
 
 	return (
