@@ -21,6 +21,7 @@ export default function ProfilePage() {
 	const [listPost, setListPost] = useState([])
 	const [followStatus, setFollowStatus] = useState(false)
 	useEffect(() => {
+		window.scrollTo(0, 0)
 		const getAllPost = async () => {
 			try {
 				const data = {

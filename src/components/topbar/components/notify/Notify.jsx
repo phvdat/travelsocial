@@ -23,7 +23,7 @@ export default function Notify() {
 			}
 			const res = await notifyApi.getNotifications(params)
 			if (res.status_code === 9999) {
-				const data = res.payload
+				const data = res.payload.items
 				data.forEach(async (item) => {
 					const userTrigger = await getUsersInfoById(item?.userIdTrigger)
 					setNotifications(prev => [...prev,
@@ -46,8 +46,8 @@ export default function Notify() {
 	useEffect(() => {
 		handleGetNotify()
 	}, [])
+
 	const handleReadNotify = (path, idNotifiy) => {
-		// api readed
 		navigate(path)
 	}
 	const menu = (
@@ -89,7 +89,7 @@ export default function Notify() {
 
 	return (
 		<div>
-			<Dropdown overlay={menu} trigger={['click']}>
+			<Dropdown overlayClassName='overlay-drop-down-fixed' overlay={menu} trigger={['click']}>
 				<div className="iconRightSide">
 					<div className="subIconRight">
 						<IoMdNotifications className="topbarIcon-2" />
@@ -98,6 +98,6 @@ export default function Notify() {
 					<p>Thông báo</p>
 				</div>
 			</Dropdown>
-		</div>
+		</div >
 	)
 }

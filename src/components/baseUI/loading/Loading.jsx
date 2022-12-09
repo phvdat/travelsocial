@@ -5,7 +5,6 @@ import React from 'react'
  */
 export default function Loading(props) {
 	const { position } = props
-	console.log(position)
 	return (
 		<div className={position} >
 			<div className="loader">

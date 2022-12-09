@@ -18,6 +18,8 @@ export default function Comment(props) {
 	const [valueComment, setValueComment] = useState('')
 	const [isLoading, setIsLoading] = useState(true)
 	const [page, setPage] = useState(1)
+	const [hasNextPage, setHasNextPage] = useState(true)
+
 	useEffect(() => {
 		setIsLoading(true)
 		handleLoadCommentPost(page)
@@ -30,8 +32,8 @@ export default function Comment(props) {
 			size: 5
 		}
 		loadCommentPost(params).then((res) => {
-			setListComment(prev => [...prev, ...res])
 			setTimeout(() => {
+				setListComment(prev => [...prev, ...(res.items)])
 				setIsLoading(false)
 			}, 300)
 		})
@@ -109,9 +111,12 @@ export default function Comment(props) {
 				})
 			}
 			{isLoading && <Loading position="center-loading" />}
-			<div>
-				<span className='load-more-cmt' onClick={() => handleLoadMoreCmt()}>Tải thêm bình luận</span>
-			</div>
+			{
+				// hasNextPage &&
+				<div >
+					<span className='load-more-cmt' onClick={() => handleLoadMoreCmt()}>Tải thêm bình luận</span>
+				</div>
+			}
 		</>
 	)
 }

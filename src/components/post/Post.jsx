@@ -41,25 +41,25 @@ export default function Post(props) {
 
 	useEffect(() => {
 		//check like or not
-		const params = { postId: postData?._id, page: 1, size: 1000000 }
-		getListLike(params).then((res, req) => {
-			const index = res.findIndex(item => item.userId === currentUser._id)
+		const params = { postId: postData?._id, page: 1, size: 99999999 }
+		getListLike(params).then((res) => {
+			const index = res.items.findIndex(item => item.userId === currentUser._id)
 			if (index !== -1) {
 				setLike(true)
 			}
 		})
 		// get user info by id
-		getUsersInfoById(postData?.userId).then((res, req) => { setUser(res) })
+		getUsersInfoById(postData?.userId).then((res) => { setUser(res) })
 
-		getAllRate(params).then((res, req) => {
+		getAllRate(params).then((res) => {
 			//average rate
-			const rateSum = res.reduce((prev, current) => {
+			const rateSum = res.items.reduce((prev, current) => {
 				return prev + current.point
 			}, 0)
 			const avg = (rateSum / res.length)
 			setRateAverage(Number.isNaN(avg) ? 0 : avg.toFixed(1))
 			// rate by me
-			const rateByMe = res.find((ele) => ele.userId === currentUser._id)
+			const rateByMe = res.items.find((ele) => ele.userId === currentUser._id)
 			setRateValue(rateByMe?.point || 0)
 		})
 	}, [currentUser._id, postData?._id, postData?.userId])

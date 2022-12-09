@@ -39,6 +39,15 @@ export default function Topbar() {
 		})
 		message.success('Đã đăng xuất!')
 	}
+
+	const onOpenChange = (open) => {
+		if (open) {
+			document.documentElement.style.overflow = 'hidden';
+		}
+		if (!open) {
+			document.documentElement.style.overflow = 'unset';
+		}
+	}
 	const menu = (
 		<Menu
 			items={[
@@ -103,18 +112,8 @@ export default function Topbar() {
 			<div className="topbarRight">
 				{isLogin ?
 					<>
-
-						{/* <Dropdown overlay={menu} trigger={['click']}>
-							<div className="iconRightSide">
-								<div className="subIconRight">
-									<IoMdNotifications className="topbarIcon-2" />
-									<span className="iconBadge">1</span>
-								</div>
-								<p>Thông báo</p>
-							</div>
-						</Dropdown> */}
 						<Notify />
-						<Dropdown overlay={menu} trigger={['click']}>
+						<Dropdown overlayClassName='overlay-drop-down-fixed' overlay={menu} trigger={['click']}>
 							<div className="account-manager">
 								<div className="topbarAvata">
 									<img src={currentUser.avatar || avatarDefault} alt="avatar" className="avt-topbar" />

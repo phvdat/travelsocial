@@ -21,7 +21,7 @@ export default function SearchPage() {
 					keyword: searchParams.get('keyword')
 				}
 				const response = await elasticSearchApi.searchPost(params)
-				setListPost(response.payload)
+				setListPost(response.payload.items)
 			} catch (error) {
 				console.log(error)
 			}

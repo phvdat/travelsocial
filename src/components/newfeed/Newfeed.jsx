@@ -12,8 +12,19 @@ export default function Newfeed() {
 	const [isLoading, setIsLoading] = useState(true)
 	const isLoggedIn = useSelector(state => state.authentication.isLoggedIn)
 	const [page, setPage] = useState(1)
+	const [hasNextPage, setHasNextPage] = useState(true)
+	// useEffect(() => {
+	// 	window.scrollTo({
+	// 		top: 0,
+	// 		behavior: 'smooth',
+	// 	})
+	// }, [])
 
 	const getAllPost = async (pageNum) => {
+		if (!hasNextPage) {
+			return
+		}
+		setIsLoading(true)
 		try {
 			const data = {
 				page: pageNum,
@@ -23,6 +34,7 @@ export default function Newfeed() {
 			const response = await postApi.getAllPost(data)
 			if (response.status_code === 9999) {
 				setListPost(prev => [...prev, ...(response.payload.items)])
+				setHasNextPage(response.payload.hasNext)
 			}
 			if (response.status_code === -9999) {
 				message.warning('Tải bài viết không thành công!')
@@ -34,13 +46,14 @@ export default function Newfeed() {
 	}
 
 	useEffect(() => {
-		setIsLoading(true)
 		getAllPost(page)
 	}, [page])
 
-	const handleScroll = () => {
+	const handleScroll = async () => {
 		if (window.innerHeight + document.documentElement.scrollTop !== document.getElementById('root').offsetHeight) return;
-		setPage(prev => prev + 1)
+		setTimeout(() => {
+			setPage(prev => prev + 1)
+		}, 100)
 	}
 
 	useEffect(() => {
