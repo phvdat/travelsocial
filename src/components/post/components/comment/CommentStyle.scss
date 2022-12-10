@@ -1,6 +1,9 @@
 @import "src/assets/styles/variables";
 @import "src/assets/styles/mixins";
 
+.container-comment {
+  padding-bottom: 16px;
+}
 .postHr {
   border: none;
   height: 1px;

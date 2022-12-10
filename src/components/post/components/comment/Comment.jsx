@@ -32,8 +32,10 @@ export default function Comment(props) {
 			size: 5
 		}
 		loadCommentPost(params).then((res) => {
+			console.log(res)
 			setTimeout(() => {
 				setListComment(prev => [...prev, ...(res.items)])
+				setHasNextPage(res.hasNext)
 				setIsLoading(false)
 			}, 300)
 		})
@@ -73,7 +75,7 @@ export default function Comment(props) {
 		/>
 	)
 	return (
-		<>
+		<div className='container-comment'>
 			<hr className='postHr' />
 			<div className='boxComment'>
 				<img src={currentUser.avatar || avatarDefault} alt="avt user" className='avt-user-comment' />
@@ -114,11 +116,11 @@ export default function Comment(props) {
 			}
 			{isLoading && <Loading position="center-loading" />}
 			{
-				// hasNextPage &&
+				hasNextPage &&
 				<div >
 					<span className='load-more-cmt' onClick={() => handleLoadMoreCmt()}>Tải thêm bình luận</span>
 				</div>
 			}
-		</>
+		</div>
 	)
 }

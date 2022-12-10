@@ -17,6 +17,7 @@ export default function Notify() {
 	const [isLoading, setIsLoading] = useState(true)
 	const [page, setPage] = useState(1)
 	const [open, setOpen] = useState(false)
+	const [hasNextPage, setHasNextPage] = useState(false)
 
 	const handleGetNotify = async (page) => {
 		setIsLoading(true)
@@ -27,8 +28,8 @@ export default function Notify() {
 			}
 			const res = await notifyApi.getNotifications(params)
 			if (res.status_code === 9999) {
+				setHasNextPage(res.payload.hasNext)
 				const data = res.payload.items
-				console.log(res)
 				for (const item of data) {
 					const userTrigger = await getUsersInfoById(item?.userIdTrigger)
 					setNotifications(prev => [...prev,
@@ -109,9 +110,12 @@ export default function Notify() {
 									})
 								}
 								{isLoading && <Loading position="center-loading" />}
-								<div >
-									<span className='load-more-cmt' onClick={() => handleLoadMoreNotify()}>Cũ hơn</span>
-								</div>
+								{
+									hasNextPage &&
+									<div >
+										<span className='load-more-cmt' onClick={() => handleLoadMoreNotify()}>Cũ hơn</span>
+									</div>
+								}
 							</ul >
 						</div >,
 					key: '0',
