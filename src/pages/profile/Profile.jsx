@@ -1,7 +1,7 @@
 import { message } from "antd";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Link, useParams } from "react-router-dom";
+import { Link, NavLink, useParams } from "react-router-dom";
 import postApi from "../../api/postApi";
 import Post from "../../components/post/Post";
 import Share from "../../components/share/Share";
@@ -111,26 +111,22 @@ export default function ProfilePage() {
 					<hr className="rightbarHr" />
 					<div className="controlProfile">
 						<div className="sub-controlProfile">
-							<div className={tab === 'newfeed' ? "tab-profile-active" : "tab-profile"}>
-								<Link to={`/profile/${userInfo?._id}/newfeed`}>
-									Bài viết
-								</Link>
-							</div>
-							<div className={tab === 'about' ? "tab-profile-active" : "tab-profile"}>
-								<Link to={`/profile/${userInfo?._id}/about`}>
-									Giới thiệu
-								</Link>
-							</div>
-							<div className={tab === 'follower' ? "tab-profile-active" : "tab-profile"}>
-								<Link to={`/profile/${userInfo?._id}/follower`}>
-									Người theo dõi
-								</Link>
-							</div>
-							<div className={tab === 'following' ? "tab-profile-active" : "tab-profile"}>
-								<Link to={`/profile/${userInfo?._id}/following`}>
-									Đang theo dõi
-								</Link>
-							</div>
+							<NavLink className={({ isActive }) => (isActive ? "tab-profile-active" : "tab-profile")}
+								to={`/profile/${userInfo?._id}/newfeed`}>
+								<span>Bài viết</span>
+							</NavLink>
+							<NavLink className={({ isActive }) => (isActive ? "tab-profile-active" : "tab-profile")}
+								to={`/profile/${userInfo?._id}/about`}>
+								Giới thiệu
+							</NavLink>
+							<NavLink className={({ isActive }) => (isActive ? "tab-profile-active" : "tab-profile")}
+								to={`/profile/${userInfo?._id}/follower`}>
+								Người theo dõi
+							</NavLink>
+							<NavLink className={({ isActive }) => (isActive ? "tab-profile-active" : "tab-profile")}
+								to={`/profile/${userInfo?._id}/following`}>
+								Đang theo dõi
+							</NavLink>
 						</div>
 						{
 							currentUser._id !== userInfo?._id &&
@@ -146,11 +142,11 @@ export default function ProfilePage() {
 								currentUser._id === userInfo?._id &&
 								<Share />
 							}
-							{listPost ? listPost.map((ele, idx) => {
+							{listPost.length !== 0 ? listPost.map((ele, idx) => {
 								return <Post postData={ele} key={idx} />
 							}) :
 								<div className="container-no-data">
-									<h1>Chưa có bài viêt nào</h1>
+									<h1>Chưa có bài viết nào</h1>
 								</div>
 							}
 						</>

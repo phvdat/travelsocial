@@ -86,13 +86,26 @@ a {
   margin: 0 1px;
   align-items: center;
   cursor: pointer;
+  --_p: 0%;
+  -webkit-background-clip: text, padding-box;
+  background-clip: text, padding-box;
+  background: linear-gradient(90deg, $primary-color 50%, $primary-gray 0)
+      calc(100% - var(--_p)) / 200% 100%,
+    linear-gradient($primary-color 0 0) 0% 100% / var(--_p) 3px no-repeat;
+  background-clip: text, padding-box;
+  -webkit-background-clip: text, padding-box;
+  transition: 0.5s;
   &:hover {
-    border-bottom: 4px solid $secondary-color;
+    --_p: 100%;
   }
 }
 
 .tab-profile-active {
-  border-bottom: 4px solid $primary-color;
+  border-bottom: 3px solid $primary-color;
+  color: $primary-color;
+  &:hover {
+    color: $primary-color;
+  }
   height: 40px;
   display: flex;
   padding: 0 10px;
