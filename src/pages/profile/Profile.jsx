@@ -22,6 +22,9 @@ export default function ProfilePage() {
 	const [listPost, setListPost] = useState([])
 	const [followStatus, setFollowStatus] = useState(false)
 	useEffect(() => {
+		window.scrollTo(0, 0);
+	}, [tab])
+	useEffect(() => {
 		window.scrollTo(0, 0)
 		const getAllPost = async () => {
 			try {
@@ -43,6 +46,7 @@ export default function ProfilePage() {
 		}
 		getUsersInfoById(userId).then((res) => {
 			setUserInfo(res)
+			console.log(res)
 		})
 		getAllPost()
 	}, [userId])
@@ -102,7 +106,7 @@ export default function ProfilePage() {
 							<img src={userInfo?.avatar || avatarDefault} alt="avt Img" className="avataProfileImg" />
 						</div>
 						<p className="text-name-user-top-profile">{userInfo?.fullName}</p>
-						<p className="text-top-profile">Cấp thành viên:<span style={{ fontWeight: 500 }}>VIP</span></p>
+						<p className="text-top-profile">Điểm tích luỹ thành viên:<span style={{ fontWeight: 500 }}>{userInfo.experiencePoint}</span></p>
 						<div>
 							<span style={{ marginRight: 50 }}>Bài đã đăng: <span style={{ fontWeight: 500 }}>{listPost?.length || 0}</span></span>
 							<span>Lượt theo dõi: <span style={{ fontWeight: 500 }}>1</span></span>

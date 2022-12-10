@@ -100,7 +100,7 @@ export default function Comment(props) {
 								<img src={item.avatar || avatarDefault} alt="avt user" className='avt-user-comment' />
 								<div className='comment-item'>
 									<Link to={`/profile/${item.userId}/newfeed`} className='comment-username'>{item.fullName || "User"}</Link>
-									<p>{item.content}</p>
+									<p style={{ whiteSpace: "pre-line" }}>{item.content}</p>
 								</div>
 								<div className='modify-comment-btn'>
 									<Dropdown overlay={menuComment(item.userId)} trigger={['click']} placement="bottomLeft">
