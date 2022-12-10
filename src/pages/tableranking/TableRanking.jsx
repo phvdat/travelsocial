@@ -14,7 +14,7 @@ export default function TableRankingPage() {
 		try {
 			const params = { page: 1, size: 100 }
 			const response = await rankingApi.getListLeaderBoardUser(params)
-			Promise.all(response.payload.map((item) => {
+			Promise.all(response.payload.items.map((item) => {
 				return getUsersInfoById(item.userId)
 			})).then((res) => {
 				setList(prev => [...prev, ...res])

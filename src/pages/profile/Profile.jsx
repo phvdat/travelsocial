@@ -6,13 +6,14 @@ import postApi from "../../api/postApi";
 import Post from "../../components/post/Post";
 import Share from "../../components/share/Share";
 import ProfileAbout from "./components/profileabout/ProfileAbout";
-import ProfileFollow from "./components/profilefollow/ProfileFollow";
 import "./profile.scss";
 import avatarDefault from "assets/img/avatarDefault.jpg";
 import followApi from "api/followApi";
 import { BsCheck } from "react-icons/bs";
 import { HiOutlineUserAdd } from "react-icons/hi";
 import { getFollowUser, getUsersInfoById } from "function/callApi";
+import ProfileFollower from "./components/profilefollower/ProfileFollower";
+import ProfileFollowUser from "./components/profilefollowUser/ProfileFollowUser";
 
 export default function ProfilePage() {
 	let { userId, tab } = useParams()
@@ -160,11 +161,11 @@ export default function ProfilePage() {
 					}
 					{
 						tab === 'follower' &&
-						<ProfileFollow typetab={'follower'} userInfo={userInfo} />
+						<ProfileFollower userInfo={userInfo} />
 					}
 					{
 						tab === 'following' &&
-						<ProfileFollow typetab={'following'} userInfo={userInfo} />
+						<ProfileFollowUser userInfo={userInfo} />
 					}
 				</div>
 			</div>

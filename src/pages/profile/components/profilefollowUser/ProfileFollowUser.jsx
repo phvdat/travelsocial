@@ -1,39 +1,41 @@
 import React, { useEffect, useState } from 'react'
-import { Col, Dropdown, Menu, Row } from "antd";
+import { Dropdown, Menu } from "antd";
 import { BsThreeDotsVertical } from "react-icons/bs";
-import './profileFollow.scss'
+import './ProfileFollowUser.scss'
 import { Link } from 'react-router-dom';
 import avatarDefault from 'assets/img/avatarDefault.jpg';
-import { getFollower, getFollowUser, getUsersInfoById } from 'function/callApi';
-export default function ProfileFollow(props) {
-	const { typetab, userInfo } = props
+import { getFollowUser, getUsersInfoById } from 'function/callApi';
+import { useSelector } from 'react-redux';
+export default function ProfileFollowUser(props) {
+	const { userInfo } = props
 	const [listUsersInfo, setListUsersInfo] = useState([])
+	const [page, setPage] = useState(1)
+	const currentUser = useSelector(state => state.authentication.currentUser)
+	const handleScroll = async () => {
+		if (window.innerHeight + document.documentElement.scrollTop !== document.getElementById('root').offsetHeight) return;
+		setTimeout(() => {
+			setPage(prev => prev + 1)
+		}, 100)
+	}
 	useEffect(() => {
-		window.scrollTo(0, 0);
-		if (typetab === 'follower') {
-			getFollower(userInfo._id).then((res, req) => {
-				res.map((ele) => {
-					getUsersInfoById(ele.userId).then(
-						(res, req) => {
-							setListUsersInfo((prev) => [...prev, res])
-						}
-					)
-				})
-			})
-		}
-		if (typetab === 'following') {
-			getFollowUser(userInfo._id).then((res, req) => {
-				res.map((ele) => {
-					getUsersInfoById(ele.userIdTarget).then(
-						(res, req) => {
-							setListUsersInfo((prev) => [...prev, res])
-						}
-					)
-				})
-			})
-		}
+		window.addEventListener('scroll', handleScroll);
+		return () => window.removeEventListener('scroll', handleScroll);
+	}, []);
 
-	}, [typetab])
+	useEffect(() => {
+		getFollowUser(userInfo._id, page, 10).then((res) => {
+			console.log(res)
+			res.items.map((ele) => (
+				getUsersInfoById(ele.userIdTarget).then(
+					(res) => {
+						setListUsersInfo((prev) => [...prev, res])
+					}
+				)
+			)
+			)
+		})
+	}, [page, userInfo._id])
+
 	const menu = (
 		<Menu
 			items={[
@@ -49,7 +51,6 @@ export default function ProfileFollow(props) {
 			{listUsersInfo.length !== 0 ?
 				listUsersInfo.map((ele, idx) => {
 					return (
-						// <div  className='item'>
 						<Link key={idx} to={`/profile/${ele._id}/newfeed`}>
 							<div className="container-item-friends">
 								<div>
@@ -57,7 +58,7 @@ export default function ProfileFollow(props) {
 									<span>{ele.fullName}</span>
 
 								</div>
-								{typetab === 'following' ?
+								{userInfo._id === currentUser._id ?
 									<Dropdown
 										overlay={menu}
 										trigger={["click"]}
@@ -68,10 +69,8 @@ export default function ProfileFollow(props) {
 									:
 									<></>
 								}
-
 							</div>
 						</Link>
-						// </div>
 					);
 				})
 				:
