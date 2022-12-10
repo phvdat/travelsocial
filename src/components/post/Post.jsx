@@ -21,7 +21,9 @@ import EditPostDialog from './components/editPost/EditPostDialog';
 
 export default function Post(props) {
 	const { postData } = props
+	console.log(postData)
 	const dataEdit = {
+		id: postData._id,
 		status: postData.status,
 		title: postData.title,
 		destination: postData.destination,
@@ -149,8 +151,18 @@ export default function Post(props) {
 				},
 			]
 			}
-		/>
-	)
+		/>)
+
+	const menuAdmin = (
+		<Menu
+			items={[
+				{
+					label: <span onClick={handleDetelePost}>Xoá bài viết</span>,
+					key: '0',
+				},
+			]
+			}
+		/>)
 	return (
 		<div className='postContain'>
 			<LoginModal open={open} onClose={() => setOpen(false)} />
@@ -175,8 +187,8 @@ export default function Post(props) {
 							</span>
 						</div>
 						{
-							currentUser._id === postData?.userId &&
-							<Dropdown overlay={menu} trigger={['click']} placement="bottomRight">
+							(currentUser._id === postData?.userId || currentUser.isAdmin) &&
+							<Dropdown overlay={currentUser.isAdmin ? menuAdmin : menu} trigger={['click']} placement="bottomRight">
 								<span className='btn-modify-post'>
 									<BsThreeDots />
 								</span>
