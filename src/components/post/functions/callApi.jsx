@@ -50,7 +50,7 @@ export const createComment = async (params) => {
 			message.success('Bình luận thành công!')
 		}
 		if (response.status_code === -9999) {
-			message.warning('Tạo comment không thành công!')
+			message.warning('Tạo bình luận không thành công!')
 		}
 	} catch (error) {
 		console.log(error)

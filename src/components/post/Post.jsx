@@ -21,7 +21,6 @@ import EditPostDialog from './components/editPost/EditPostDialog';
 
 export default function Post(props) {
 	const { postData } = props
-	console.log(postData)
 	const dataEdit = {
 		id: postData._id,
 		status: postData.status,
@@ -188,7 +187,7 @@ export default function Post(props) {
 						</div>
 						{
 							(currentUser._id === postData?.userId || currentUser.isAdmin) &&
-							<Dropdown overlay={currentUser.isAdmin ? menuAdmin : menu} trigger={['click']} placement="bottomRight">
+							<Dropdown overlay={currentUser._id !== postData?.userId ? menuAdmin : menu} trigger={['click']} placement="bottomRight">
 								<span className='btn-modify-post'>
 									<BsThreeDots />
 								</span>

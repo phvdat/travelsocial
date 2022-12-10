@@ -5,6 +5,10 @@ const reactPostApi = {
 		const url = "/comment/create";
 		return axiosClient.post(url, data);
 	},
+	updateComment: (data) => {
+		const url = "/comment/update";
+		return axiosClient.post(url, data);
+	},
 	loadComment: (params) => {
 		const url = "/comment/load";
 		return axiosClient.post(url, params);
