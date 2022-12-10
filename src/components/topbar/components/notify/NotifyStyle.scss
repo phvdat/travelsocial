@@ -40,6 +40,7 @@
 
 // custome dropdown
 .dropdown-notify > li {
+  padding: 0;
   overflow-y: scroll;
   cursor: default;
   &:hover {
@@ -47,6 +48,7 @@
   }
 }
 .notify-container {
+  padding: 5px 12px;
   width: 360px;
   max-width: 360px;
   height: 60vh;

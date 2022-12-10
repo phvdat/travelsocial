@@ -9,6 +9,8 @@ import { useNavigate } from 'react-router-dom';
 import Loading from 'components/baseUI/loading/Loading';
 import viLocale from "moment/locale/vi";
 import { async } from '@firebase/util';
+import { useRef } from 'react';
+import { useEffect } from 'react';
 
 export default function Notify() {
 	moment.locale('vi', [viLocale])
@@ -76,13 +78,30 @@ export default function Notify() {
 		}
 	}
 
+	const menuRef = useRef(null);
+	const notifyButtonRef = useRef(null)
+	function handleClickOutside(event) {
+		if (menuRef.current && !(menuRef.current.contains(event.target) || notifyButtonRef.current.contains(event.target))) {
+			setOpen(false)
+		}
+	}
+	useEffect(() => {
+		document.addEventListener("click", handleClickOutside);
+		return () => {
+			document.removeEventListener("click", handleClickOutside);
+		};
+	}, []);
 	const menu = (
-		<Menu className='dropdown-notify'
+		<Menu
+			className='dropdown-notify'
 			items={[
 				{
 					label:
-						<div className="notify-container" >
+						<div className="notify-container"
+							ref={menuRef}
+						>
 							<h4>Thông báo</h4>
+							<hr className='line-separate' />
 							<ul>
 								{
 									notifications.map((item, idx) => {
@@ -124,8 +143,13 @@ export default function Notify() {
 
 	return (
 		<div>
-			<Dropdown open={open} onOpenChange={onOpenChange} overlayClassName='overlay-drop-down-fixed' overlay={menu} trigger={['click']}>
-				<div className="iconRightSide" onClick={() => setOpen(!open)}>
+			<Dropdown
+				open={open}
+				onOpenChange={onOpenChange}
+				overlayClassName='overlay-drop-down-fixed'
+				overlay={menu}
+				trigger={['click']}>
+				<div className="iconRightSide" onClick={() => setOpen(!open)} ref={notifyButtonRef}>
 					<div className="subIconRight">
 						<IoMdNotifications className="topbarIcon-2" />
 					</div>
