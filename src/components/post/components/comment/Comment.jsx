@@ -18,7 +18,7 @@ export default function Comment(props) {
 	const [valueComment, setValueComment] = useState('')
 	const [isLoading, setIsLoading] = useState(true)
 	const [page, setPage] = useState(1)
-	const [hasNextPage, setHasNextPage] = useState(true)
+	const [hasNextPage, setHasNextPage] = useState(false)
 
 	useEffect(() => {
 		setIsLoading(true)

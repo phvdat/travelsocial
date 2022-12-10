@@ -29,7 +29,6 @@ export default function Newfeed() {
 				setListPost(prev => [...prev, ...(response.payload.items)])
 				setHasNextPage(response.payload.hasNext)
 				hasNextPageRef.current = response.payload.hasNext
-				console.log(response.payload.hasNext)
 			}
 			if (response.status_code === -9999) {
 				message.warning('Tải bài viết không thành công!')
@@ -68,6 +67,7 @@ export default function Newfeed() {
 	}, [page])
 
 	const handleScroll = async () => {
+		console.log(1)
 		if (window.innerHeight + document.documentElement.scrollTop !== document.getElementById('root').offsetHeight) return;
 		if (hasNextPageRef.current) {
 			setTimeout(() => {
