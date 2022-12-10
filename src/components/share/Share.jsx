@@ -61,7 +61,7 @@ export default function Share() {
 					await uploadBytes(storageRef, file)
 					try {
 						const link = await getDownloadURL(storageRef)
-						setFileUploaded(previousValues => ([...fileUploaded,
+						setFileUploaded(prev => ([...prev,
 						{
 							name: file.name,
 							link: link,
@@ -86,6 +86,7 @@ export default function Share() {
 			}
 			if (status === 'done') {
 				console.log('upload done')
+				console.log(fileUploaded)
 			} else if (status === 'error') {
 				message.error(`${info.file.name} file upload failed.`);
 			}
@@ -121,6 +122,7 @@ export default function Share() {
 				return temp;
 			})
 		}
+		console.log(dataPostSubmit)
 		const postLoginData = async () => {
 			try {
 				const response = await postApi.createPost(dataPostSubmit)
