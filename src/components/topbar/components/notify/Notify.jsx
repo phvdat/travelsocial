@@ -28,6 +28,7 @@ export default function Notify() {
 			const res = await notifyApi.getNotifications(params)
 			if (res.status_code === 9999) {
 				const data = res.payload.items
+				console.log(res)
 				for (const item of data) {
 					const userTrigger = await getUsersInfoById(item?.userIdTrigger)
 					setNotifications(prev => [...prev,
@@ -35,7 +36,7 @@ export default function Notify() {
 						...item,
 						avatar: userTrigger.avatar,
 						fullName: userTrigger.fullName,
-						path: `/profile/${userTrigger._id}/newfeed`
+						path: item.type === "follow" ? `/profile/${userTrigger._id}/newfeed` : `/post/${item.objectId}`
 					}])
 				}
 			}
