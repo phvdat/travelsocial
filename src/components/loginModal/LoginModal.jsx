@@ -1,5 +1,5 @@
 import { Form, Input, message, Modal } from 'antd';
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import authApi from '../../api/authApi';
 import { getAuth, signInWithPopup, GoogleAuthProvider, FacebookAuthProvider } from "firebase/auth";
@@ -15,17 +15,17 @@ const LoginModal = (props) => {
 	const dispach = useDispatch();
 	const auth = getAuth(app);
 	const navigate = useNavigate()
-	// const [confirmLoading, setConfirmLoading] = useState(false);
+	const [confirmLoading, setConfirmLoading] = useState(false);
 	const handleCancel = () => {
 		onClose()
 	};
 	const onFinish = async (values) => {
+		setConfirmLoading(true)
 		const postLoginData = async () => {
 			try {
 				const data = { ...values, isAdmin: false }
 				const response = await authApi.loginApi(data)
 				if (response.status_code === 9999) {
-					onClose()
 					message.success('Đăng nhập thành công!')
 					navigate(RoutePath.Home)
 					window.localStorage.setItem('access_token', JSON.stringify(response.payload.accessToken));
@@ -51,7 +51,12 @@ const LoginModal = (props) => {
 			} catch (error) {
 				console.log(error, 'login fail')
 			}
+			setTimeout(() => {
+				setConfirmLoading(false)
+				onClose()
+			}, 300)
 		}
+
 		postLoginData()
 	};
 	const onFinishFailed = (errorInfo) => {
@@ -62,8 +67,7 @@ const LoginModal = (props) => {
 		try {
 			const data = {
 				username: user.email,
-				password: "travel2022",
-				kind: "google",
+				password: "travel2022hcmut",
 				phone: user.phoneNumber,
 				fullName: user.displayName
 			}
@@ -77,8 +81,7 @@ const LoginModal = (props) => {
 		try {
 			const data = {
 				username: user.email,
-				password: "travel2022",
-				kind: 'internal',
+				password: "travel2022hcmut",
 				isAdmin: false
 			}
 			const response = await authApi.loginApi(data)
@@ -113,6 +116,7 @@ const LoginModal = (props) => {
 		}
 	}
 	const updateProfileWithGg = async (user) => {
+		console.log(user)
 		try {
 			const data = {
 				fullName: user.displayName,
@@ -158,13 +162,13 @@ const LoginModal = (props) => {
 			<Modal
 				title="Đăng nhập"
 				open={open}
-				// confirmLoading={confirmLoading}
+				confirmLoading={confirmLoading}
 				onCancel={handleCancel}
 				footer={null}
 				className="login-modal"
 			>
 				<p className='login-text-1'>Tham gia ngay cộng đồng du lịch hàng đầu Việt Nam và tận hưởng những điều tuyệt vời nhất từ Travel</p>
-				<button className='btn-facebook' onClick={() => authWithFacebook()}>Đăng nhập bằng Facebook</button>
+				{/* <button className='btn-facebook' onClick={() => authWithFacebook()}>Đăng nhập bằng Facebook</button> */}
 				<button className='btn-google' onClick={() => authWithGoogle()}>Đăng nhập bằng Google</button>
 				<p className='login-text-2'>Đăng nhập bằng tài khoản</p>
 				<Form

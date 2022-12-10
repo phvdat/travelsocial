@@ -95,7 +95,7 @@ export default function ProfilePage() {
 			<div className="wrapper-profile">
 				<div className="top-profile">
 					<div className="coverImg">
-						<img src={userInfo?.avatar || avatarDefault} alt="cover" />
+						<img src={userInfo?.avatar || avatarDefault} referrerPolicy='no-referrer' alt="cover" />
 					</div>
 					<div className="containAvtImg">
 						<div className="avataProfile">
