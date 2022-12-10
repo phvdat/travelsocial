@@ -17,9 +17,18 @@ import Comment from './components/comment/Comment';
 import './post.scss';
 import LoginModal from 'components/loginModal/LoginModal';
 import viLocale from "moment/locale/vi";
+import EditPostDialog from './components/editPost/EditPostDialog';
 
 export default function Post(props) {
 	const { postData } = props
+	const dataEdit = {
+		status: postData.status,
+		title: postData.title,
+		destination: postData.destination,
+		content: postData.content,
+		type: postData.type,
+		mediaList: postData.mediaList,
+	}
 
 	const isLogin = localStorage.getItem('isLogin')
 	const currentUser = useSelector(state => state.authentication.currentUser)
@@ -35,6 +44,7 @@ export default function Post(props) {
 	const [rateAverage, setRateAverage] = useState(0);
 
 	const [open, setOpen] = useState(false);
+	const [isEditOpen, setIsEditOpen] = useState(false);
 
 	const [expand, setExpand] = useState(false)
 
@@ -133,13 +143,21 @@ export default function Post(props) {
 					label: <span onClick={handleDetelePost}>Xoá bài viết</span>,
 					key: '0',
 				},
-			]}
+				{
+					label: <span onClick={() => setIsEditOpen(true)} >Sửa bài viết</span >,
+					key: '1',
+				},
+			]
+			}
 		/>
 	)
 	return (
 		<div className='postContain'>
 			<LoginModal open={open} onClose={() => setOpen(false)} />
-
+			{
+				isEditOpen &&
+				<EditPostDialog open={isEditOpen} onClose={() => setIsEditOpen(false)} data={dataEdit} />
+			}
 			<div className="postBox">
 				<div className="top-post">
 					<div className="header-post">

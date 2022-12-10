@@ -1,0 +1,83 @@
+@import "src/assets/styles/variables";
+@import "src/assets/styles/mixins";
+
+.header-share {
+  .avt-user {
+    margin-right: $spacing-md;
+    width: 44px;
+    height: 44px;
+    border-radius: 30px;
+    object-fit: cover;
+    cursor: pointer;
+  }
+}
+.share-modal {
+  .ant-modal-content,
+  .ant-modal-content .ant-modal-header {
+    border-radius: 12px;
+  }
+}
+form {
+  .input-title {
+    width: 100%;
+    border: 1px solid $primary-dark-gray;
+    border-radius: $border-radius-sm;
+    outline: none;
+    width: 100%;
+    padding: 4px;
+    font-weight: 500;
+    box-shadow: $box-shadow;
+  }
+  .sub-form {
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .input-location {
+      width: 100%;
+      height: $height-input-md;
+      border: 1px solid $primary-dark-gray;
+      border-radius: $border-radius-sm;
+      outline: none;
+      padding: 0 4px;
+      font-style: italic;
+      box-shadow: $box-shadow;
+    }
+    .select-type-travel {
+      width: 160;
+      box-shadow: $box-shadow;
+    }
+  }
+  .btn-share-create {
+    @include btnStyle(
+      $width-input-sm,
+      $height-input,
+      $primary-color,
+      $font-size-md
+    );
+    display: block;
+    margin: auto;
+    margin-top: 20px;
+  }
+  .text-area-share {
+    border: 1px solid $primary-dark-gray;
+    border-radius: $border-radius-sm;
+    resize: none;
+    outline: none;
+    width: 100%;
+    padding: 0 4px;
+    box-shadow: $box-shadow;
+  }
+}
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #bcc0c4;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #f0f2f5;
+}

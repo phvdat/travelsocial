@@ -5,6 +5,10 @@ const postApi = {
 		const url = "/post/create";
 		return axiosClient.post(url, data);
 	},
+	updatePost: (data) => {
+		const url = "/post/update";
+		return axiosClient.post(url, data);
+	},
 	getAllPost: (data) => {
 		const url = "/post/load-all";
 		return axiosClient.post(url, data);
