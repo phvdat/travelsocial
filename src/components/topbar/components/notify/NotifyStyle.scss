@@ -50,6 +50,10 @@
   width: 360px;
   max-width: 360px;
   height: 60vh;
+  h4 {
+    font-size: $font-size-lg;
+    color: $secondary-color;
+  }
   li.notify-item {
     cursor: pointer;
     list-style: none;
@@ -90,7 +94,7 @@
   .onlStatus {
     width: 12px;
     height: 12px;
-    background-color: #478a4c;
+    background-color: $primary-color;
     border: #fff 1px solid;
     border-radius: 50%;
   }

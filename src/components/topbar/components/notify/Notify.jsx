@@ -2,29 +2,33 @@ import './NotifyStyle.scss'
 import { Dropdown, Menu } from 'antd'
 import notifyApi from 'api/notifyApi';
 import React, { useState } from 'react'
-import { useEffect } from 'react';
 import { IoMdNotifications } from 'react-icons/io';
 import moment from 'moment';
 import { getUsersInfoById } from 'function/callApi';
-import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Loading from 'components/baseUI/loading/Loading';
 import viLocale from "moment/locale/vi";
+import { async } from '@firebase/util';
 
 export default function Notify() {
 	moment.locale('vi', [viLocale])
 	const navigate = useNavigate()
 	const [notifications, setNotifications] = useState([])
 	const [isLoading, setIsLoading] = useState(true)
-	const handleGetNotify = async () => {
+	const [page, setPage] = useState(1)
+	const [open, setOpen] = useState(false)
+
+	const handleGetNotify = async (page) => {
+		setIsLoading(true)
 		try {
 			const params = {
-				page: 1,
+				page: page,
 				size: 10
 			}
 			const res = await notifyApi.getNotifications(params)
 			if (res.status_code === 9999) {
 				const data = res.payload.items
-				data.forEach(async (item) => {
+				for (const item of data) {
 					const userTrigger = await getUsersInfoById(item?.userIdTrigger)
 					setNotifications(prev => [...prev,
 					{
@@ -33,7 +37,7 @@ export default function Notify() {
 						fullName: userTrigger.fullName,
 						path: `/profile/${userTrigger._id}/newfeed`
 					}])
-				})
+				}
 			}
 			if (res.status_code === -9999) {
 				console.log('get notification error');
@@ -43,13 +47,33 @@ export default function Notify() {
 			console.log(error)
 		}
 	}
-	useEffect(() => {
-		handleGetNotify()
-	}, [])
+	const readedNotify = async (id) => {
+		try {
+			await notifyApi.readNotify({ _id: id })
+		} catch (error) {
+			console.log(error)
+		}
+	}
+
+	const handleLoadMoreNotify = async () => {
+		setPage(prev => prev + 1)
+		await handleGetNotify(page)
+	}
 
 	const handleReadNotify = (path, idNotifiy) => {
+		readedNotify(idNotifiy)
+		setOpen(false)
 		navigate(path)
 	}
+
+	const onOpenChange = (isOpen) => {
+		if (isOpen) {
+			setNotifications([])
+			setPage(1)
+			handleGetNotify(page)
+		}
+	}
+
 	const menu = (
 		<Menu className='dropdown-notify'
 			items={[
@@ -62,7 +86,7 @@ export default function Notify() {
 									notifications.map((item, idx) => {
 										const timeStamp = new Date(item?.createTime)
 										return (
-											<div onClick={() => handleReadNotify(item.path)} key={idx}>
+											<div onClick={() => handleReadNotify(item.path, item._id)} key={idx}>
 												<li className='notify-item'>
 													<div className='avatar-content'>
 														<img src={item.avatar} alt="avatar" />
@@ -71,9 +95,12 @@ export default function Notify() {
 														<p>{item.content}</p>
 														<span>{moment.utc(timeStamp.toUTCString()).fromNow()}</span>
 													</div>
-													<div className='status-container'>
-														<div className="onlStatus"></div>
-													</div>
+													{
+														!item.isRead &&
+														<div className='status-container'>
+															<div className="onlStatus"></div>
+														</div>
+													}
 												</li>
 												<hr className='line-separate' />
 											</div>
@@ -81,7 +108,10 @@ export default function Notify() {
 									})
 								}
 								{isLoading && <Loading position="center-loading" />}
-							</ul>
+								<div >
+									<span className='load-more-cmt' onClick={() => handleLoadMoreNotify()}>Cũ hơn</span>
+								</div>
+							</ul >
 						</div >,
 					key: '0',
 				},]} />
@@ -89,11 +119,10 @@ export default function Notify() {
 
 	return (
 		<div>
-			<Dropdown overlayClassName='overlay-drop-down-fixed' overlay={menu} trigger={['click']}>
-				<div className="iconRightSide">
+			<Dropdown open={open} onOpenChange={onOpenChange} overlayClassName='overlay-drop-down-fixed' overlay={menu} trigger={['click']}>
+				<div className="iconRightSide" onClick={() => setOpen(!open)}>
 					<div className="subIconRight">
 						<IoMdNotifications className="topbarIcon-2" />
-						{/* <span className="iconBadge">1</span> */}
 					</div>
 					<p>Thông báo</p>
 				</div>

@@ -31,7 +31,7 @@ export default function ProfilePage() {
 				}
 				const response = await postApi.getAllPostByUserId(data)
 				if (response.status_code === 9999) {
-					setListPost(response.payload)
+					setListPost(response.payload.items)
 				}
 				if (response.status_code === -9999) {
 					message.warning('Tải bài viết không thành công!')
@@ -40,14 +40,14 @@ export default function ProfilePage() {
 				console.log(error)
 			}
 		}
-		getUsersInfoById(userId).then((res, req) => {
+		getUsersInfoById(userId).then((res) => {
 			setUserInfo(res)
 		})
 		getAllPost()
 	}, [userId])
 	useEffect(() => {
-		getFollowUser(currentUser._id).then((res, req) => {
-			const listFollowerId = res.map((ele) => ele.userIdTarget)
+		getFollowUser(currentUser._id, 9999999).then((res) => {
+			const listFollowerId = res.items.map((ele) => ele.userIdTarget)
 			if (listFollowerId.includes(userId)) {
 				setFollowStatus(true)
 			}

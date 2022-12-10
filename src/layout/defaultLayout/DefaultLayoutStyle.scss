@@ -5,6 +5,7 @@
   min-height: 100vh;
 }
 .notify-list-container {
+  visibility: hidden;
   position: fixed;
   z-index: $z-index-alert-msg;
   left: 16px;

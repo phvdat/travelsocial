@@ -41,10 +41,12 @@ export default function Comment(props) {
 
 	const handleDeteleComment = async (commentId) => {
 		await deteleCommentPost({ commentId: commentId })
-		handleLoadCommentPost()
+		setPage(1)
+		handleLoadCommentPost(1)
 	}
 
 	const handleCreateComment = async () => {
+		setPage(1)
 		if (valueComment) {
 			setIsLoading(true)
 			const dataComment = {
@@ -52,7 +54,7 @@ export default function Comment(props) {
 				content: valueComment
 			}
 			await createComment(dataComment)
-			handleLoadCommentPost()
+			handleLoadCommentPost(1)
 			setValueComment('')
 			setIsLoading(false)
 		}

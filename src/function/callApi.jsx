@@ -16,9 +16,9 @@ export const getUsersInfoById = async (id) => {
 	}
 }
 
-export const getFollowUser = async (id) => {
+export const getFollowUser = async (id, page) => {
 	const params = {
-		page: 1,
+		page: page,
 		size: 10,
 		userId: id
 	}

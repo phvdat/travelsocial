@@ -23,7 +23,7 @@ export default function DefaultLayout() {
 				const notify = {
 					createTime: data.createTime,
 					content: data?.content,
-					path: `/post/${data._id}`,
+					path: `/post/${data.objectId}`,
 					avatar: res?.avatar || "",
 				}
 				setAlertNotifyList(alertNotifyList.concat(
@@ -39,7 +39,7 @@ export default function DefaultLayout() {
 				const notify = {
 					createTime: data.createTime,
 					content: data?.content,
-					path: `/post/${data._id}`,
+					path: `/post/${data.objectId}`,
 					avatar: res?.avatar || "",
 				}
 				setAlertNotifyList(alertNotifyList.concat(
@@ -55,7 +55,7 @@ export default function DefaultLayout() {
 				const notify = {
 					createTime: data.createTime,
 					content: data?.content,
-					path: `/post/${data._id}`,
+					path: `/post/${data.objectId}`,
 					avatar: res?.avatar || "",
 				}
 				setAlertNotifyList(alertNotifyList.concat(
@@ -71,7 +71,7 @@ export default function DefaultLayout() {
 				const notify = {
 					createTime: data.createTime,
 					content: data?.content,
-					path: `/profile/${res._id}/newfeed`,
+					path: `/profile/${res.objectId}/newfeed`,
 					avatar: res?.avatar || "",
 				}
 				setAlertNotifyList(alertNotifyList.concat(
