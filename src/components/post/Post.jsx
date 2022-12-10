@@ -67,7 +67,7 @@ export default function Post(props) {
 			const rateSum = res.items.reduce((prev, current) => {
 				return prev + current.point
 			}, 0)
-			const avg = (rateSum / res.length)
+			const avg = (rateSum / res.items.length)
 			setRateAverage(Number.isNaN(avg) ? 0 : avg.toFixed(1))
 			// rate by me
 			const rateByMe = res.items.find((ele) => ele.userId === currentUser._id)
@@ -118,7 +118,6 @@ export default function Post(props) {
 	}
 
 	const handleRatePost = async (value) => {
-
 		if (isLogin) {
 			const dataRate = {
 				postId: postData?._id,
