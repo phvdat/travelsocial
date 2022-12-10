@@ -67,7 +67,6 @@ export default function Newfeed() {
 	}, [page])
 
 	const handleScroll = async () => {
-		console.log(1)
 		if (window.innerHeight + document.documentElement.scrollTop !== document.getElementById('root').offsetHeight) return;
 		if (hasNextPageRef.current) {
 			setTimeout(() => {
