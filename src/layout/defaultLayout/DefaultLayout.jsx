@@ -67,11 +67,11 @@ export default function DefaultLayout() {
 	FollowChannel.subscribe(function (message) {
 		const data = JSON.parse(message.data)
 		if (currentUser._id === data.userId && data.userId !== data.userIdTrigger) {
-			getUsersInfoById(data.userIdTrigger).then((res, req) => {
+			getUsersInfoById(data.userIdTrigger).then((res) => {
 				const notify = {
 					createTime: data.createTime,
 					content: data?.content,
-					path: `/profile/${res.objectId}/newfeed`,
+					path: `/profile/${res._id}/newfeed`,
 					avatar: res?.avatar || "",
 				}
 				setAlertNotifyList(alertNotifyList.concat(

@@ -45,14 +45,16 @@ export default function ProfilePage() {
 		})
 		getAllPost()
 	}, [userId])
+
 	useEffect(() => {
-		getFollowUser(currentUser._id, 9999999).then((res) => {
-			const listFollowerId = res.items.map((ele) => ele.userIdTarget)
-			if (listFollowerId.includes(userId)) {
+		getFollowUser(currentUser._id, 1, 999999).then((res) => {
+			const idx = res.items.findIndex((item) => userId === item.userIdTarget)
+			if (idx !== -1) {
 				setFollowStatus(true)
 			}
 		})
 	}, [userId, currentUser._id])
+
 	const handleFolowBtn = async () => {
 		const data = {
 			userIdTarget: userId
@@ -86,6 +88,7 @@ export default function ProfilePage() {
 			}
 		}
 	}
+
 	return (
 		<div className="container">
 			<div className="wrapper-profile">
