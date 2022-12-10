@@ -38,6 +38,7 @@ export default function Topbar() {
 			payload: [],
 		})
 		message.success('Đã đăng xuất!')
+		window.location.reload();
 	}
 
 	const onOpenChange = (open) => {

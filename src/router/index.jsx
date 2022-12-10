@@ -13,6 +13,7 @@ import { Navigate } from 'react-router-dom'
 import { RoutePath } from './routePath'
 
 
+const isLogin = localStorage.getItem('isLogin')
 const routesConfig = [
 	{
 		path: RoutePath.Index,
@@ -21,7 +22,7 @@ const routesConfig = [
 			{
 				element: <DefaultLayout />,
 				children: [
-					{ path: RoutePath.Register, element: <Register />, errorElement: <NotFound /> },
+					{ path: RoutePath.Register, element: isLogin ? <Navigate to={RoutePath.Home} /> : <Register />, errorElement: <NotFound /> },
 					{ path: RoutePath.Home, element: <Home />, errorElement: <NotFound /> },
 					{ path: RoutePath.TableRaking, element: <TableRanking />, errorElement: <NotFound /> },
 					{ path: RoutePath.Profile, element: <Profile />, errorElement: <NotFound /> },

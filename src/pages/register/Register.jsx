@@ -13,12 +13,12 @@ export default function RegisterPage() {
 		const postRegisterData = async () => {
 			try {
 				const response = await authApi.registerApi(data)
-				message.success('Đăng ký thành công!')
 				if (response.status_code === 9999) {
+					message.success('Đăng ký thành công!')
 					navigate(RoutePath.Home)
 				}
 				if (response.status_code === -9999) {
-					message.error(response.message)
+					message.error('Tên đăng nhập đã được đăng ký')
 				}
 			} catch (error) {
 				console.log(error)
