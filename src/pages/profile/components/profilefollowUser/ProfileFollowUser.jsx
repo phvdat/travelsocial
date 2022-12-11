@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from 'react'
-import { Menu, Pagination } from "antd";
+import { Dropdown, Menu, Pagination } from "antd";
 import '../profilefollower/ProfileFollower.scss'
 import { Link } from 'react-router-dom';
 import avatarDefault from 'assets/img/avatarDefault.jpg';
 import { getFollowUser, getUsersInfoById } from 'function/callApi';
+import { BsThreeDotsVertical } from 'react-icons/bs';
+import { useSelector } from 'react-redux';
 export default function ProfileFollower(props) {
 	const { userInfo } = props
+
+	const currentUser = useSelector(state => state.authentication.currentUser)
 	const [listUsersInfo, setListUsersInfo] = useState([])
 	const [page, setPage] = useState(1)
 	const [totalItems, setTotalItems] = useState(1)
@@ -15,7 +19,7 @@ export default function ProfileFollower(props) {
 			console.log(res)
 			setTotalItems(res.totalItems)
 			res.items.map((ele) => (
-				getUsersInfoById(ele.userId).then(
+				getUsersInfoById(ele.userIdTarget).then(
 					(res) => {
 						setListUsersInfo((prev) => [...prev, res])
 					}
@@ -48,6 +52,16 @@ export default function ProfileFollower(props) {
 									<img alt="avata" src={ele.avatar || avatarDefault} />
 									<span>{ele.fullName}</span>
 								</div>
+								{
+									userInfo._id === currentUser._id &&
+									<Dropdown
+										overlay={menu}
+										trigger={["click"]}
+										placement="bottomRight"
+									>
+										<BsThreeDotsVertical className="dropdown-btn" />
+									</Dropdown>
+								}
 							</Link>
 						)
 					})

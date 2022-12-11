@@ -51,8 +51,8 @@ export default function ProfileAbout(props) {
 			const response = await authApi.upadateUserInfoApi(data)
 			if (response.status_code === 9999) {
 				message.success('Cập nhật thành công')
-				getUsersInfoById(response.payload.userId).then(
-					(res, req) => {
+				getUsersInfoById(response.payload._id).then(
+					(res) => {
 						window.localStorage.setItem('currentUser', JSON.stringify(res));
 						dispach({
 							type: SET_CURRENT_USER,
