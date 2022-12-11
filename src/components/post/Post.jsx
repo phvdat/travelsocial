@@ -93,6 +93,10 @@ export default function Post(props) {
 	}
 	const handleLikePost = async () => {
 		if (isLogin) {
+			if (currentUser.status === 'block') {
+				message.warning('Tài khoản của bạn đã bị khoá')
+				return
+			}
 			try {
 				const dataLike = {
 					postId: postData?._id,
@@ -119,6 +123,10 @@ export default function Post(props) {
 
 	const handleRatePost = async (value) => {
 		if (isLogin) {
+			if (currentUser.status === 'block') {
+				message.warning('Tài khoản của bạn đã bị khoá')
+				return
+			}
 			const dataRate = {
 				postId: postData?._id,
 				point: value
@@ -218,7 +226,14 @@ export default function Post(props) {
 						</div>
 
 						<div className="btnPost" onClick={() => {
-							setShowComment(isLogin)
+							setShowComment(() => {
+								if (isLogin) {
+									if (currentUser.status === 'block') {
+										message.warning('Tài khoản của bạn đã bị khoá')
+										return false
+									}
+								}
+							})
 							setOpen(!isLogin)
 						}}>
 							<BiCommentDetail className='iconBtn' />
