@@ -14,6 +14,7 @@ import { HiOutlineUserAdd } from "react-icons/hi";
 import { getFollowUser, getUsersInfoById } from "function/callApi";
 import ProfileFollower from "./components/profilefollower/ProfileFollower";
 import ProfileFollowUser from "./components/profilefollowUser/ProfileFollowUser";
+import MoreAction from "./components/moreAction/MoreAction";
 
 export default function ProfilePage() {
 	let { userId, tab } = useParams()
@@ -132,10 +133,16 @@ export default function ProfilePage() {
 								Đang theo dõi
 							</NavLink>
 						</div>
-						{
-							currentUser._id !== userInfo?._id &&
-							<button className="btn-follow" onClick={handleFolowBtn}>{followStatus ? <span><BsCheck /> <span>Đang theo dõi</span></span> : <span><HiOutlineUserAdd /> <span>Theo dõi</span></span>}</button>
-						}
+						<div style={{ display: 'flex' }}>
+							{
+								currentUser._id !== userInfo?._id &&
+								<button className="btn-follow" onClick={handleFolowBtn}>{followStatus ? <span><BsCheck /> <span>Đang theo dõi</span></span> : <span><HiOutlineUserAdd /> <span>Theo dõi</span></span>}</button>
+							}
+							{
+								currentUser.isAdmin &&
+								<MoreAction />
+							}
+						</div>
 					</div>
 				</div>
 				<div className="downProfile">

@@ -16,6 +16,14 @@ const authApi = {
 	upadateUserInfoApi: (data) => {
 		const url = "/user/update-info-user";
 		return axiosClient.post(url, data);
+	},
+	blockUser: (params) => {
+		const url = "/user/block-user";
+		return axiosClient.post(url, params);
+	},
+	deleteUser: (params) => {
+		const url = "/user/delete-user";
+		return axiosClient.post(url, params);
 	}
 }
 

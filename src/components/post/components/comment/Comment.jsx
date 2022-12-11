@@ -141,7 +141,10 @@ export default function Comment(props) {
 			</div>
 			{modeEdit &&
 				<div className='edit-btn-container'>
-					<button onClick={() => setValueComment('')}>Huỷ</button>
+					<button onClick={() => {
+						setValueComment('')
+						setModeEdit(false)
+					}}>Huỷ</button>
 					<button onClick={updateComment} >Lưu</button>
 				</div>
 			}

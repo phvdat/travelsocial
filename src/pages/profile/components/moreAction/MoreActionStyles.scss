@@ -1,0 +1,34 @@
+@import "src/assets/styles/variables";
+@import "src/assets/styles/mixins";
+
+.confirm-dialog {
+  .ant-modal-content,
+  .ant-modal-content .ant-modal-header {
+    border-radius: 12px;
+  }
+
+  .btns-container {
+    display: flex;
+    justify-content: end;
+    button {
+      @include btnStyle(
+        $width-input-auto,
+        $height-input-md,
+        $color-dangerous,
+        $font-size-md
+      );
+      padding: 0 12px;
+      margin-left: 8px;
+    }
+    button.cancel {
+      @include btnStyle(
+        $width-input-auto,
+        $height-input-md,
+        $primary-gray,
+        $font-size-md
+      );
+      padding: 0 12px;
+      margin-left: 8px;
+    }
+  }
+}
