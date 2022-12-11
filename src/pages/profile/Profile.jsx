@@ -15,13 +15,16 @@ import { getFollowUser, getUsersInfoById } from "function/callApi";
 import ProfileFollower from "./components/profilefollower/ProfileFollower";
 import ProfileFollowUser from "./components/profilefollowUser/ProfileFollowUser";
 import MoreAction from "./components/moreAction/MoreAction";
+import LoginModal from "components/loginModal/LoginModal";
 
 export default function ProfilePage() {
 	let { userId, tab } = useParams()
 	const [userInfo, setUserInfo] = useState({})
 	const currentUser = useSelector(state => state.authentication.currentUser)
+	const isLogin = useSelector(state => state.authentication.isLoggedIn)
 	const [listPost, setListPost] = useState([])
 	const [followStatus, setFollowStatus] = useState(false)
+	const [open, setOpen] = useState(false)
 	useEffect(() => {
 		window.scrollTo(0, 0);
 	}, [tab])
@@ -62,6 +65,10 @@ export default function ProfilePage() {
 	}, [userId, currentUser._id])
 
 	const handleFolowBtn = async () => {
+		if (!isLogin) {
+			setOpen(true)
+			return
+		}
 		const data = {
 			userIdTarget: userId
 		}
@@ -97,6 +104,7 @@ export default function ProfilePage() {
 
 	return (
 		<div className="container">
+			<LoginModal open={open} onClose={() => setOpen(false)} />
 			<div className="wrapper-profile">
 				<div className="top-profile">
 					<div className="coverImg">
