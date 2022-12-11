@@ -69,6 +69,10 @@ export default function ProfilePage() {
 			setOpen(true)
 			return
 		}
+		if (currentUser.status !== 'active') {
+			message.warning('Tài khoản của bạn đã bị khoá')
+			return
+		}
 		const data = {
 			userIdTarget: userId
 		}

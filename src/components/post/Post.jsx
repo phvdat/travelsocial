@@ -93,7 +93,7 @@ export default function Post(props) {
 	}
 	const handleLikePost = async () => {
 		if (isLogin) {
-			if (currentUser.status === 'block') {
+			if (currentUser.status !== 'active') {
 				message.warning('Tài khoản của bạn đã bị khoá')
 				return
 			}
@@ -123,7 +123,7 @@ export default function Post(props) {
 
 	const handleRatePost = async (value) => {
 		if (isLogin) {
-			if (currentUser.status === 'block') {
+			if (currentUser.status !== 'active') {
 				message.warning('Tài khoản của bạn đã bị khoá')
 				return
 			}
@@ -228,10 +228,11 @@ export default function Post(props) {
 						<div className="btnPost" onClick={() => {
 							setShowComment(() => {
 								if (isLogin) {
-									if (currentUser.status === 'block') {
+									if (currentUser.status !== 'active') {
 										message.warning('Tài khoản của bạn đã bị khoá')
 										return false
 									}
+									return true
 								}
 							})
 							setOpen(!isLogin)
