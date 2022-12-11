@@ -11,6 +11,7 @@ import viLocale from "moment/locale/vi";
 import { async } from '@firebase/util';
 import { useRef } from 'react';
 import { useEffect } from 'react';
+import avatarDefault from 'assets/img/avatarDefault.jpg';
 
 export default function Notify() {
 	moment.locale('vi', [viLocale])
@@ -110,7 +111,7 @@ export default function Notify() {
 											<div onClick={() => handleReadNotify(item.path, item._id)} key={idx}>
 												<li className='notify-item'>
 													<div className='avatar-content'>
-														<img src={item.avatar} alt="avatar" />
+														<img src={item.avatar || avatarDefault} alt="avatar" />
 													</div>
 													<div className='text-content'>
 														<p>{item.content}</p>
