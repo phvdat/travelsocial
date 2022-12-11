@@ -160,7 +160,7 @@ export default function Comment(props) {
 								</div>
 								{(item.userId === currentUser._id || currentUser.isAdmin) &&
 									<div className='modify-comment-btn'>
-										<Dropdown overlay={item.userId !== currentUser._id ? menuCommentAdmin(item._id) : menuComment(item._id, item.content)} trigger={['click']} placement="bottomLeft">
+										<Dropdown overlay={item.userId !== currentUser._id ? menuCommentAdmin(item._id) : menuComment(item._id, item.content)} trigger={['click']} placement="bottomRight">
 											<span>
 												<BsThreeDots />
 											</span>
