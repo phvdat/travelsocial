@@ -21,6 +21,10 @@ const authApi = {
 		const url = "/user/block-user";
 		return axiosClient.post(url, params);
 	},
+	unBlockUser: (params) => {
+		const url = "/user/block-user";
+		return axiosClient.post(url, params);
+	},
 	deleteUser: (params) => {
 		const url = "/user/delete-user";
 		return axiosClient.post(url, params);

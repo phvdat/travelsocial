@@ -7,7 +7,8 @@ import { useNavigate } from 'react-router-dom'
 import { RoutePath } from 'router/routePath'
 
 const MoreAction = (props) => {
-	const { userId } = props
+	const { userInfo } = props
+	console.log(userInfo)
 	const [isOpenBlock, setIsOpenBlock] = useState(false)
 	const [isOpenDelete, setIsOpenDelete] = useState(false)
 
@@ -17,7 +18,7 @@ const MoreAction = (props) => {
 			items={
 				[
 					{
-						label: <span onClick={() => setIsOpenBlock(true)}>Block tài khoản</span>,
+						label: <span onClick={() => setIsOpenBlock(true)}>{userInfo.status === 'active' ? 'Khoá tài khoản' : 'Mở khoá tài khoản'}</span>,
 						key: '0',
 					},
 					{
@@ -28,7 +29,7 @@ const MoreAction = (props) => {
 		/>
 	)
 	const handleDeleteAcc = async () => {
-		const params = { userId: userId }
+		const params = { userId: userInfo._id }
 		try {
 			const res = await authApi.deleteUser(params)
 			if (res.status_code === 9999) {
@@ -41,29 +42,46 @@ const MoreAction = (props) => {
 		} catch (error) {
 			console.log(error)
 		}
+		setIsOpenDelete(false)
 	}
 	const handleBlockAcc = async () => {
-		const params = { userId: userId }
-		try {
-			const res = await authApi.blockUser(params)
-			if (res.status_code === 9999) {
-				message.success('Đã khoá tài khoản')
+		const params = { userId: userInfo._id }
+		if (userInfo.status === 'active') {
+			try {
+				const res = await authApi.blockUser(params)
+				if (res.status_code === 9999) {
+					message.success('Đã khoá tài khoản')
+				}
+				if (res.status_code === -9999) {
+					message.error('Không thành công')
+				}
+			} catch (error) {
+				console.log(error)
 			}
-			if (res.status_code === -9999) {
-				message.error('Không thành công')
-			}
-		} catch (error) {
-			console.log(error)
 		}
+		if (userInfo.status === 'blocked') {
+			try {
+				const res = await authApi.unBblockUser(params)
+				if (res.status_code === 9999) {
+					message.success('Đã mở khoá tài khoản')
+				}
+				if (res.status_code === -9999) {
+					message.error('Không thành công')
+				}
+			} catch (error) {
+				console.log(error)
+			}
+		}
+		setIsOpenBlock(false)
 	}
 
 	return (
 		<div className='more-action-profile'>
 			<Modal className='confirm-dialog'
 				footer={null} open={isOpenBlock} onCancel={() => setIsOpenBlock(false)}>
-				<h3>Khoá tài khoản này</h3>
+				<h3>{userInfo.status === 'active' ? "Khoá tài khoản này" : "Mở Khoá tài khoản này"}</h3>
 				<div className='btns-container'>
-					<button className='ok' onClick={() => handleBlockAcc()}>Tiếp khoá tài khoản</button>
+					<button className='ok' onClick={() => handleBlockAcc()}>{userInfo.status === 'active' ? "Tiếp khoá tài khoản" : "Mở khoá tài khoản"} </button>
 					<button className='cancel' onClick={() => setIsOpenBlock(false)}>Huỷ</button>
 				</div>
 			</Modal>

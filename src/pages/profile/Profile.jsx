@@ -16,6 +16,7 @@ import ProfileFollower from "./components/profilefollower/ProfileFollower";
 import ProfileFollowUser from "./components/profilefollowUser/ProfileFollowUser";
 import MoreAction from "./components/moreAction/MoreAction";
 import LoginModal from "components/loginModal/LoginModal";
+import { AiFillLock } from "react-icons/ai";
 
 export default function ProfilePage() {
 	let { userId, tab } = useParams()
@@ -146,13 +147,14 @@ export default function ProfilePage() {
 							</NavLink>
 						</div>
 						<div style={{ display: 'flex' }}>
+							{/* <AiFillLock className="lock-icon" /> */}
 							{
 								currentUser._id !== userInfo?._id &&
 								<button className="btn-follow" onClick={handleFolowBtn}>{followStatus ? <span><BsCheck /> <span>Đang theo dõi</span></span> : <span><HiOutlineUserAdd /> <span>Theo dõi</span></span>}</button>
 							}
 							{
 								currentUser.isAdmin &&
-								<MoreAction />
+								<MoreAction userInfo={userInfo} />
 							}
 						</div>
 					</div>
