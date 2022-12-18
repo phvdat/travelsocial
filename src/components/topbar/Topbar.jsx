@@ -86,7 +86,7 @@ export default function Topbar() {
 			<LoginModal open={open} onClose={() => setOpen(false)} />
 			<div className="topbarLeft">
 				<Link to="/home">
-					<span className="logo">Travel</span>
+					<span className="logo">Travel Social Network</span>
 				</Link>
 			</div>
 
