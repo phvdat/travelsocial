@@ -44,6 +44,7 @@ const LoginModal = (props) => {
 						type: LOGIN_SUCCESS,
 						payload: [],
 					})
+					onClose()
 				}
 				if (response.status_code === -9999) {
 					message.warning('Username hoặc mật khẩu không đúng!')
@@ -53,10 +54,8 @@ const LoginModal = (props) => {
 			}
 			setTimeout(() => {
 				setConfirmLoading(false)
-				onClose()
 			}, 300)
 		}
-
 		postLoginData()
 	};
 	const onFinishFailed = (errorInfo) => {

@@ -39,28 +39,28 @@ export default function Newfeed() {
 		setIsLoading(false)
 	}
 
-	const getPostRelative = async (pageNum) => {
-		setIsLoading(true)
-		try {
-			const data = {
-				page: pageNum,
-				size: 10,
-				status: "public"
-			}
-			const response = await postApi.getAllPostRelated(data)
-			if (response.status_code === 9999) {
-				console.log(response.payload.hasNext)
-				setListPost(prev => [...prev, ...(response.payload.items)])
-				setHasNextPage(response.payload.hasNext)
-			}
-			if (response.status_code === -9999) {
-				message.warning('Tải bài viết không thành công!')
-			}
-		} catch (error) {
-			console.log(error)
-		}
-		setIsLoading(false)
-	}
+	// const getPostRelative = async (pageNum) => {
+	// 	setIsLoading(true)
+	// 	try {
+	// 		const data = {
+	// 			page: pageNum,
+	// 			size: 10,
+	// 			status: "public"
+	// 		}
+	// 		const response = await postApi.getAllPostRelated(data)
+	// 		if (response.status_code === 9999) {
+	// 			console.log(response.payload.hasNext)
+	// 			setListPost(prev => [...prev, ...(response.payload.items)])
+	// 			setHasNextPage(response.payload.hasNext)
+	// 		}
+	// 		if (response.status_code === -9999) {
+	// 			message.warning('Tải bài viết không thành công!')
+	// 		}
+	// 	} catch (error) {
+	// 		console.log(error)
+	// 	}
+	// 	setIsLoading(false)
+	// }
 
 	useEffect(() => {
 		getAllPost(page)

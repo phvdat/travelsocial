@@ -1,0 +1,16 @@
+@import "src/assets/styles/variables";
+@import "src/assets/styles/mixins";
+
+.search-user-container {
+  margin-top: $spacing-md;
+  background-color: $primary-white;
+  box-shadow: $box-shadow-bold;
+  height: fit-content;
+  padding: $spacing-sm;
+  border-radius: $border-radius-md;
+  position: sticky !important;
+  top: calc($spacing-md + 50px);
+}
+.result-search-user {
+  margin-top: $spacing-sm;
+}

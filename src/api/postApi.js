@@ -28,7 +28,11 @@ const postApi = {
 	deletePost: (params) => {
 		const url = "/post/delete";
 		return axiosClient.get(url, { params });
-	}
+	},
+	getTopPost: (params) => {
+		const url = "rank/get-leader-board-post";
+		return axiosClient.get(url, { params });
+	},
 }
 
 export default postApi;

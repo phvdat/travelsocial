@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import avatarDefault from 'assets/img/avatarDefault.jpg';
 import { Dropdown, Menu, message } from 'antd';
-import { createComment, deteleCommentPost, loadCommentPost } from 'components/post/functions/callApi';
+import { createComment, loadCommentPost } from 'components/post/functions/callApi';
 import { BsThreeDots } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
 import { useEffect } from 'react';
@@ -13,7 +13,7 @@ import Loading from 'components/baseUI/loading/Loading';
 import reactPostApi from 'api/reactPostApi';
 
 export default function Comment(props) {
-	const { postData } = props
+	const { postData, setNoComment } = props
 	const currentUser = useSelector(state => state.authentication.currentUser)
 	const [listComment, setListComment] = useState([])
 	const [valueComment, setValueComment] = useState('')
@@ -43,10 +43,21 @@ export default function Comment(props) {
 	}
 
 	const handleDeteleComment = async (commentId) => {
-		await deteleCommentPost({ commentId: commentId })
-		setPage(1)
-		setListComment([])
-		handleLoadCommentPost(1)
+		const params = { commentId: commentId }
+		try {
+			const response = await reactPostApi.deleteComment(params)
+			if (response.status_code === 9999) {
+				setPage(1)
+				setListComment([])
+				handleLoadCommentPost(1)
+				setNoComment(prev => prev - 1)
+			}
+			if (response.status_code === -9999) {
+				message.warning("Xoá bình luận không thành công")
+			}
+		} catch (error) {
+			console.log(error)
+		}
 	}
 
 	const handleCreateComment = async () => {
@@ -62,6 +73,7 @@ export default function Comment(props) {
 			handleLoadCommentPost(1)
 			setValueComment('')
 			setIsLoading(false)
+			setNoComment(prev => prev + 1)
 		}
 	}
 	const updateComment = async () => {

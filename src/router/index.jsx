@@ -29,6 +29,7 @@ const routesConfig = [
 					{ path: RoutePath.Post, element: <PostPage />, errorElement: <NotFound /> },
 					{ path: RoutePath.Search, element: <SearchPage />, errorElement: <NotFound /> },
 					{ path: RoutePath.Index, element: <Navigate to={RoutePath.Home} />, errorElement: <NotFound /> },
+					{ path: '*', element: < NotFound /> },
 				],
 			},
 		]

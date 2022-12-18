@@ -3,6 +3,7 @@ import moment from 'moment'
 import React from 'react'
 import { Link } from 'react-router-dom'
 import viLocale from "moment/locale/vi";
+import avatarDefault from 'assets/img/avatarDefault.jpg';
 
 export default function AlertMsg(props) {
 	const { notify } = props
@@ -15,7 +16,7 @@ export default function AlertMsg(props) {
 				<hr className='time-line' />
 				<div className='notify-item'>
 					<div className='avatar-content'>
-						<img src={notify.avatar} alt="avatar" />
+						<img src={notify.avatar || avatarDefault} alt="avatar" />
 					</div>
 					<div className='text-content'>
 						<p>{notify.content}</p>

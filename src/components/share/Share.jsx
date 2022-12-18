@@ -132,6 +132,7 @@ export default function Share() {
 					form.resetFields();
 					setFileUploaded([])
 					setIsModalOpen(false)
+					window.location.reload()
 				}
 				if (response.status_code === -9999) {
 					message.warning('Đã xảy ra lỗi!')

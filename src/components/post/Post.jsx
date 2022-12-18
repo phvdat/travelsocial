@@ -40,6 +40,7 @@ export default function Post(props) {
 	const [user, setUser] = useState({})
 	const [like, setLike] = useState(false)
 	const [noLike, setNoLike] = useState(postData?.likeSize)
+	const [noComment, setNoComment] = useState(postData?.commentSize)
 	const [showComment, setShowComment] = useState(false)
 	const [rateValue, setRateValue] = useState(0);
 	const [rateAverage, setRateAverage] = useState(0);
@@ -214,7 +215,7 @@ export default function Post(props) {
 							<AiFillLike className='smLikeIcon' />
 							<span className='numberReact'>{noLike}</span>
 						</div>
-						<span className="numberComment">{postData?.commentSize} bình luận</span>
+						<span className="numberComment">{noComment} bình luận</span>
 					</div>
 
 					<hr className='postHr' />
@@ -248,7 +249,7 @@ export default function Post(props) {
 						</div>
 					</div>
 					{
-						showComment && <Comment postData={postData} />
+						showComment && <Comment postData={postData} setNoComment={setNoComment} />
 					}
 				</div>
 			</div>

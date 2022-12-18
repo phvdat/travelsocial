@@ -1,7 +1,7 @@
 import { message } from "antd";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Link, NavLink, useParams } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 import postApi from "../../api/postApi";
 import Post from "../../components/post/Post";
 import Share from "../../components/share/Share";
@@ -11,12 +11,11 @@ import avatarDefault from "assets/img/avatarDefault.jpg";
 import followApi from "api/followApi";
 import { BsCheck } from "react-icons/bs";
 import { HiOutlineUserAdd } from "react-icons/hi";
-import { getFollowUser, getUsersInfoById } from "function/callApi";
+import { getFollower, getFollowUser, getUsersInfoById } from "function/callApi";
 import ProfileFollower from "./components/profilefollower/ProfileFollower";
 import ProfileFollowUser from "./components/profilefollowUser/ProfileFollowUser";
 import MoreAction from "./components/moreAction/MoreAction";
 import LoginModal from "components/loginModal/LoginModal";
-import { AiFillLock } from "react-icons/ai";
 
 export default function ProfilePage() {
 	let { userId, tab } = useParams()
@@ -25,6 +24,7 @@ export default function ProfilePage() {
 	const isLogin = useSelector(state => state.authentication.isLoggedIn)
 	const [listPost, setListPost] = useState([])
 	const [followStatus, setFollowStatus] = useState(false)
+	const [numOfFollower, setNumOfFollower] = useState(0)
 	const [open, setOpen] = useState(false)
 	useEffect(() => {
 		window.scrollTo(0, 0);
@@ -62,6 +62,9 @@ export default function ProfilePage() {
 			if (idx !== -1) {
 				setFollowStatus(true)
 			}
+		})
+		getFollower(currentUser._id, 1, 999999).then(res => {
+			setNumOfFollower(res.items.length)
 		})
 	}, [userId, currentUser._id])
 
@@ -123,7 +126,7 @@ export default function ProfilePage() {
 						<p className="text-top-profile">Điểm tích luỹ thành viên:<span style={{ fontWeight: 500 }}>{userInfo.experiencePoint}</span></p>
 						<div>
 							<span style={{ marginRight: 50 }}>Bài đã đăng: <span style={{ fontWeight: 500 }}>{listPost?.length || 0}</span></span>
-							<span>Lượt theo dõi: <span style={{ fontWeight: 500 }}>1</span></span>
+							<span>Lượt theo dõi: <span style={{ fontWeight: 500 }}>{numOfFollower}</span></span>
 						</div>
 					</div>
 					<hr className="rightbarHr" />

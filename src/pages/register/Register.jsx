@@ -47,7 +47,7 @@ export default function RegisterPage() {
 					<Input placeholder="Nhập họ tên" className="input-field" />
 				</Form.Item>
 				<Form.Item name="phone" rules={[{ required: true, message: 'Vui lòng nhập số điện thoại' }]}>
-					<input type="number" placeholder="Số điện thoại" className="ant-input ant-input-status-error input-field" />
+					<Input type="number" placeholder="Số điện thoại" className="ant-input ant-input-status-error input-field" />
 				</Form.Item>
 				<Form.Item name="username" rules={[{ required: true, message: 'Vui lòng nhập tên đăng nhập' }]}>
 					<Input placeholder="Username" className="input-field" />

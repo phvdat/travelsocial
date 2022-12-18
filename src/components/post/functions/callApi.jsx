@@ -22,19 +22,6 @@ export const getAllRate = async (params) => {
 		console.log(error)
 	}
 }
-export const deteleCommentPost = async (params) => {
-	try {
-		const response = await reactPostApi.deleteComment(params)
-		if (response.status_code === 9999) {
-			console.log("delete comment succcess", response)
-		}
-		if (response.status_code === -9999) {
-			console.log("delete comment fail", response)
-		}
-	} catch (error) {
-		console.log(error)
-	}
-}
 export const loadCommentPost = async (params) => {
 	try {
 		const response = await reactPostApi.loadComment(params)
