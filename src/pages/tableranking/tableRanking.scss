@@ -6,9 +6,10 @@
   justify-content: center;
 }
 .wapper-ranking {
+  box-shadow: $box-shadow-bold;
   background-color: #4b4168 !important;
   border-radius: 10px;
-  margin: $spacing-md 0;
+  margin: $spacing-md;
   width: $width-post;
   max-width: $width-post;
 }
@@ -141,4 +142,22 @@
       opacity: 0.8;
     }
   }
+}
+
+.instruction-point {
+  margin-top: $spacing-md;
+  background-color: $primary-white;
+  box-shadow: $box-shadow-bold;
+  height: fit-content;
+  max-height: calc(100vh - 50px - 32px);
+  width: 300px;
+  max-width: 300px;
+  overflow: scroll;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  padding: $spacing-md;
+  border-radius: $border-radius-md;
+  position: sticky !important;
+  top: calc($spacing-md + 50px);
 }

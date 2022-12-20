@@ -1,8 +1,10 @@
 import './SearchUserStyle.scss'
-import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import React, { useLayoutEffect, useRef, useState } from 'react'
 import { AiOutlineSearch } from 'react-icons/ai'
 import Loading from 'components/baseUI/loading/Loading'
 import elasticSearchApi from 'api/elasticSearchApi'
+import avatarDefault from 'assets/img/avatarDefault.jpg';
+import { Link } from 'react-router-dom'
 
 const SearchUser = () => {
 	const [searchValue, setSearchValue] = useState('')
@@ -17,7 +19,8 @@ const SearchUser = () => {
 			}
 			const res = await elasticSearchApi.searchUser(params)
 			if (res.status_code === 9999) {
-				setResult(prev => [...prev, ...(res.payload.items)])
+				console.log(res.payload)
+				setResult(res.payload)
 			}
 			if (res.status_code === -9999) {
 				console.log('not found')
@@ -25,6 +28,7 @@ const SearchUser = () => {
 		} catch (error) {
 			console.log('search user failed')
 		}
+		setLoading(false)
 	}
 	const firstUpdate = useRef(true);
 	useLayoutEffect(() => {
@@ -32,11 +36,16 @@ const SearchUser = () => {
 			firstUpdate.current = false;
 			return;
 		}
+		if (!searchValue) {
+			setLoading(false)
+			setResult([])
+			return
+		}
 		setLoading(true)
 		const delayDebounceFn = setTimeout(() => {
-			setLoading(false)
 			console.log(searchValue)
 			handleOnSubmit(searchValue)
+			// setLoading(false)
 		}, 500)
 		return () => clearTimeout(delayDebounceFn)
 
@@ -45,34 +54,37 @@ const SearchUser = () => {
 	return (
 		<div className='search-user-container'>
 			<form onSubmit={(e) => handleOnSubmit(e)} className="searchbar">
-				<input type="text" placeholder="Tìm kiếm tài khoản khác" value={searchValue} onChange={(event) => setSearchValue(event.target.value)} />
+				<input type="text" placeholder="Tìm kiếm người dùng" value={searchValue} onChange={(event) => setSearchValue(event.target.value)} />
 				<div className="searchIcon" onClick={handleOnSubmit}>
 					<AiOutlineSearch />
 				</div>
 			</form>
 			<div className='result-search-user'>
-
+				{
+					loading ?
+						<Loading position="center-loading" /> :
+						<ul>
+							{
+								result.length !== 0 ?
+									result.map(item => {
+										return (
+											<li key={item._id}>
+												<Link className="search-user-item" to={`/profile/${item._id}/newfeed`} >
+													<img src={item.avatar || avatarDefault} alt="avatar" className="avt-user" />
+													<span>{item.fullName}</span>
+												</Link>
+											</li>
+										)
+									})
+									:
+									(
+										searchValue &&
+										<h4 style={{ textAlign: 'center' }}>Không tìm thấy</h4>
+									)
+							}
+						</ul>
+				}
 			</div>
-			{
-				loading ?
-					<Loading position="center-loading" /> :
-					<ul>
-						{
-							result.length !== 0 &&
-							result.map(item => {
-								return (
-									<li>
-										abc
-									</li>
-								)
-							})
-						}
-					</ul>
-			}
-			{
-				!loading && searchValue &&
-				<h4 style={{ textAlign: 'center' }}>Không tìm thấy</h4>
-			}
 		</div>
 	)
 }

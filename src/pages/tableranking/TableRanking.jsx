@@ -31,6 +31,18 @@ export default function TableRankingPage() {
 
 	return (
 		<div className='container-ranking'>
+			<div className='instruction-point'>
+				<h3>Quy định về cách tính điểm xếp hạng</h3>
+				<ul>
+					<li>Điểm cộng khi thích 1 bài viết: <b>2</b></li>
+					<li>Điểm cộng khi bình luận 1 bài viết: <b>4</b></li>
+					<li>Điểm cộng khi đánh giá 1 bài viết: <b>2</b></li>
+					<li>Điểm cộng khi tạo mới 1 bài viết: <b>20</b></li>
+					<li>Điểm cộng khi bài viết tăng 1 lượt thích: <b>1</b></li>
+					<li>Điểm cộng khi bài viết tăng 1 lượt bình luận: <b>2</b></li>
+					<li>Điểm cộng khi bài viết tăng 1 đánh giá: <b>Số điểm được đánh giá (1-&gt;5)</b></li>
+				</ul>
+			</div>
 			<div className='wapper-ranking'>
 				<div className="top-three">
 					{list[2] &&

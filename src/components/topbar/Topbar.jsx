@@ -103,7 +103,7 @@ export default function Topbar() {
 				</div>
 
 				<form onSubmit={handleOnSubmit} className="searchbar">
-					<input type="text" placeholder="Tìm kiếm trên Travel" onChange={(event) => setSearchValue(event.target.value)} />
+					<input type="text" placeholder="Tìm kiếm bài viết" onChange={(event) => setSearchValue(event.target.value)} />
 					<div className="searchIcon" onClick={handleOnSubmit}>
 						<AiOutlineSearch />
 					</div>

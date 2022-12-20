@@ -12,5 +12,27 @@
   top: calc($spacing-md + 50px);
 }
 .result-search-user {
-  margin-top: $spacing-sm;
+  // margin-top: $spacing-sm;
+}
+.search-user-item {
+  border-radius: $border-radius-md;
+  display: flex;
+  align-items: center;
+  height: 48px;
+  width: auto;
+  justify-content: flex-start;
+  padding: 2px 16px;
+  cursor: pointer;
+  border-radius: 10px;
+  position: relative;
+  &:hover {
+    background-color: $primary-gray-background;
+  }
+  .avt-user {
+    margin-right: 6px;
+    width: 32px;
+    height: 32px;
+    border-radius: $spacing-md;
+    object-fit: cover;
+  }
 }

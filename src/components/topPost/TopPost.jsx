@@ -30,7 +30,6 @@ const TopPost = () => {
 			Promise.all(res.payload.items.map(item => {
 				return getPostById(item.postId)
 			})).then(res => {
-				console.log(res)
 				setListPost(res)
 			})
 		} catch (error) {
