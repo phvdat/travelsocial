@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react'
 import avatarDefault from 'assets/img/avatarDefault.jpg';
 import { Link } from 'react-router-dom';
 import Loading from 'components/baseUI/loading/Loading';
+import { SCREEN_LG } from 'constants/common';
 
 export default function TableRankingPage() {
 	const [list, setList] = useState([]);
@@ -29,20 +30,24 @@ export default function TableRankingPage() {
 		getListRanking()
 	}, []);
 
+	const { innerWidth } = window;
 	return (
 		<div className='container-ranking'>
-			<div className='instruction-point'>
-				<h3>Quy định về cách tính điểm xếp hạng</h3>
-				<ul>
-					<li>Điểm cộng khi thích 1 bài viết: <b>2</b></li>
-					<li>Điểm cộng khi bình luận 1 bài viết: <b>4</b></li>
-					<li>Điểm cộng khi đánh giá 1 bài viết: <b>2</b></li>
-					<li>Điểm cộng khi tạo mới 1 bài viết: <b>20</b></li>
-					<li>Điểm cộng khi bài viết tăng 1 lượt thích: <b>1</b></li>
-					<li>Điểm cộng khi bài viết tăng 1 lượt bình luận: <b>2</b></li>
-					<li>Điểm cộng khi bài viết tăng 1 đánh giá: <b>Số điểm được đánh giá (1-&gt;5)</b></li>
-				</ul>
-			</div>
+
+			{innerWidth > SCREEN_LG &&
+				<div className='instruction-point'>
+					<h3>Quy định về cách tính điểm xếp hạng</h3>
+					<ul>
+						<li>Điểm cộng khi thích 1 bài viết: <b>2</b></li>
+						<li>Điểm cộng khi bình luận 1 bài viết: <b>4</b></li>
+						<li>Điểm cộng khi đánh giá 1 bài viết: <b>2</b></li>
+						<li>Điểm cộng khi tạo mới 1 bài viết: <b>20</b></li>
+						<li>Điểm cộng khi bài viết tăng 1 lượt thích: <b>1</b></li>
+						<li>Điểm cộng khi bài viết tăng 1 lượt bình luận: <b>2</b></li>
+						<li>Điểm cộng khi bài viết tăng 1 đánh giá: <b>Số điểm được đánh giá (1-&gt;5)</b></li>
+					</ul>
+				</div>
+			}
 			<div className='wapper-ranking'>
 				<div className="top-three">
 					{list[2] &&
@@ -94,6 +99,16 @@ export default function TableRankingPage() {
 				</div>
 				{isLoading && <Loading position="center-loading" />}
 			</div>
+			{innerWidth > SCREEN_LG &&
+				<div className='instruction-point'>
+					<h3>Giải thưởng tháng này</h3>
+					<ul>
+						<li>Giải nhất: <b>Một chuyến du lịch Phú Quốc 3 ngày 3 đêm</b></li>
+						<li>Giải nhì: <b>1.000.000 đồng</b></li>
+						<li>Giải ba: <b>500.000 đồng</b></li>
+					</ul>
+				</div>
+			}
 		</div>
 	)
 }

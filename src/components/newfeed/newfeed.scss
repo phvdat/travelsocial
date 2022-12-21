@@ -3,6 +3,9 @@
 
 .newfeed {
   margin-top: $spacing-md;
+  padding: 0 $spacing-sm;
+  width: $width-post;
+  max-width: $width-post;
   display: flex;
   flex-direction: column;
   align-items: center;

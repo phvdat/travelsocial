@@ -19,7 +19,7 @@
   margin-top: 60px;
   align-items: flex-end;
   .one {
-    width: 10rem;
+    max-width: 10rem;
     height: 11rem;
     padding-top: 3.5rem;
 
@@ -31,6 +31,7 @@
   }
 }
 .item-card {
+  flex: 1;
   margin: 0;
   box-sizing: border-box;
   position: relative;
@@ -150,6 +151,7 @@
   box-shadow: $box-shadow-bold;
   height: fit-content;
   max-height: calc(100vh - 50px - 32px);
+  overflow: scroll;
   width: 300px;
   max-width: 300px;
   overflow: scroll;
@@ -160,4 +162,13 @@
   border-radius: $border-radius-md;
   position: sticky !important;
   top: calc($spacing-md + 50px);
+  h3 {
+    font-size: 20px;
+  }
+  li {
+    font-size: 18px;
+  }
+  b {
+    color: $primary-color;
+  }
 }

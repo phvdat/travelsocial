@@ -7,7 +7,7 @@
   align-items: center;
 }
 .top-profile {
-  width: 1200px;
+  width: 100%;
   max-width: 1200px;
   border-radius: 4px;
   background-color: $primary-white;
@@ -115,8 +115,9 @@ a {
 }
 .downProfile {
   margin-top: $spacing-md;
-  width: $width-post;
+  width: 100%;
   max-width: $width-post;
+  padding: 0 $spacing-sm;
 }
 
 .container-no-data {
@@ -130,7 +131,6 @@ a {
   border-radius: $border-radius-md;
   h1 {
     text-align: center;
-    // margin-top: 100px;
   }
 }
 

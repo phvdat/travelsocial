@@ -115,7 +115,7 @@ const HeaderMobile = () => {
 					</Link>
 				</div>
 				<div className="header-right">
-					{!isLogin ?
+					{isLogin ?
 						<>
 							<Notify />
 							<Dropdown overlayClassName='overlay-drop-down-fixed' overlay={menu} trigger={['click']}>

@@ -1,6 +1,6 @@
 import SearchUser from 'components/searchUser/SearchUser';
 import TopPost from 'components/topPost/TopPost';
-import { SCREEN_MD } from 'constants/common';
+import { SCREEN_LG } from 'constants/common';
 import React from 'react';
 import Newfeed from '../../components/newfeed/Newfeed';
 import Slideshow from '../../components/slideshow/Slideshow';
@@ -12,9 +12,9 @@ export default function HomePage() {
 		<div className='home-container'>
 			<Slideshow />
 			<div className='home-content'>
-				{innerWidth > SCREEN_MD && <TopPost />}
+				{innerWidth > SCREEN_LG && <TopPost />}
 				<Newfeed />
-				{innerWidth > SCREEN_MD && <SearchUser />}
+				{innerWidth > SCREEN_LG && <SearchUser />}
 			</div>
 		</div >
 	);

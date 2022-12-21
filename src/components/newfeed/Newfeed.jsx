@@ -39,29 +39,6 @@ export default function Newfeed() {
 		setIsLoading(false)
 	}
 
-	// const getPostRelative = async (pageNum) => {
-	// 	setIsLoading(true)
-	// 	try {
-	// 		const data = {
-	// 			page: pageNum,
-	// 			size: 10,
-	// 			status: "public"
-	// 		}
-	// 		const response = await postApi.getAllPostRelated(data)
-	// 		if (response.status_code === 9999) {
-	// 			console.log(response.payload.hasNext)
-	// 			setListPost(prev => [...prev, ...(response.payload.items)])
-	// 			setHasNextPage(response.payload.hasNext)
-	// 		}
-	// 		if (response.status_code === -9999) {
-	// 			message.warning('Tải bài viết không thành công!')
-	// 		}
-	// 	} catch (error) {
-	// 		console.log(error)
-	// 	}
-	// 	setIsLoading(false)
-	// }
-
 	useEffect(() => {
 		getAllPost(page)
 	}, [page])
@@ -80,44 +57,15 @@ export default function Newfeed() {
 		return () => window.removeEventListener('scroll', handleScroll);
 	}, []);
 
-	const datatest = [
-		{
-			createTime: '1670075985180',
-			lastUpdateTime: '1670251909752',
-			isDeleted: false,
-			_id: '638b5651e048794f10a748bd',
-			userId: '638b5444e048794f10a748a6',
-			title: 'asdfasdf',
-			content: 'asdf',
-			destination: 'asdf',
-			type: 'cultural',
-			status: 'public',
-			mediaList: [
-				{
-					createTime: '1670075985181',
-					lastUpdateTime: '1670075985181',
-					isDeleted: false,
-					_id: '638b5651e048794f10a748be',
-					postId: '638b5651e048794f10a748bd',
-					userId: null,
-					commentId: null,
-					type: 'image',
-					link: 'https://picsum.photos/seed/picsum/200/300'
-				}
-			],
-			likeSize: 2,
-			commentSize: 11,
-			rateSize: 1,
-			point: 27
-		},
-	]
+
 	return (
 		<div className="newfeed">
+
 			{
 				isLoggedIn && <Share />
 			}
-			{datatest.length !== 0 &&
-				datatest.map((ele) => {
+			{listPost.length !== 0 &&
+				listPost.map((ele) => {
 					return <Post postData={ele} key={ele._id} />
 				})
 			}

@@ -63,7 +63,7 @@ const SearchUser = () => {
 				{
 					loading ?
 						<Loading position="center-loading" /> :
-						<ul>
+						<ul className='show-result-list'>
 							{
 								result.length !== 0 ?
 									result.map(item => {

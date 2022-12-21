@@ -2,9 +2,8 @@
 @import "src/assets/styles/mixins";
 .shareContain {
   margin-bottom: $spacing-md;
+  width: 100%;
   .shareBox {
-    width: $width-post;
-    max-width: $width-post;
     background-color: #fff;
     height: auto;
     border-radius: $border-radius-md;
@@ -23,7 +22,7 @@
       align-items: center;
       .btn-share {
         @include btnStyle(
-          $width-input-ex,
+          $width-input-full,
           $height-input,
           $primary-green,
           $font-size-md

@@ -6,7 +6,7 @@ import { getUsersInfoById } from 'function/callApi'
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Outlet } from 'react-router-dom'
-import { SCREEN_MD } from 'constants/common'
+import { SCREEN_LG } from 'constants/common'
 import HeaderMobile from 'components/headerMobile/HeaderMobile'
 export default function DefaultLayout() {
 
@@ -97,7 +97,7 @@ export default function DefaultLayout() {
 				{alertNotifyList}
 			</div>
 			{
-				innerWidth <= SCREEN_MD ?
+				innerWidth <= SCREEN_LG ?
 					<HeaderMobile />
 					:
 					<Topbar />
