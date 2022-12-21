@@ -3,6 +3,9 @@
 
 .post-page-container {
   margin-top: $spacing-md;
+  padding: $spacing-md $spacing-sm 0;
+  margin: auto;
+  max-width: $width-post;
   display: flex;
   justify-content: center;
 }

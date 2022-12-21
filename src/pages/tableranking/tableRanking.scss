@@ -164,11 +164,10 @@
   top: calc($spacing-md + 50px);
   h3 {
     font-size: 20px;
+    font-weight: 600;
+    color: $primary-color;
   }
   li {
     font-size: 18px;
-  }
-  b {
-    color: $primary-color;
   }
 }

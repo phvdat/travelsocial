@@ -37,6 +37,7 @@ export default function TableRankingPage() {
 			{innerWidth > SCREEN_LG &&
 				<div className='instruction-point'>
 					<h3>Quy định về cách tính điểm xếp hạng</h3>
+					<hr className='postHr' />
 					<ul>
 						<li>Điểm cộng khi thích 1 bài viết: <b>2</b></li>
 						<li>Điểm cộng khi bình luận 1 bài viết: <b>4</b></li>
@@ -102,6 +103,7 @@ export default function TableRankingPage() {
 			{innerWidth > SCREEN_LG &&
 				<div className='instruction-point'>
 					<h3>Giải thưởng tháng này</h3>
+					<hr className='postHr' />
 					<ul>
 						<li>Giải nhất: <b>Một chuyến du lịch Phú Quốc 3 ngày 3 đêm</b></li>
 						<li>Giải nhì: <b>1.000.000 đồng</b></li>

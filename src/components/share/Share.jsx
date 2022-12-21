@@ -212,19 +212,19 @@ export default function Share() {
 									rules={[{ required: true, message: 'Vui lòng chọn kiểu du lịch!' }]}
 								>
 
-									<Select value='discover' style={{}}
+									<Select style={{}}
 										placeholder='Chọn kiểu du lịch'
 										className='select-type-travel'
 										onChange={value => setDataSubmit({ ...dataSubmit, type: value })}
 									>
-										<Option value="ecotourism">Du lịch sinh thái</Option>
-										<Option value="cultural">Du lịch văn hóa</Option>
-										<Option value="resort">Du lịch nghỉ dưỡng</Option>
-										<Option value="leisure">Du lịch giải trí </Option>
-										<Option value="sports">Du lịch thể thao</Option>
-										<Option value="discover">Du lịch khám phá</Option>
-										<Option value="adventure">Du lịch mạo hiểm</Option>
-										<Option value="combined">Du lịch kết hợp</Option>
+										<Option value="Du lịch sinh thái">Du lịch sinh thái</Option>
+										<Option value="Du lịch văn hóa">Du lịch văn hóa</Option>
+										<Option value="Du lịch nghỉ dưỡng">Du lịch nghỉ dưỡng</Option>
+										<Option value="Du lịch giải trí">Du lịch giải trí </Option>
+										<Option value="Du lịch thể thao">Du lịch thể thao</Option>
+										<Option value="Du lịch khám phá">Du lịch khám phá</Option>
+										<Option value="Du lịch mạo hiểm">Du lịch mạo hiểm</Option>
+										<Option value="Du lịch kết hợp">Du lịch kết hợp</Option>
 									</Select>
 								</Form.Item>
 							</div>

@@ -44,7 +44,7 @@ const TopPost = () => {
 		<div className='top-post-container'>
 			<ul className='top-post-list'>
 				<h3>Top bài viết</h3>
-				<hr className='hr-post' />
+				<hr className='postHr' />
 				{
 					listPost.length !== 0 &&
 					listPost.map((item, idx) => {

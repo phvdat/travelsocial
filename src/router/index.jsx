@@ -8,7 +8,6 @@ import Register from 'pages/register/Register'
 import SearchPage from 'pages/search/SearchPage'
 import TableRanking from 'pages/tableranking/TableRanking'
 import React from 'react'
-import { useSelector } from 'react-redux'
 import { Navigate } from 'react-router-dom'
 import { RoutePath } from './routePath'
 

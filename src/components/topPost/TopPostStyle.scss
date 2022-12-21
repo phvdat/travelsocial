@@ -19,17 +19,22 @@
 .top-post-list {
   width: 300px;
   max-width: 300px;
+  h3 {
+    font-size: 20px;
+    font-weight: 600;
+    color: $primary-color;
+  }
 }
 .top-post-item {
   border-radius: $border-radius-md;
   padding: $spacing-sm;
   margin-top: $spacing-sm;
+  box-shadow: $box-shadow;
+  h4 {
+    color: $primary-color;
+  }
   &:hover {
-    box-shadow: $box-shadow;
     background-color: $primary-gray-background;
-    h4 {
-      color: $primary-color;
-    }
   }
 }
 

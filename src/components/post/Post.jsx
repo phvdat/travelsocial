@@ -204,9 +204,15 @@ export default function Post(props) {
 					</div>
 					<Rate style={{ fontSize: 12 }} allowHalf disabled value={Number(rateAverage)} />
 					<h2 className="title-post">{postData?.title}</h2>
-					<p onClick={() => setExpand(!expand)} className={expand ? 'content-post' : 'content-post text-collapse'} style={{ whiteSpace: "pre-line" }}>{postData?.content}</p>
-					<p className="destinationText">Địa điểm: {postData?.destination}</p>
-					<p className="typeTravel">Kiểu du lịch: {postData?.type}</p>
+					<p className={expand ? 'content-post' : 'content-post text-collapse'} style={{ whiteSpace: "pre-line" }}>{postData?.content}</p>
+					{
+						expand &&
+						<>
+							<p className="destinationText">Địa điểm: {postData?.destination}</p>
+							<p className="typeTravel">Kiểu du lịch: {postData?.type}</p>
+						</>
+					}
+					<span style={{ cursor: 'pointer' }} onClick={() => setExpand(!expand)}><b>{!expand ? 'Xem thêm' : 'Thu gọn'}</b></span>
 				</div>
 				{postData.mediaList && <ShowMedia dataMedia={postData.mediaList} />}
 				<div className="bottomPost">
