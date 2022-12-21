@@ -212,7 +212,7 @@ export default function Post(props) {
 							<p className="typeTravel">Kiểu du lịch: {postData?.type}</p>
 						</>
 					}
-					<span style={{ cursor: 'pointer' }} onClick={() => setExpand(!expand)}><b>{!expand ? 'Xem thêm' : 'Thu gọn'}</b></span>
+					<span style={{ cursor: 'pointer', color: 'gray' }} onClick={() => setExpand(!expand)}><b>{!expand ? 'Xem thêm' : 'Thu gọn'}</b></span>
 				</div>
 				{postData.mediaList && <ShowMedia dataMedia={postData.mediaList} />}
 				<div className="bottomPost">
