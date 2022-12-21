@@ -1,0 +1,75 @@
+@import "src/assets/styles/variables";
+@import "src/assets/styles/mixins";
+.header-mobile-container {
+  position: sticky;
+  background-color: $primary-white;
+  top: 0;
+  z-index: $z-index-topbar;
+  height: 100px;
+}
+.search-wrapper {
+  height: 50px;
+  display: flex;
+  align-items: center;
+  padding: $spacing-md;
+}
+.header-mobile-wrapper {
+  height: 50px;
+  padding: 0 $spacing-md;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.search-form {
+  padding-left: $spacing-md;
+  display: flex;
+  align-items: center;
+  height: 32px;
+  width: 100%;
+  border-radius: 20px;
+  background-color: #f0f2f5;
+  .searchIcon {
+    cursor: pointer;
+    font-size: 20px;
+    margin: 0 2px 0 0;
+    width: 28px;
+    height: 28px;
+    text-align: center;
+    border-radius: 50%;
+    background-color: #fff;
+    svg {
+      color: $primary-color;
+    }
+  }
+  input {
+    flex-grow: 1;
+    border: none;
+    margin-right: 8px;
+    background-color: #f0f2f5;
+    font-size: 14px;
+    font-weight: 400;
+    &:focus {
+      outline: none;
+    }
+  }
+}
+
+.logo-wrapper {
+  .logo {
+    font-size: 16px;
+    font-weight: bold;
+    color: $primary-color;
+    cursor: pointer;
+    border-radius: 10px;
+  }
+}
+
+.header-right {
+  display: inline-flex;
+  align-items: center;
+  justify-content: end;
+}
+.menu-icon {
+  font-size: 24px;
+}

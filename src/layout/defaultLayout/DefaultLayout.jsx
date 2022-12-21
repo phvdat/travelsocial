@@ -6,6 +6,8 @@ import { getUsersInfoById } from 'function/callApi'
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Outlet } from 'react-router-dom'
+import { SCREEN_MD } from 'constants/common'
+import HeaderMobile from 'components/headerMobile/HeaderMobile'
 export default function DefaultLayout() {
 
 	const currentUser = useSelector(state => state.authentication.currentUser)
@@ -86,13 +88,21 @@ export default function DefaultLayout() {
 			})
 		}
 	});
+
+	const { innerWidth, innerHeight } = window;
+	console.log(innerWidth)
 	return (
 		<div className='defalt-layout-container'>
 			<div className='notify-list-container'>
 				{alertNotifyList}
 			</div>
-			<Topbar />
-			<Outlet />
+			{
+				innerWidth <= SCREEN_MD ?
+					<HeaderMobile />
+					:
+					<Topbar />
+			}
+			{/* <Outlet /> */}
 		</div>
 	)
 }

@@ -1,7 +1,6 @@
 import "./topbar.scss"
 import { AiFillHome, AiOutlineLogin, AiOutlineSearch } from "react-icons/ai"
 import { FaUserFriends } from 'react-icons/fa'
-import { IoMdNotifications } from "react-icons/io";
 import LoginModal from "../loginModal/LoginModal";
 import { useDispatch, useSelector } from "react-redux";
 import { Dropdown, Menu, message } from "antd";
