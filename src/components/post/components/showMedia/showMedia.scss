@@ -1,8 +1,15 @@
+@import "src/assets/styles/variables";
+@import "src/assets/styles/mixins";
+
+.media-container {
+  width: $width-post;
+  max-width: $width-post;
+}
 .one-media {
   img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
   }
 }
 .two-media {
@@ -17,7 +24,7 @@
   img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
   }
   video {
     width: 100%;

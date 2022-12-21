@@ -80,13 +80,44 @@ export default function Newfeed() {
 		return () => window.removeEventListener('scroll', handleScroll);
 	}, []);
 
+	const datatest = [
+		{
+			createTime: '1670075985180',
+			lastUpdateTime: '1670251909752',
+			isDeleted: false,
+			_id: '638b5651e048794f10a748bd',
+			userId: '638b5444e048794f10a748a6',
+			title: 'asdfasdf',
+			content: 'asdf',
+			destination: 'asdf',
+			type: 'cultural',
+			status: 'public',
+			mediaList: [
+				{
+					createTime: '1670075985181',
+					lastUpdateTime: '1670075985181',
+					isDeleted: false,
+					_id: '638b5651e048794f10a748be',
+					postId: '638b5651e048794f10a748bd',
+					userId: null,
+					commentId: null,
+					type: 'image',
+					link: 'https://picsum.photos/seed/picsum/200/300'
+				}
+			],
+			likeSize: 2,
+			commentSize: 11,
+			rateSize: 1,
+			point: 27
+		},
+	]
 	return (
 		<div className="newfeed">
 			{
 				isLoggedIn && <Share />
 			}
-			{listPost.length !== 0 &&
-				listPost.map((ele) => {
+			{datatest.length !== 0 &&
+				datatest.map((ele) => {
 					return <Post postData={ele} key={ele._id} />
 				})
 			}

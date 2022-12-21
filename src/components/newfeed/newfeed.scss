@@ -9,6 +9,7 @@
 }
 .container-no-post {
   width: $width-post;
+  max-width: $width-post;
   background-color: $primary-white;
   padding: $spacing-md;
   text-align: center;

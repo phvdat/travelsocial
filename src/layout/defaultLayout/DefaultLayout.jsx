@@ -89,7 +89,7 @@ export default function DefaultLayout() {
 		}
 	});
 
-	const { innerWidth, innerHeight } = window;
+	const { innerWidth } = window;
 	console.log(innerWidth)
 	return (
 		<div className='defalt-layout-container'>
@@ -102,7 +102,7 @@ export default function DefaultLayout() {
 					:
 					<Topbar />
 			}
-			{/* <Outlet /> */}
+			<Outlet />
 		</div>
 	)
 }
