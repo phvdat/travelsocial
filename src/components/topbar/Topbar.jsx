@@ -13,7 +13,8 @@ import { useState } from "react";
 import { RoutePath } from "router/routePath";
 import Notify from "./components/notify/Notify";
 
-export default function Topbar() {
+export default function Topbar(props) {
+	const { setIsHaveNotify, isHaveNotify } = props
 	const navigate = useNavigate()
 	const isLogin = useSelector(state => state.authentication.isLoggedIn)
 	const [open, setOpen] = useState(false);
@@ -112,7 +113,7 @@ export default function Topbar() {
 			<div className="topbarRight">
 				{isLogin ?
 					<>
-						<Notify />
+						<Notify setIsHaveNotify={setIsHaveNotify} isHaveNotify={isHaveNotify} />
 						<Dropdown overlayClassName='overlay-drop-down-fixed' overlay={menu} trigger={['click']}>
 							<div className="account-manager">
 								<div className="topbarAvata">

@@ -12,6 +12,7 @@ export default function DefaultLayout() {
 
 	const currentUser = useSelector(state => state.authentication.currentUser)
 	const [alertNotifyList, setAlertNotifyList] = useState([])
+	const [isHaveNotify, setIsHaveNotify] = useState(false)
 	const realtime = new Realtime({ key: process.env.REACT_APP_ABLY_API_KEY })
 	const cmtChannel = realtime.channels.get('comment')
 	const likeChannel = realtime.channels.get('like')
@@ -33,6 +34,7 @@ export default function DefaultLayout() {
 				setAlertNotifyList(alertNotifyList.concat(
 					<AlertMsg key={data._id} notify={notify} />
 				))
+				setIsHaveNotify(true)
 			})
 		}
 	});
@@ -51,6 +53,7 @@ export default function DefaultLayout() {
 				setAlertNotifyList(alertNotifyList.concat(
 					<AlertMsg key={data._id} notify={notify} />
 				))
+				setIsHaveNotify(true)
 			})
 		}
 	});
@@ -69,6 +72,7 @@ export default function DefaultLayout() {
 				setAlertNotifyList(alertNotifyList.concat(
 					<AlertMsg key={data._id} notify={notify} />
 				))
+				setIsHaveNotify(true)
 			})
 		}
 	});
@@ -85,6 +89,7 @@ export default function DefaultLayout() {
 				setAlertNotifyList(alertNotifyList.concat(
 					<AlertMsg key={data._id} notify={notify} />
 				))
+				setIsHaveNotify(true)
 			})
 		}
 	});
@@ -98,9 +103,9 @@ export default function DefaultLayout() {
 			</div>
 			{
 				innerWidth <= SCREEN_LG ?
-					<HeaderMobile />
+					<HeaderMobile setIsHaveNotify={setIsHaveNotify} isHaveNotify={isHaveNotify} />
 					:
-					<Topbar />
+					<Topbar setIsHaveNotify={setIsHaveNotify} isHaveNotify={isHaveNotify} />
 			}
 			<Outlet />
 		</div>

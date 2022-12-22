@@ -12,8 +12,10 @@ import { async } from '@firebase/util';
 import { useRef } from 'react';
 import { useEffect } from 'react';
 import avatarDefault from 'assets/img/avatarDefault.jpg';
+import { MdNotificationsActive } from 'react-icons/md';
 
-export default function Notify() {
+export default function Notify(props) {
+	const { setIsHaveNotify, isHaveNotify } = props
 	moment.locale('vi', [viLocale])
 	const navigate = useNavigate()
 	const [notifications, setNotifications] = useState([])
@@ -150,13 +152,21 @@ export default function Notify() {
 				overlayClassName='overlay-drop-down-fixed'
 				overlay={menu}
 				trigger={['click']}>
-				<div className="iconRightSide" onClick={() => setOpen(!open)} ref={notifyButtonRef}>
+				<div className="iconRightSide" onClick={() => {
+					setOpen(!open)
+					setIsHaveNotify(false)
+				}
+				} ref={notifyButtonRef}>
 					<div className="subIconRight">
-						<IoMdNotifications className="topbarIcon-2" />
+						{
+							isHaveNotify ?
+								<MdNotificationsActive className="topbarIcon-2" /> :
+								<IoMdNotifications className="topbarIcon-2" />
+						}
 					</div>
 					<p>Thông báo</p>
 				</div>
-			</Dropdown>
+			</Dropdown >
 		</div >
 	)
 }

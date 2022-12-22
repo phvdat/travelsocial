@@ -14,7 +14,8 @@ import { LOGOUT_SUCCESS } from 'reducers/authentication/actionTypes'
 import { FaUserFriends } from 'react-icons/fa'
 
 
-const HeaderMobile = () => {
+const HeaderMobile = (props) => {
+	const { setIsHaveNotify, isHaveNotify } = props
 	const navigate = useNavigate()
 	const isLogin = useSelector(state => state.authentication.isLoggedIn)
 	const currentUser = useSelector(state => state.authentication.currentUser)
@@ -117,7 +118,7 @@ const HeaderMobile = () => {
 				<div className="header-right">
 					{isLogin ?
 						<>
-							<Notify />
+							<Notify setIsHaveNotify={setIsHaveNotify} isHaveNotify={isHaveNotify} />
 							<Dropdown overlayClassName='overlay-drop-down-fixed' overlay={menu} trigger={['click']}>
 								<div >
 									<FiMenu className='menu-icon' />
