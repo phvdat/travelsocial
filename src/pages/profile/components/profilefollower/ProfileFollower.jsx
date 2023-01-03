@@ -12,7 +12,6 @@ export default function ProfileFollower(props) {
 
 	const getListFollower = async (page, id) => {
 		getFollower(id, page, 10).then((res) => {
-			console.log(res)
 			setTotalItems(res.totalItems)
 			res.items.map((ele) => (
 				getUsersInfoById(ele.userId).then(

@@ -108,7 +108,6 @@ const LoginModal = (props) => {
 			}
 			if (response.status_code === -9999) {
 				message.warning('Username hoặc mật khẩu không đúng!')
-				console.log(data)
 			}
 		} catch (error) {
 			console.log(error, 'login fail')

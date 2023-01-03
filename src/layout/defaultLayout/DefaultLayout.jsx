@@ -21,8 +21,6 @@ export default function DefaultLayout() {
 
 	cmtChannel.subscribe(function (message) {
 		const data = JSON.parse(message.data)
-		console.log(message)
-		console.log(data)
 		if (currentUser._id === data.userId && data.userId !== data.userIdTrigger) {
 			getUsersInfoById(data.userIdTrigger).then((res) => {
 				const notify = {
@@ -40,8 +38,6 @@ export default function DefaultLayout() {
 	});
 	likeChannel.subscribe(function (message) {
 		const data = JSON.parse(message.data)
-		console.log(message)
-		console.log(data)
 		if (currentUser._id === data.userId && data.userId !== data.userIdTrigger) {
 			getUsersInfoById(data.userIdTrigger).then((res, req) => {
 				const notify = {
@@ -59,8 +55,6 @@ export default function DefaultLayout() {
 	});
 	rateChannel.subscribe(function (message) {
 		const data = JSON.parse(message.data)
-		console.log(message)
-		console.log(data)
 		if (currentUser._id === data.userId && data.userId !== data.userIdTrigger) {
 			getUsersInfoById(data.userIdTrigger).then((res, req) => {
 				const notify = {
@@ -95,7 +89,6 @@ export default function DefaultLayout() {
 	});
 
 	const { innerWidth } = window;
-	console.log(innerWidth)
 	return (
 		<div className='defalt-layout-container'>
 			<div className='notify-list-container'>

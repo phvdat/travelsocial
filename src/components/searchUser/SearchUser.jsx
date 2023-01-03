@@ -19,7 +19,6 @@ const SearchUser = () => {
 			}
 			const res = await elasticSearchApi.searchUser(params)
 			if (res.status_code === 9999) {
-				console.log(res.payload)
 				setResult(res.payload)
 			}
 			if (res.status_code === -9999) {
@@ -43,7 +42,6 @@ const SearchUser = () => {
 		}
 		setLoading(true)
 		const delayDebounceFn = setTimeout(() => {
-			console.log(searchValue)
 			handleOnSubmit(searchValue)
 			// setLoading(false)
 		}, 500)

@@ -51,7 +51,6 @@ export default function ProfilePage() {
 		}
 		getUsersInfoById(userId).then((res) => {
 			setUserInfo(res)
-			console.log(res)
 		})
 		getAllPost()
 	}, [userId])

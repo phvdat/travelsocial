@@ -8,7 +8,6 @@ import { RoutePath } from 'router/routePath'
 
 const MoreAction = (props) => {
 	const { userInfo } = props
-	console.log(userInfo)
 	const [isOpenBlock, setIsOpenBlock] = useState(false)
 	const [isOpenDelete, setIsOpenDelete] = useState(false)
 
