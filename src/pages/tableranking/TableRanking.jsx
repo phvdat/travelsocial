@@ -56,7 +56,7 @@ export default function TableRankingPage() {
 							<div className='item-card two'>
 								<img src={list[2].avatar || avatarDefault} alt="avatar" />
 								<h6 className='item-level'>3</h6>
-								<h6 className='name'>{list[2].fullName}</h6>
+								<h6 className='name show-one-line'>{list[2].fullName}</h6>
 								<h6 className='point'>{list[2].experiencePoint}</h6>
 							</div>
 						</Link>
@@ -66,7 +66,7 @@ export default function TableRankingPage() {
 							<div className='item-card one'>
 								<img src={list[0].avatar || avatarDefault} alt="avatar" />
 								<h6 className='item-level'>1</h6>
-								<h6 className='name'>{list[0].fullName}</h6>
+								<h6 className='name show-one-line'>{list[0].fullName}</h6>
 								<h6 className='point'>{list[0].experiencePoint}</h6>
 							</div>
 						</Link>
@@ -76,7 +76,7 @@ export default function TableRankingPage() {
 							<div className='item-card three'>
 								<img src={list[1].avatar || avatarDefault} alt="avatar" />
 								<h6 className='item-level'>2</h6>
-								<h6 className='name'>{list[1].fullName}</h6>
+								<h6 className='name show-one-line'>{list[1].fullName}</h6>
 								<h6 className='point'>{list[1].experiencePoint}</h6>
 							</div>
 						</Link>
@@ -89,7 +89,7 @@ export default function TableRankingPage() {
 								<div className='item-list' key={idx}>
 									<h6 className='item-level'>{idx + 3}</h6>
 									<img alt='avatar' src={item.avatar || avatarDefault} />
-									<h6 className='name'>
+									<h6 className='name show-one-line'>
 										{item.fullName}
 									</h6>
 									<h6 className='point'>{item.experiencePoint} </h6>
