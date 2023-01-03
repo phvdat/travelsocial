@@ -91,7 +91,7 @@ const Statistic = () => {
 										<div className='wrapper-post-item' onClick={() => handleShowChart()} >
 											<h4 className='show-one-line'>{item.title}</h4>
 											<span className='show-two-line'>{item.content}</span>
-											<span className='time-crete'>{moment(item.createTime).lang('en').format("hh:s A DD/MM/YYYY")}</span>
+											<span className='time-create'>{moment(item.createTime).lang('en').format("hh:s A DD/MM/YYYY")}</span>
 										</div>
 									</NavLink>
 								</li>

@@ -11,6 +11,7 @@ import { IoSendSharp } from 'react-icons/io5';
 import TextArea from 'antd/lib/input/TextArea';
 import Loading from 'components/baseUI/loading/Loading';
 import reactPostApi from 'api/reactPostApi';
+import moment from 'moment';
 
 export default function Comment(props) {
 	const { postData, setNoComment } = props
@@ -162,6 +163,7 @@ export default function Comment(props) {
 			}
 			{
 				listComment.map((item) => {
+					const timeStamp = new Date(item.lastUpdateTime)
 					return (
 						<div className='listComment' key={item._id}>
 							<div className="container-comment-item">
@@ -169,6 +171,7 @@ export default function Comment(props) {
 								<div className='comment-item'>
 									<Link to={`/profile/${item.userId}/newfeed`} className='comment-username'>{item.fullName || "User"}</Link>
 									<p style={{ whiteSpace: "pre-line" }}>{item.content}</p>
+									<span className='time-create'>{moment.utc(timeStamp.toUTCString()).fromNow()}</span>
 								</div>
 								{(item.userId === currentUser._id || currentUser.isAdmin) &&
 									<div className='modify-comment-btn'>
