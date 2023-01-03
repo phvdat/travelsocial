@@ -9,7 +9,6 @@
     "@testing-library/user-event": "^13.5.0",
     "ably": "^1.2.33",
     "antd": "^4.23.2",
-    "apexcharts": "^3.36.3",
     "axios": "^0.27.2",
     "firebase": "^9.10.0",
     "moment": "^2.29.4",

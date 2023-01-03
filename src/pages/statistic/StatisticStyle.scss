@@ -4,12 +4,17 @@
 .statistic-container {
   display: flex;
   justify-content: center;
-  background-color: $primary-white;
 }
 .list-post-container {
+  max-height: calc(100vh - 70px);
+  height: fit-content;
+  margin: 10px 0;
+  padding: 12px;
+  margin-right: 40px;
+  background-color: $primary-white;
   width: 300px;
   max-width: 300px;
-  margin-right: 40px;
+  border-radius: $border-radius-md;
   h3 {
     font-size: 20px;
     font-weight: 600;
@@ -25,12 +30,18 @@
   h4 {
     color: $primary-color;
   }
+  .time-crete {
+    color: #a3a3a3;
+  }
   &:hover {
     background-color: $primary-gray-background;
   }
 }
 
 .chart-wrapper {
+  height: calc(100vh - 50px);
+  padding: 12px;
+  background-color: $primary-white;
   width: $width-post;
   max-width: $width-post;
 }

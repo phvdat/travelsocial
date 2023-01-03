@@ -1,6 +1,7 @@
+import './index.css';
+import "antd/dist/antd.css";
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
 import store from './app/store'
 import { Provider } from 'react-redux'
 import routesConfig from 'router';
