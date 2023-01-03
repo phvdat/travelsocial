@@ -6,12 +6,13 @@ import { RoutePath } from 'router/routePath'
 import { useDispatch, useSelector } from 'react-redux'
 import LoginModal from 'components/loginModal/LoginModal'
 import avatarDefault from 'assets/img/avatarDefault.jpg'
-import Notify from 'components/topbar/components/notify/Notify'
+import Notify from 'components/header/components/notify/Notify'
 import { FiEdit, FiMenu } from 'react-icons/fi'
 import { Dropdown, Menu, message } from 'antd'
 import { HiOutlineLogout } from 'react-icons/hi'
 import { LOGOUT_SUCCESS } from 'reducers/authentication/actionTypes'
 import { FaUserFriends } from 'react-icons/fa'
+import { BsFillBarChartFill } from 'react-icons/bs'
 
 
 const HeaderMobile = (props) => {
@@ -79,10 +80,20 @@ const HeaderMobile = (props) => {
 					type: 'divider',
 				},
 				{
+					label: <Link to={RoutePath.Statistic} className="menu-item-logout" >
+						<BsFillBarChartFill className="topbarIcon-1" />
+						<span>Thống kê</span>
+					</Link>,
+					key: '3',
+				},
+				{
+					type: 'divider',
+				},
+				{
 					label: <Link to={`/profile/${currentUser._id}/about`} className="menu-item-logout">
 						<FiEdit></FiEdit>
 						Chỉnh sửa thông tin</Link>,
-					key: '1',
+					key: '4',
 				},
 				{
 					type: 'divider',
@@ -91,7 +102,7 @@ const HeaderMobile = (props) => {
 					label: <span onClick={handleLogout} className="menu-item-logout">
 						<HiOutlineLogout></HiOutlineLogout>
 						Đăng xuất</span>,
-					key: '3',
+					key: '5',
 				},
 			]}
 		/>

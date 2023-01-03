@@ -1,7 +1,7 @@
 import './DefaultLayoutStyle.scss'
 import { Realtime } from 'ably'
 import AlertMsg from 'components/baseUI/alert/AlertMsg'
-import Topbar from 'components/topbar/Topbar'
+import Header from 'components/header/Header'
 import { getUsersInfoById } from 'function/callApi'
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
@@ -102,10 +102,10 @@ export default function DefaultLayout() {
 				{alertNotifyList}
 			</div>
 			{
-				// innerWidth <= SCREEN_LG ?
-				// 	<HeaderMobile setIsHaveNotify={setIsHaveNotify} isHaveNotify={isHaveNotify} />
-				// 	:
-				// 	<Topbar setIsHaveNotify={setIsHaveNotify} isHaveNotify={isHaveNotify} />
+				innerWidth <= SCREEN_LG ?
+					<HeaderMobile setIsHaveNotify={setIsHaveNotify} isHaveNotify={isHaveNotify} />
+					:
+					<Header setIsHaveNotify={setIsHaveNotify} isHaveNotify={isHaveNotify} />
 			}
 			<Outlet />
 		</div>

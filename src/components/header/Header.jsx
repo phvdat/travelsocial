@@ -1,4 +1,4 @@
-import "./topbar.scss"
+import "./HeaderStyle.scss"
 import { AiFillHome, AiOutlineLogin, AiOutlineSearch } from "react-icons/ai"
 import { FaUserFriends } from 'react-icons/fa'
 import LoginModal from "../loginModal/LoginModal";
@@ -12,8 +12,9 @@ import avatarDefault from 'assets/img/avatarDefault.jpg'
 import { useState } from "react";
 import { RoutePath } from "router/routePath";
 import Notify from "./components/notify/Notify";
+import { BsFillBarChartFill } from "react-icons/bs";
 
-export default function Topbar(props) {
+export default function Header(props) {
 	const { setIsHaveNotify, isHaveNotify } = props
 	const navigate = useNavigate()
 	const isLogin = useSelector(state => state.authentication.isLoggedIn)
@@ -99,6 +100,10 @@ export default function Topbar(props) {
 					<NavLink to={RoutePath.TableRaking} className={({ isActive }) => (isActive ? "activeLink" : "noactiveLink")}>
 						<FaUserFriends className="topbarIcon-1" />
 						<span>Bảng xếp hạng</span>
+					</NavLink>
+					<NavLink to={RoutePath.Statistic} className={({ isActive }) => (isActive ? "activeLink" : "noactiveLink")}>
+						<BsFillBarChartFill className="topbarIcon-1" />
+						<span>Thống kê</span>
 					</NavLink>
 				</div>
 

@@ -2,6 +2,7 @@ import './StatisticStyle.scss'
 import ColumnChart from 'components/columnChart/ColumnChart'
 import React, { useEffect, useState } from 'react'
 import { Pagination } from 'antd'
+import postApi from 'api/postApi'
 
 const Statistic = () => {
 	const [page, setPage] = useState(1)
@@ -23,8 +24,18 @@ const Statistic = () => {
 		}
 
 	])
+	const getListPostById = async () => {
+		try {
+			const params = {
+
+			}
+			const response = await postApi.getAllPostByUserId(params)
+		} catch (error) {
+
+		}
+	}
 	useEffect(() => {
-		// getListPostById(page)
+		getListPostById(page)
 	}, [page])
 	return (
 		<div className='statistic-container'>
