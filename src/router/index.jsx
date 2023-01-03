@@ -10,6 +10,7 @@ import TableRanking from 'pages/tableranking/TableRanking'
 import React from 'react'
 import { Navigate } from 'react-router-dom'
 import { RoutePath } from './routePath'
+import Statistic from 'pages/statistic/Statistic'
 
 
 const isLogin = localStorage.getItem('isLogin')
@@ -27,6 +28,7 @@ const routesConfig = [
 					{ path: RoutePath.Profile, element: <Profile />, errorElement: <NotFound /> },
 					{ path: RoutePath.Post, element: <PostPage />, errorElement: <NotFound /> },
 					{ path: RoutePath.Search, element: <SearchPage />, errorElement: <NotFound /> },
+					{ path: RoutePath.Statistic, element: <Statistic />, errorElement: <NotFound /> },
 					{ path: RoutePath.Index, element: <Navigate to={RoutePath.Home} />, errorElement: <NotFound /> },
 					{ path: '*', element: < NotFound /> },
 				],

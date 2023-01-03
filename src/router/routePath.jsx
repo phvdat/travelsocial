@@ -8,6 +8,7 @@ export const RoutePath = {
 	Profile: '/profile/:userId/:tab',
 	Post: '/post/:postId',
 	Search: 'search-post',
+	Statistic: '/Statistic',
 	NotFound: 'error-404',
 
 }

@@ -1,0 +1,36 @@
+@import "src/assets/styles/variables";
+@import "src/assets/styles/mixins";
+
+.statistic-container {
+  display: flex;
+  justify-content: center;
+  background-color: $primary-white;
+}
+.list-post-container {
+  width: 300px;
+  max-width: 300px;
+  margin-right: 40px;
+  h3 {
+    font-size: 20px;
+    font-weight: 600;
+    color: $primary-color;
+  }
+}
+.wrapper-post-item {
+  border-radius: $border-radius-md;
+  padding: $spacing-sm;
+  margin-top: $spacing-sm;
+  box-shadow: $box-shadow;
+  cursor: pointer;
+  h4 {
+    color: $primary-color;
+  }
+  &:hover {
+    background-color: $primary-gray-background;
+  }
+}
+
+.chart-wrapper {
+  width: $width-post;
+  max-width: $width-post;
+}

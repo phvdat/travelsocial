@@ -102,10 +102,10 @@ export default function DefaultLayout() {
 				{alertNotifyList}
 			</div>
 			{
-				innerWidth <= SCREEN_LG ?
-					<HeaderMobile setIsHaveNotify={setIsHaveNotify} isHaveNotify={isHaveNotify} />
-					:
-					<Topbar setIsHaveNotify={setIsHaveNotify} isHaveNotify={isHaveNotify} />
+				// innerWidth <= SCREEN_LG ?
+				// 	<HeaderMobile setIsHaveNotify={setIsHaveNotify} isHaveNotify={isHaveNotify} />
+				// 	:
+				// 	<Topbar setIsHaveNotify={setIsHaveNotify} isHaveNotify={isHaveNotify} />
 			}
 			<Outlet />
 		</div>
