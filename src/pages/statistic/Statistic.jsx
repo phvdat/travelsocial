@@ -3,40 +3,79 @@ import ColumnChart from 'components/columnChart/ColumnChart'
 import React, { useEffect, useState } from 'react'
 import { Pagination } from 'antd'
 import postApi from 'api/postApi'
+import { useSelector } from 'react-redux'
+import { Link, NavLink, useSearchParams } from 'react-router-dom'
+import moment from 'moment'
 
 const Statistic = () => {
-	const [page, setPage] = useState(1)
-	const [totalItems, setTotalItems] = useState(1)
-	const [series, setSeries] = useState(
-		[{
-			name: 'Số lượng',
-			data: [100, 30, 56]
-		}]
-	)
-	const [listPost, setListPost] = useState([
-		{
-			title: "abc",
-			content: "abc"
-		},
-		{
-			title: "abc",
-			content: "abc"
-		}
 
-	])
+	const [searchParams, setSearchParams] = useSearchParams();
+	const currentUser = useSelector(state => state.authentication.currentUser)
+	const [page, setPage] = useState(1)
+	const [pageSize, setPageSize] = useState(6)
+	const [totalItems, setTotalItems] = useState(1)
+	const [listPost, setListPost] = useState([])
+	const [series, setSeries] = useState([])
+	const [titleChart, setTitleChart] = useState({
+		title: "",
+		_id: ""
+	})
+	const handleShowChart = async () => {
+		try {
+			const params = {
+				id: searchParams.get('postId')
+			}
+			const response = await postApi.getPostById(params)
+			if (response.status_code === 9999) {
+				const { likeSize, commentSize, rateSize, title, _id } = response.payload
+				setSeries(
+					[{
+						name: 'Số lượng',
+						data: [likeSize, commentSize, rateSize]
+					}]
+				)
+				setTitleChart({
+					title: title,
+					_id: _id
+				})
+			}
+			if (response.status_code === -9999) {
+				console.log('fail')
+			}
+		} catch (error) {
+			console.log(error)
+		}
+	}
 	const getListPostById = async () => {
 		try {
 			const params = {
-
+				page: page,
+				size: pageSize,
+				userId: currentUser._id
 			}
 			const response = await postApi.getAllPostByUserId(params)
+			if (response.status_code === 9999) {
+				const { items, totalItems } = response.payload
+				setListPost(items)
+				setTotalItems(totalItems)
+				setSearchParams({ postId: items[0]._id })
+			}
+			if (response.status_code === -9999) {
+				console.log('fail')
+			}
 		} catch (error) {
-
+			console.log(error)
 		}
 	}
+
 	useEffect(() => {
 		getListPostById(page)
 	}, [page])
+
+	useEffect(() => {
+		handleShowChart()
+	}, [searchParams])
+
 	return (
 		<div className='statistic-container'>
 			<div className='list-post-container'>
@@ -48,22 +87,32 @@ const Statistic = () => {
 						listPost.map((item, idx) => {
 							return (
 								<li key={idx}>
-									<div className='wrapper-post-item' >
-										<h4 className='show-one-line'>{idx + 1}. {item.title}</h4>
-										<span className='show-two-line'>{item.content}</span>
-										<span className='time-crete'>20:12 20/12/2022</span>
-									</div>
+									<NavLink to={`/statistic?postId=${item._id}`} className={(item._id === searchParams.get('postId') ? "activeItemChart" : "")}>
+										<div className='wrapper-post-item' onClick={() => handleShowChart()} >
+											<h4 className='show-one-line'>{item.title}</h4>
+											<span className='show-two-line'>{item.content}</span>
+											<span className='time-crete'>{moment(item.createTime).lang('en').format("hh:s A DD/MM/YYYY")}</span>
+										</div>
+									</NavLink>
 								</li>
 							)
 						})
 					}
 				</ul>
 
-				<Pagination onChange={e => setPage(e)} showSizeChanger={false} defaultCurrent={page} total={totalItems} />
+				<Pagination
+					onChange={e => setPage(e)}
+					showSizeChanger={false}
+					defaultCurrent={page}
+					pageSize={pageSize}
+					total={totalItems}
+					size='small' />
 			</div>
 			<div className='chart-wrapper'>
 				<ColumnChart series={series} />
-				<span></span>
+				<Link to={`/post/${titleChart._id}`}>
+					<span className='title-chart show-two-line'>{titleChart.title}</span>
+				</Link>
 			</div>
 		</div>
 	)

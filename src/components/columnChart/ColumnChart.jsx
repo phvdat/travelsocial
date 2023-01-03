@@ -33,7 +33,7 @@ const ColumnChart = (props) => {
 			show: false,
 		},
 		xaxis: {
-			categories: ["Jan", "Feb", "Mar"],
+			categories: ["Thích", "Bình luận", "Đánh giá"],
 			tooltip: {
 				enabled: false,
 			}
@@ -44,6 +44,7 @@ const ColumnChart = (props) => {
 			},
 			labels: {
 				show: true,
+				formatter: (val) => Number(val)
 			}
 		}
 	}

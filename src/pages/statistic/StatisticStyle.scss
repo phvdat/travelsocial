@@ -39,9 +39,25 @@
 }
 
 .chart-wrapper {
-  height: calc(100vh - 50px);
+  height: calc(100vh - 70px);
+  margin: 10px 0;
   padding: 12px;
+  border-radius: $border-radius-md;
   background-color: $primary-white;
   width: $width-post;
   max-width: $width-post;
+}
+.title-chart {
+  font-size: 20px;
+  color: $primary-color;
+  margin-left: 20px;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.activeItemChart {
+  div {
+    background-color: #d7e9b9;
+  }
 }

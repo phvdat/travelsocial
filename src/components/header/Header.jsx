@@ -101,10 +101,12 @@ export default function Header(props) {
 						<FaUserFriends className="topbarIcon-1" />
 						<span>Bảng xếp hạng</span>
 					</NavLink>
-					<NavLink to={RoutePath.Statistic} className={({ isActive }) => (isActive ? "activeLink" : "noactiveLink")}>
-						<BsFillBarChartFill className="topbarIcon-1" />
-						<span>Thống kê</span>
-					</NavLink>
+					{isLogin &&
+						<NavLink to={RoutePath.Statistic} className={({ isActive }) => (isActive ? "activeLink" : "noactiveLink")}>
+							<BsFillBarChartFill className="topbarIcon-1" />
+							<span>Thống kê</span>
+						</NavLink>
+					}
 				</div>
 
 				<form onSubmit={handleOnSubmit} className="searchbar">
