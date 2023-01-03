@@ -45,8 +45,14 @@
     object-fit: cover;
     background: #fff;
   }
-  .text-top-profile {
+  .level-user {
+    font-weight: 500;
+    font-size: $font-size-lg;
+    margin-bottom: 4px;
+  }
+  .experience-point {
     font-size: $font-size-md;
+    margin-bottom: 4px;
   }
 }
 

@@ -62,11 +62,20 @@
     cursor: pointer;
   }
 }
-
+.menu-post {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
 .title-post {
   font-weight: 500;
   padding: 12px 0;
   margin: 0;
+}
+.level-user {
+  font-size: $font-size-sm;
+  font-weight: 500;
+  color: #3c6255;
 }
 .content-post {
   font-weight: 400;

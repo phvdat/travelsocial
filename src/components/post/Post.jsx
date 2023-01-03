@@ -193,16 +193,19 @@ export default function Post(props) {
 								</span>
 							</span>
 						</div>
-						{
-							(currentUser._id === postData?.userId || currentUser.isAdmin) &&
-							<Dropdown overlay={currentUser._id !== postData?.userId ? menuAdmin : menu} trigger={['click']} placement="bottomRight">
-								<span className='btn-modify-post'>
-									<BsThreeDots />
-								</span>
-							</Dropdown>
-						}
+						<div className='menu-post'>
+							<Rate style={{ fontSize: 12 }} allowHalf disabled value={Number(rateAverage)} />
+							{
+								(currentUser._id === postData?.userId || currentUser.isAdmin) &&
+								<Dropdown overlay={currentUser._id !== postData?.userId ? menuAdmin : menu} trigger={['click']} placement="bottomRight">
+									<span className='btn-modify-post'>
+										<BsThreeDots />
+									</span>
+								</Dropdown>
+							}
+						</div>
 					</div>
-					<Rate style={{ fontSize: 12 }} allowHalf disabled value={Number(rateAverage)} />
+					<span className='level-user'>Thứ hạng: {user.level}</span>
 					<h2 className="title-post">{postData?.title}</h2>
 					<p className={expand ? 'content-post' : 'content-post text-collapse'} style={{ whiteSpace: "pre-line" }}>{postData?.content}</p>
 					{

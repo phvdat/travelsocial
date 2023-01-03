@@ -122,7 +122,8 @@ export default function ProfilePage() {
 							<img src={userInfo?.avatar || avatarDefault} alt="avt Img" className="avataProfileImg" />
 						</div>
 						<p className="text-name-user-top-profile">{userInfo?.fullName}</p>
-						<p className="text-top-profile">Điểm tích luỹ thành viên:<span style={{ fontWeight: 500 }}>{userInfo.experiencePoint}</span></p>
+						<p className="level-user">Thứ hạng:<span style={{ fontWeight: 500 }}> {userInfo.level}</span></p>
+						<p className="experience-point">Điểm tích luỹ thành viên:<span style={{ fontWeight: 500 }}> {userInfo.experiencePoint}</span></p>
 						<div>
 							<span style={{ marginRight: 50 }}>Bài đã đăng: <span style={{ fontWeight: 500 }}>{listPost?.length || 0}</span></span>
 							<span>Lượt theo dõi: <span style={{ fontWeight: 500 }}>{numOfFollower}</span></span>
