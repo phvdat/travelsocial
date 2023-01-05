@@ -8,6 +8,9 @@ import { v4 } from 'uuid';
 import postApi from 'api/postApi';
 import { useSelector } from 'react-redux';
 import avatarDefault from 'assets/img/avatarDefault.jpg'
+import { LIST_PROVINCE } from 'common/province';
+import axiosClient from 'api/axiosClient';
+import { PROVINCE } from 'constants/common';
 const { Option } = Select;
 
 export default function Share() {
@@ -22,8 +25,8 @@ export default function Share() {
 		status: 'public',
 		mediaList: [],
 	})
-
 	const [isModalOpen, setIsModalOpen] = useState(false);
+	const [optionsDestination, setOptionsDestination] = useState([])
 
 	const showModal = () => {
 		setIsModalOpen(true);
@@ -36,6 +39,26 @@ export default function Share() {
 	const handleCancel = () => {
 		setIsModalOpen(false);
 	};
+
+	const getProvince = async () => {
+		const url = 'https://provinces.open-api.vn/api/p/'
+		try {
+			const response = await axiosClient.get(url)
+			setOptionsDestination(response.map((item) => ({
+				label: item.name,
+				value: item.name
+			})))
+		} catch (error) {
+			setOptionsDestination(PROVINCE.map((item) => ({
+				label: item.name,
+				value: item.name
+			})))
+		}
+	}
+	useEffect(() => {
+		getProvince();
+	}, [])
+
 	useEffect(() => {
 		if (isModalOpen) {
 			document.documentElement.style.overflow = 'hidden';
@@ -199,8 +222,18 @@ export default function Share() {
 									name="destination"
 									rules={[{ required: true, message: 'Vui lòng nhập địa điểm !' }]}
 								>
-									<input name="address" type="text" placeholder='Địa điểm' className='input-location'
-										onChange={e => setDataSubmit({ ...dataSubmit, destination: e.target.value })} />
+									<Select
+										showSearch
+										placeholder="Địa điểm"
+										optionFilterProp="children"
+										// onChange={onChange}
+										filterOption={(input, option) =>
+											(option?.label ?? '').toLowerCase().includes(input.toLowerCase())
+										}
+										options={optionsDestination || []}
+									/>
+									{/* <input name="address" type="text" placeholder='Địa điểm' className='input-location'
+										onChange={e => setDataSubmit({ ...dataSubmit, destination: e.target.value })} /> */}
 								</Form.Item>
 							</div>
 							<div>

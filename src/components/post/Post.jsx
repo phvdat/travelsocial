@@ -18,6 +18,7 @@ import './post.scss';
 import LoginModal from 'components/loginModal/LoginModal';
 import viLocale from "moment/locale/vi";
 import EditPostDialog from './components/editPost/EditPostDialog';
+import rankingApi from 'api/rankingApi';
 
 export default function Post(props) {
 	const { postData } = props
@@ -38,6 +39,7 @@ export default function Post(props) {
 	const timeStamp = new Date(postData?.createTime)
 
 	const [user, setUser] = useState({})
+	const [userLevel, seUserLevel] = useState()
 	const [like, setLike] = useState(false)
 	const [noLike, setNoLike] = useState(postData?.likeSize)
 	const [noComment, setNoComment] = useState(postData?.commentSize)
@@ -50,6 +52,14 @@ export default function Post(props) {
 
 	const [expand, setExpand] = useState(false)
 
+	const getUserLevel = async () => {
+		try {
+			const response = await rankingApi.getRankingByUserId(user._id)
+			console.log(response);
+		} catch (error) {
+			// 
+		}
+	}
 
 	useEffect(() => {
 		//check like or not
@@ -74,7 +84,8 @@ export default function Post(props) {
 			const rateByMe = res.items.find((ele) => ele.userId === currentUser._id)
 			setRateValue(rateByMe?.point || 0)
 		})
-	}, [currentUser._id, postData?._id, postData?.userId])
+		getUserLevel()
+	}, [])
 
 	const handleDetelePost = async () => {
 		try {
@@ -205,7 +216,7 @@ export default function Post(props) {
 							}
 						</div>
 					</div>
-					<span className='level-user'>Thứ hạng: {user.level}</span>
+					<span className='level-user'>Thứ hạng: {userLevel}</span>
 					<h2 className="title-post">{postData?.title}</h2>
 					<p className={expand ? 'content-post' : 'content-post text-collapse'} style={{ whiteSpace: "pre-line" }}>{postData?.content}</p>
 					{

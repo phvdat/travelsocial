@@ -17,3 +17,17 @@
   padding: $spacing-md;
   text-align: center;
 }
+.filter-container {
+  box-sizing: border-box;
+  width: 100%;
+  background-color: $primary-white;
+  margin-top: $spacing-md;
+  padding: $spacing-sm;
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: $spacing-md;
+  box-shadow: $box-shadow-bold;
+  border-radius: 10px;
+}

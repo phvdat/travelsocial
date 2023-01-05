@@ -121,11 +121,11 @@ export default function Newfeed() {
 					options={options}
 				/>
 			</div>
-			{/* {listPost.length !== 0 &&
+			{listPost.length !== 0 &&
 				listPost.map((ele) => {
 					return <Post postData={ele} key={ele._id} />
 				})
-			} */}
+			}
 			{isLoading && <Loading position="center-loading" />}
 		</div>
 	)
