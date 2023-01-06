@@ -46,14 +46,36 @@ const Statistic = () => {
 			console.log(error)
 		}
 	}
-	const getListPostById = async () => {
+	// const getListPostById = async () => {
+	// 	try {
+	// 		const params = {
+	// 			page: page,
+	// 			size: pageSize,
+	// 			userId: currentUser._id
+	// 		}
+	// 		const response = await postApi.getAllPostByUserId(params)
+	// 		if (response.status_code === 9999) {
+	// 			const { items, totalItems } = response.payload
+	// 			setListPost(items)
+	// 			setTotalItems(totalItems)
+	// 			setSearchParams({ postId: items[0]._id })
+	// 		}
+	// 		if (response.status_code === -9999) {
+	// 			console.log('fail')
+	// 		}
+	// 	} catch (error) {
+	// 		console.log(error)
+	// 	}
+	// }
+	const getAllPost = async (pageNum) => {
 		try {
 			const params = {
 				page: page,
 				size: pageSize,
-				userId: currentUser._id
+				status: "public"
 			}
-			const response = await postApi.getAllPostByUserId(params)
+
+			const response = await postApi.getAllPost(params)
 			if (response.status_code === 9999) {
 				const { items, totalItems } = response.payload
 				setListPost(items)
@@ -69,7 +91,7 @@ const Statistic = () => {
 	}
 
 	useEffect(() => {
-		getListPostById(page)
+		getAllPost(page)
 	}, [page])
 
 	useEffect(() => {
@@ -111,7 +133,7 @@ const Statistic = () => {
 			<div className='chart-wrapper'>
 				<ColumnChart series={series} />
 				<Link to={`/post/${titleChart._id}`}>
-					<span className='title-chart show-two-line'>{titleChart.title}</span>
+					<span className='title-chart show-two-line'>Bài viết: {titleChart.title}</span>
 				</Link>
 			</div>
 		</div>

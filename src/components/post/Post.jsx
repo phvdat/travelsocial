@@ -199,7 +199,7 @@ export default function Post(props) {
 							</Link>
 							<span className='nameUser'>
 								<Link to={`/profile/${postData?.userId}/newfeed`}>
-									<span className='textName'>{user?.fullName}</span>
+									<span className='textName show-one-line'>{user?.fullName}</span>
 								</Link>
 								<span className='textTime'>
 									{moment.utc(timeStamp.toUTCString()).fromNow()}

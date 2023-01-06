@@ -39,11 +39,10 @@
   p {
     margin: 0;
   }
-  .ant-select {
-    border-radius: 20px;
-  }
   .select-status {
-    box-shadow: $box-shadow;
+    & :hover {
+      color: black;
+    }
   }
 }
 .share-modal {
@@ -68,20 +67,6 @@ form {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    .input-location {
-      width: 100%;
-      height: $height-input-md;
-      border: 1px solid $primary-dark-gray;
-      border-radius: $border-radius-sm;
-      outline: none;
-      padding: 0 4px;
-      font-style: italic;
-      box-shadow: $box-shadow;
-    }
-    .select-type-travel {
-      width: 160;
-      box-shadow: $box-shadow;
-    }
   }
   .btn-share-create {
     @include btnStyle(
@@ -95,13 +80,8 @@ form {
     margin-top: 20px;
   }
   .text-area-share {
-    border: 1px solid $primary-dark-gray;
-    border-radius: $border-radius-sm;
-    resize: none;
-    outline: none;
     width: 100%;
-    padding: 0 4px;
-    box-shadow: $box-shadow;
+    padding: 4px;
   }
 }
 ::-webkit-scrollbar {
@@ -115,4 +95,7 @@ form {
 
 ::-webkit-scrollbar-track {
   background-color: #f0f2f5;
+}
+.ant-select-selection__placeholder {
+  color: blue;
 }

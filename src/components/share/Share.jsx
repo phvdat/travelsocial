@@ -1,5 +1,5 @@
 import './share.scss'
-import { Form, message, Modal, Select } from 'antd';
+import { Form, Input, message, Modal, Select } from 'antd';
 import { useEffect, useState } from 'react';
 import Dragger from 'antd/lib/upload/Dragger';
 import { AiOutlineUpload } from 'react-icons/ai'
@@ -8,9 +8,9 @@ import { v4 } from 'uuid';
 import postApi from 'api/postApi';
 import { useSelector } from 'react-redux';
 import avatarDefault from 'assets/img/avatarDefault.jpg'
-import { LIST_PROVINCE } from 'common/province';
 import axiosClient from 'api/axiosClient';
 import { PROVINCE } from 'constants/common';
+import TextArea from 'antd/lib/input/TextArea';
 const { Option } = Select;
 
 export default function Share() {
@@ -129,9 +129,6 @@ export default function Share() {
 				console.log(error)
 			});
 		},
-		onPreview(file) {
-
-		}
 	};
 
 	const handleFinish = async () => {
@@ -204,16 +201,21 @@ export default function Share() {
 							name="title"
 							rules={[{ required: true, message: 'Bài viết chưa có tiêu đề!' }]}
 						>
-							<input name='title' type="text" placeholder='Tiêu đề bài viết' className='input-title'
-								onChange={e => setDataSubmit({ ...dataSubmit, title: e.target.value })} />
+							<Input placeholder="Tiêu đề bài viết" onChange={e => setDataSubmit({ ...dataSubmit, title: e.target.value })} />
 						</Form.Item>
 
 						<Form.Item
 							name="content"
 							rules={[{ required: true, message: 'Bài viết chưa có nội dung!' }]}
 						>
-							<textarea name="content" className='text-area-share' placeholder='Bạn muốn chia sẻ điều gi?' rows={4}
-								onChange={e => setDataSubmit({ ...dataSubmit, content: e.target.value })} />
+							<TextArea
+								onChange={(e) => setDataSubmit({ ...dataSubmit, content: e.target.value })}
+								placeholder="Bạn muốn chia sẻ điều gi?"
+								autoSize={{
+									minRows: 4,
+									maxRows: 5,
+								}}
+							/>
 						</Form.Item>
 						<div className='sub-form'>
 							<div>
@@ -226,14 +228,12 @@ export default function Share() {
 										showSearch
 										placeholder="Địa điểm"
 										optionFilterProp="children"
-										onChange={(e) => setDataSubmit({ ...dataSubmit, destination: e.target.value })}
+										onChange={value => setDataSubmit({ ...dataSubmit, destination: value })}
 										filterOption={(input, option) =>
 											(option?.label ?? '').toLowerCase().includes(input.toLowerCase())
 										}
 										options={optionsDestination}
 									/>
-									{/* <input name="address" type="text" placeholder='Địa điểm' className='input-location'
-										onChange={e => setDataSubmit({ ...dataSubmit, destination: e.target.value })} /> */}
 								</Form.Item>
 							</div>
 							<div>
@@ -244,7 +244,6 @@ export default function Share() {
 
 									<Select style={{}}
 										placeholder='Chọn kiểu du lịch'
-										className='select-type-travel'
 										onChange={value => setDataSubmit({ ...dataSubmit, type: value })}
 									>
 										<Option value="Du lịch sinh thái">Du lịch sinh thái</Option>

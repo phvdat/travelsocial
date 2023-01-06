@@ -2,12 +2,54 @@ import './EditPostDialogStyle.scss'
 import React, { useEffect, useState } from 'react'
 import avatarDefault from 'assets/img/avatarDefault.jpg'
 import { useSelector } from 'react-redux'
-import { Form, message, Modal, Select } from 'antd';
+import { Form, Input, message, Modal, Select } from 'antd';
 import postApi from 'api/postApi';
+import TextArea from 'antd/lib/input/TextArea';
+import axiosClient from 'api/axiosClient';
+import { PROVINCE } from 'constants/common';
 const { Option } = Select;
 
 const EditPostDialog = (props) => {
 	const { open, onClose, data } = props
+	const [optionsDestination, setOptionsDestination] = useState([])
+	const currentUser = useSelector(state => state.authentication.currentUser)
+
+
+	const getProvince = async () => {
+		const url = 'https://provinces.open-api.vn/api/p/'
+		try {
+			const response = await axiosClient.get(url)
+			setOptionsDestination(response.map((item) => ({
+				label: item.name,
+				value: item.name
+			})))
+		} catch (error) {
+			setOptionsDestination(PROVINCE.map((item) => ({
+				label: item.name,
+				value: item.name
+			})))
+		}
+	}
+	useEffect(() => {
+		getProvince();
+	}, [])
+
+	const [dataSubmit, setDataSubmit] = useState(data)
+	const handleFinish = async () => {
+		try {
+			const res = await postApi.updatePost(dataSubmit)
+			if (res.status_code === 9999) {
+				message.success('Cập nhật bài viết thành công!')
+				onClose()
+				window.location.reload()
+			}
+			if (res.status_code === -9999) {
+				message.warning('Đã xảy ra lỗi!')
+			}
+		} catch (error) {
+
+		}
+	}
 
 	useEffect(() => {
 		if (open) {
@@ -18,24 +60,6 @@ const EditPostDialog = (props) => {
 
 		};
 	}, [open]);
-
-	const currentUser = useSelector(state => state.authentication.currentUser)
-
-	const [dataSubmit, setDataSubmit] = useState(data)
-	const handleFinish = async () => {
-		try {
-			const res = await postApi.updatePost(dataSubmit)
-			if (res.status_code === 9999) {
-				message.success('Cập nhật bài viết thành công!')
-				onClose()
-			}
-			if (res.status_code === -9999) {
-				message.warning('Đã xảy ra lỗi!')
-			}
-		} catch (error) {
-
-		}
-	}
 	return (
 		<div>
 
@@ -72,23 +96,40 @@ const EditPostDialog = (props) => {
 					<Form.Item
 						rules={[{ required: true, message: 'Bài viết chưa có tiêu đề!' }]}
 					>
-						<input value={dataSubmit.title} name='title' type="text" placeholder='Tiêu đề bài viết' className='input-title'
+						<Input value={dataSubmit.title} placeholder="Tiêu đề bài viết"
 							onChange={e => setDataSubmit({ ...dataSubmit, title: e.target.value })} />
 					</Form.Item>
 
 					<Form.Item
 						rules={[{ required: true, message: 'Bài viết chưa có nội dung!' }]}
 					>
-						<textarea value={dataSubmit.content} name="content" className='text-area-share' placeholder='Bạn muốn chia sẻ điều gi?' rows={4}
-							onChange={e => setDataSubmit({ ...dataSubmit, content: e.target.value })} />
+						<TextArea
+							value={dataSubmit.content}
+							onChange={(e) => setDataSubmit({ ...dataSubmit, content: e.target.value })}
+							placeholder="Bạn muốn chia sẻ điều gi?"
+							autoSize={{
+								minRows: 4,
+								maxRows: 5,
+							}}
+						/>
 					</Form.Item>
 					<div className='sub-form'>
 						<div>
 							<Form.Item
 								rules={[{ required: true, message: 'Vui lòng nhập địa điểm !' }]}
 							>
-								<input value={dataSubmit.destination} name="destination" type="text" placeholder='Địa điểm' className='input-location'
-									onChange={e => setDataSubmit({ ...dataSubmit, destination: e.target.value })} />
+								<Select
+									style={{ width: 200 }}
+									showSearch
+									value={dataSubmit.destination}
+									placeholder="Địa điểm"
+									optionFilterProp="children"
+									onChange={value => setDataSubmit({ ...dataSubmit, destination: value })}
+									filterOption={(input, option) =>
+										(option?.label ?? '').toLowerCase().includes(input.toLowerCase())
+									}
+									options={optionsDestination}
+								/>
 							</Form.Item>
 						</div>
 						<div>
@@ -99,7 +140,6 @@ const EditPostDialog = (props) => {
 									name='type'
 									value={dataSubmit.type}
 									placeholder='Chọn kiểu du lịch'
-									className='select-type-travel'
 									onChange={value => setDataSubmit({ ...dataSubmit, type: value })}
 								>
 									<Option value="Du lịch sinh thái">Du lịch sinh thái</Option>

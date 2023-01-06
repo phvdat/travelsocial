@@ -35,19 +35,16 @@ export default function SearchPage() {
 			<Slideshow />
 			<div className="wrapper-search-result">
 				{isLoading ? <Loading /> :
-					<div>
-						{
-							listPost.length === 0 ?
-								<h3 className='lable'>Không tìm thấy kết quả cho: <span>{searchParams.get('keyword')}</span></h3>
-								:
-								<h3 className='lable'>Kết quả tìm kiếm cho: <span>{searchParams.get('keyword')}</span></h3>
-						}
-						{
-							listPost?.map((item) => {
-								return <Post postData={item} key={item._id} />
-							})
-						}
-					</div>
+					listPost.length === 0 ?
+						<h3 className='lable'>Không tìm thấy kết quả cho: <span>{searchParams.get('keyword')}</span></h3>
+						:
+						<h3 className='lable'>Kết quả tìm kiếm cho: <span>{searchParams.get('keyword')}</span></h3>
+				}
+				{
+					listPost?.map((item) => {
+						return <Post postData={item} key={item._id} />
+					})
+
 				}
 			</div>
 		</div >

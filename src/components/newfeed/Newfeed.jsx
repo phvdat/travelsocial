@@ -8,14 +8,13 @@ import { useSelector } from "react-redux";
 import Loading from "components/baseUI/loading/Loading";
 import { useRef } from "react";
 import { FaFilter } from "react-icons/fa";
-import { LIST_PROVINCE } from 'common/province';
 import axiosClient from 'api/axiosClient';
 import { PROVINCE } from 'constants/common';
 
 const options = [
 	{
-		value: 'Tất cả',
-		label: 'Tất cả',
+		label: "Tất cả",
+		value: ""
 	},
 	{
 		value: 'Du lịch sinh thái',
@@ -60,13 +59,23 @@ export default function Newfeed() {
 	const [hasNextPage, setHasNextPage] = useState(false)
 	const hasNextPageRef = useRef(hasNextPage)
 	const [optionsDestination, setOptionsDestination] = useState([])
+
+	const [typeFilter, setTypeFilter] = useState("")
+	const [destinationFilter, setDestinationFilter] = useState("")
+
 	const getAllPost = async (pageNum) => {
 		setIsLoading(true)
 		try {
-			const data = {
+			let data = {
 				page: pageNum,
 				size: 10,
 				status: "public"
+			}
+			if (typeFilter) {
+				data = { ...data, type: typeFilter }
+			}
+			if (destinationFilter) {
+				data = { ...data, destination: destinationFilter }
 			}
 			const response = await postApi.getAllPost(data)
 			if (response.status_code === 9999) {
@@ -85,8 +94,13 @@ export default function Newfeed() {
 
 	useEffect(() => {
 		getAllPost(page)
-	}, [page])
+	}, [page, typeFilter, destinationFilter])
 
+	useEffect(() => {
+		setPage(1)
+		setListPost([])
+	}, [typeFilter, destinationFilter])
+	// handle load more when scroll to end 
 	const handleScroll = async () => {
 		if (window.innerHeight + document.documentElement.scrollTop !== document.getElementById('root').offsetHeight) return;
 		if (hasNextPageRef.current) {
@@ -136,11 +150,12 @@ export default function Newfeed() {
 					style={{ width: 200 }}
 					placeholder="Địa điểm"
 					optionFilterProp="children"
+					onChange={(value) => setDestinationFilter(value)}
 					filterOption={(input, option) => (option?.label.toLowerCase() ?? '').includes(input.toLowerCase())}
 					options={[
 						{
 							label: "Tất cả",
-							value: "Tất cả"
+							value: ""
 						}, ...optionsDestination
 					]}
 				/>
@@ -150,6 +165,7 @@ export default function Newfeed() {
 					style={{ width: 200 }}
 					placeholder="Kiểu du lịch"
 					optionFilterProp="children"
+					onChange={(value) => setTypeFilter(value)}
 					filterOption={(input, option) => (option?.label.toLowerCase() ?? '').includes(input.toLowerCase())}
 					options={options}
 				/>
