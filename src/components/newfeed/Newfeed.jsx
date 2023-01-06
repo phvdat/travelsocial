@@ -8,7 +8,15 @@ import { useSelector } from "react-redux";
 import Loading from "components/baseUI/loading/Loading";
 import { useRef } from "react";
 import { FaFilter } from "react-icons/fa";
+import { LIST_PROVINCE } from 'common/province';
+import axiosClient from 'api/axiosClient';
+import { PROVINCE } from 'constants/common';
+
 const options = [
+	{
+		value: 'Tất cả',
+		label: 'Tất cả',
+	},
 	{
 		value: 'Du lịch sinh thái',
 		label: 'Du lịch sinh thái',
@@ -50,8 +58,8 @@ export default function Newfeed() {
 	const isLoggedIn = useSelector(state => state.authentication.isLoggedIn)
 	const [page, setPage] = useState(1)
 	const [hasNextPage, setHasNextPage] = useState(false)
-	const [typeFilter, setTypeFilter] = useState()
 	const hasNextPageRef = useRef(hasNextPage)
+	const [optionsDestination, setOptionsDestination] = useState([])
 	const getAllPost = async (pageNum) => {
 		setIsLoading(true)
 		try {
@@ -88,6 +96,25 @@ export default function Newfeed() {
 		}
 	}
 
+	const getProvince = async () => {
+		const url = 'https://provinces.open-api.vn/api/p/'
+		try {
+			const response = await axiosClient.get(url)
+			setOptionsDestination(response.map((item) => ({
+				label: item.name,
+				value: item.name
+			})))
+		} catch (error) {
+			setOptionsDestination(PROVINCE.map((item) => ({
+				label: item.name,
+				value: item.name
+			})))
+		}
+	}
+	useEffect(() => {
+		getProvince();
+	}, [])
+
 	useEffect(() => {
 		window.addEventListener('scroll', handleScroll);
 		return () => window.removeEventListener('scroll', handleScroll);
@@ -103,21 +130,22 @@ export default function Newfeed() {
 			<div className="filter-container">
 				<FaFilter color="#ff8c01" />
 				<span>Lọc theo </span>
-				<Radio.Group onChange={(e) => setTypeFilter(e.target.value)} value={typeFilter}>
-					<Radio value={0}>Tất cả</Radio>
-					<Radio value={1}>Địa điểm</Radio>
-					<Radio value={2}>Kiểu</Radio>
-				</Radio.Group>
 				<Select
 					showSearch
 					maxLength={4}
 					style={{ width: 200 }}
-					placeholder="Tìm kiểu du lịch"
+					placeholder="Địa điểm"
 					optionFilterProp="children"
 					filterOption={(input, option) => (option?.label ?? '').includes(input)}
-					filterSort={(optionA, optionB) =>
-						(optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
-					}
+					options={options}
+				/>
+				<Select
+					showSearch
+					maxLength={4}
+					style={{ width: 200 }}
+					placeholder="Kiểu du lịch"
+					optionFilterProp="children"
+					filterOption={(input, option) => (option?.label ?? '').includes(input)}
 					options={options}
 				/>
 			</div>

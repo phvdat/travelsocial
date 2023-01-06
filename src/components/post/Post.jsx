@@ -56,6 +56,7 @@ export default function Post(props) {
 		try {
 			const response = await rankingApi.getRankingByUserId(user._id)
 			console.log(response);
+			// seUserLevel()
 		} catch (error) {
 			// 
 		}
@@ -65,6 +66,7 @@ export default function Post(props) {
 		//check like or not
 		const params = { postId: postData?._id, page: 1, size: 99999999 }
 		getListLike(params).then((res) => {
+			console.log(res);
 			const index = res.items.findIndex(item => item.userId === currentUser._id)
 			if (index !== -1) {
 				setLike(true)

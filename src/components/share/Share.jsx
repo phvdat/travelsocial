@@ -40,24 +40,6 @@ export default function Share() {
 		setIsModalOpen(false);
 	};
 
-	const getProvince = async () => {
-		const url = 'https://provinces.open-api.vn/api/p/'
-		try {
-			const response = await axiosClient.get(url)
-			setOptionsDestination(response.map((item) => ({
-				label: item.name,
-				value: item.name
-			})))
-		} catch (error) {
-			setOptionsDestination(PROVINCE.map((item) => ({
-				label: item.name,
-				value: item.name
-			})))
-		}
-	}
-	useEffect(() => {
-		getProvince();
-	}, [])
 
 	useEffect(() => {
 		if (isModalOpen) {
