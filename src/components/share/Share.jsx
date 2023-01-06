@@ -39,7 +39,24 @@ export default function Share() {
 	const handleCancel = () => {
 		setIsModalOpen(false);
 	};
-
+	const getProvince = async () => {
+		const url = 'https://provinces.open-api.vn/api/p/'
+		try {
+			const response = await axiosClient.get(url)
+			setOptionsDestination(response.map((item) => ({
+				label: item.name,
+				value: item.name
+			})))
+		} catch (error) {
+			setOptionsDestination(PROVINCE.map((item) => ({
+				label: item.name,
+				value: item.name
+			})))
+		}
+	}
+	useEffect(() => {
+		getProvince();
+	}, [])
 
 	useEffect(() => {
 		if (isModalOpen) {
@@ -205,14 +222,15 @@ export default function Share() {
 									rules={[{ required: true, message: 'Vui lòng nhập địa điểm !' }]}
 								>
 									<Select
+										style={{ width: 200 }}
 										showSearch
 										placeholder="Địa điểm"
 										optionFilterProp="children"
-										// onChange={onChange}
+										onChange={(e) => setDataSubmit({ ...dataSubmit, destination: e.target.value })}
 										filterOption={(input, option) =>
 											(option?.label ?? '').toLowerCase().includes(input.toLowerCase())
 										}
-										options={optionsDestination || []}
+										options={optionsDestination}
 									/>
 									{/* <input name="address" type="text" placeholder='Địa điểm' className='input-location'
 										onChange={e => setDataSubmit({ ...dataSubmit, destination: e.target.value })} /> */}

@@ -136,8 +136,13 @@ export default function Newfeed() {
 					style={{ width: 200 }}
 					placeholder="Địa điểm"
 					optionFilterProp="children"
-					filterOption={(input, option) => (option?.label ?? '').includes(input)}
-					options={options}
+					filterOption={(input, option) => (option?.label.toLowerCase() ?? '').includes(input.toLowerCase())}
+					options={[
+						{
+							label: "Tất cả",
+							value: "Tất cả"
+						}, ...optionsDestination
+					]}
 				/>
 				<Select
 					showSearch
@@ -145,7 +150,7 @@ export default function Newfeed() {
 					style={{ width: 200 }}
 					placeholder="Kiểu du lịch"
 					optionFilterProp="children"
-					filterOption={(input, option) => (option?.label ?? '').includes(input)}
+					filterOption={(input, option) => (option?.label.toLowerCase() ?? '').includes(input.toLowerCase())}
 					options={options}
 				/>
 			</div>

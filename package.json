@@ -8,7 +8,7 @@
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.5.0",
     "ably": "^1.2.33",
-    "antd": "^4.23.2",
+    "antd": "^5.1.2",
     "axios": "^0.27.2",
     "firebase": "^9.10.0",
     "moment": "^2.29.4",
