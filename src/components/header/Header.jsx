@@ -101,7 +101,7 @@ export default function Header(props) {
 						<FaUserFriends className="topbarIcon-1" />
 						<span>Bảng xếp hạng</span>
 					</NavLink>
-					{isLogin &&
+					{isLogin && currentUser.isAdmin &&
 						<NavLink to={RoutePath.Statistic} className={({ isActive }) => (isActive ? "activeLink" : "noactiveLink")}>
 							<BsFillBarChartFill className="topbarIcon-1" />
 							<span>Thống kê</span>
