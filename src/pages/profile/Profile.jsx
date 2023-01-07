@@ -16,6 +16,8 @@ import ProfileFollower from "./components/profilefollower/ProfileFollower";
 import ProfileFollowUser from "./components/profilefollowUser/ProfileFollowUser";
 import MoreAction from "./components/moreAction/MoreAction";
 import LoginModal from "components/loginModal/LoginModal";
+import rankingApi from "api/rankingApi";
+import { convertLevel } from "contants/level";
 
 export default function ProfilePage() {
 	let { userId, tab } = useParams()
@@ -26,9 +28,20 @@ export default function ProfilePage() {
 	const [followStatus, setFollowStatus] = useState(false)
 	const [numOfFollower, setNumOfFollower] = useState(0)
 	const [open, setOpen] = useState(false)
+	const [userLevel, seUserLevel] = useState()
+
 	useEffect(() => {
 		window.scrollTo(0, 0);
 	}, [tab])
+	const getUserLevel = async (res) => {
+		try {
+			const { payload } = await rankingApi.getRankingByUserId({ userId: res._id })
+			console.log(payload);
+			seUserLevel(payload.position + 1)
+		} catch (error) {
+			console.log(error);
+		}
+	}
 	useEffect(() => {
 		window.scrollTo(0, 0)
 		const getAllPost = async () => {
@@ -51,6 +64,7 @@ export default function ProfilePage() {
 		}
 		getUsersInfoById(userId).then((res) => {
 			setUserInfo(res)
+			getUserLevel(res)
 		})
 		getAllPost()
 	}, [userId])
@@ -122,8 +136,9 @@ export default function ProfilePage() {
 							<img src={userInfo?.avatar || avatarDefault} alt="avt Img" className="avataProfileImg" />
 						</div>
 						<p className="text-name-user-top-profile">{userInfo?.fullName}</p>
-						<p className="level-user">Thứ hạng:<span style={{ fontWeight: 500 }}> {userInfo.level}</span></p>
-						<p className="experience-point">Điểm tích luỹ thành viên:<span style={{ fontWeight: 500 }}> {userInfo.experiencePoint}</span></p>
+						<p className="level-user">Thành viên:<span style={{ fontWeight: 500 }}> {convertLevel(userLevel)}</span></p>
+						<p >Thứ hạng:<span style={{ fontWeight: 500 }}> {userLevel}</span></p>
+						<p className="experience-point">Điểm tích luỹ:<span style={{ fontWeight: 500 }}> {userInfo.experiencePoint}</span></p>
 						<div>
 							<span style={{ marginRight: 50 }}>Bài đã đăng: <span style={{ fontWeight: 500 }}>{listPost?.length || 0}</span></span>
 							<span>Lượt theo dõi: <span style={{ fontWeight: 500 }}>{numOfFollower}</span></span>

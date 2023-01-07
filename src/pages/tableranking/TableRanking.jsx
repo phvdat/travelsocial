@@ -15,6 +15,7 @@ export default function TableRankingPage() {
 		try {
 			const params = { page: 1, size: 100 }
 			const response = await rankingApi.getListLeaderBoardUser(params)
+			console.log(response);
 			Promise.all(response.payload.items.map((item) => {
 				return getUsersInfoById(item.userId)
 			})).then((res) => {
@@ -46,6 +47,13 @@ export default function TableRankingPage() {
 						<li>Điểm cộng khi bài viết tăng 1 lượt thích: <b>1</b></li>
 						<li>Điểm cộng khi bài viết tăng 1 lượt bình luận: <b>2</b></li>
 						<li>Điểm cộng khi bài viết tăng 1 đánh giá: <b>Số điểm được đánh giá (1-&gt;5)</b></li>
+					</ul>
+					<h3 style={{ marginTop: '10px' }}>Quy định về cấp bậc thành viên</h3>
+					<hr className='postHr' />
+					<ul>
+						<li>Thứ hạng thuộc top 3: <b>Tích cực</b></li>
+						<li>Thứ hạng thuộc top 10 <b>Nhiệt tình</b></li>
+						<li>Thứ hàng sau top 10: <b>Năng động</b></li>
 					</ul>
 				</div>
 			}
@@ -87,7 +95,7 @@ export default function TableRankingPage() {
 						list.slice(3).map((item, idx) =>
 							<Link to={`/profile/${item._id}/newfeed`} key={idx}>
 								<div className='item-list' key={idx}>
-									<h6 className='item-level'>{idx + 3}</h6>
+									<h6 className='item-level'>{idx + 4}</h6>
 									<img alt='avatar' src={item.avatar || avatarDefault} />
 									<h6 className='name show-one-line'>
 										{item.fullName}
@@ -100,7 +108,8 @@ export default function TableRankingPage() {
 				</div>
 				{isLoading && <Loading position="center-loading" />}
 			</div>
-			{innerWidth > SCREEN_LG &&
+			{
+				innerWidth > SCREEN_LG &&
 				<div className='instruction-point'>
 					<h3>Giải thưởng tháng này</h3>
 					<hr className='postHr' />
@@ -111,6 +120,6 @@ export default function TableRankingPage() {
 					</ul>
 				</div>
 			}
-		</div>
+		</div >
 	)
 }

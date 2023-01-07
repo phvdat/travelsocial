@@ -19,6 +19,8 @@ import LoginModal from 'components/loginModal/LoginModal';
 import viLocale from "moment/locale/vi";
 import EditPostDialog from './components/editPost/EditPostDialog';
 import rankingApi from 'api/rankingApi';
+import { convertLevel } from 'contants/level';
+
 
 export default function Post(props) {
 	const { postData } = props
@@ -52,28 +54,30 @@ export default function Post(props) {
 
 	const [expand, setExpand] = useState(false)
 
-	const getUserLevel = async () => {
+	const getUserLevel = async (res) => {
 		try {
-			const response = await rankingApi.getRankingByUserId(user._id)
-			console.log(response);
-			// seUserLevel()
+			const { payload } = await rankingApi.getRankingByUserId({ userId: res._id })
+			seUserLevel(payload.position + 1)
 		} catch (error) {
-			// 
+			console.log(error);
 		}
 	}
+
 
 	useEffect(() => {
 		//check like or not
 		const params = { postId: postData?._id, page: 1, size: 99999999 }
 		getListLike(params).then((res) => {
-			console.log(res);
 			const index = res.items.findIndex(item => item.userId === currentUser._id)
 			if (index !== -1) {
 				setLike(true)
 			}
 		})
 		// get user info by id
-		getUsersInfoById(postData?.userId).then((res) => { setUser(res) })
+		getUsersInfoById(postData?.userId).then((res) => {
+			setUser(res)
+			getUserLevel(res)
+		})
 
 		getAllRate(params).then((res) => {
 			//average rate
@@ -86,7 +90,6 @@ export default function Post(props) {
 			const rateByMe = res.items.find((ele) => ele.userId === currentUser._id)
 			setRateValue(rateByMe?.point || 0)
 		})
-		getUserLevel()
 	}, [])
 
 	const handleDetelePost = async () => {
@@ -218,7 +221,7 @@ export default function Post(props) {
 							}
 						</div>
 					</div>
-					<span className='level-user'>Thứ hạng: {userLevel}</span>
+					<span className='level-user'>Thành viên: <b className=''>{convertLevel(userLevel)}</b></span>
 					<h2 className="title-post">{postData?.title}</h2>
 					<p className={expand ? 'content-post' : 'content-post text-collapse'} style={{ whiteSpace: "pre-line" }}>{postData?.content}</p>
 					{
