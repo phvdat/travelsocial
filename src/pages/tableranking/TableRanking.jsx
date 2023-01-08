@@ -52,7 +52,7 @@ export default function TableRankingPage() {
 					<hr className='postHr' />
 					<ul>
 						<li>Thứ hạng thuộc top 3: <b>Tích cực</b></li>
-						<li>Thứ hạng thuộc top 10 <b>Nhiệt tình</b></li>
+						<li>Thứ hạng thuộc top 10: <b>Nhiệt tình</b></li>
 						<li>Thứ hàng sau top 10: <b>Năng động</b></li>
 					</ul>
 				</div>
