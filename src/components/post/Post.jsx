@@ -19,7 +19,7 @@ import LoginModal from 'components/loginModal/LoginModal';
 import viLocale from "moment/locale/vi";
 import EditPostDialog from './components/editPost/EditPostDialog';
 import rankingApi from 'api/rankingApi';
-import { convertLevel } from 'contants/level';
+import { convertLevel } from 'constants/level';
 
 
 export default function Post(props) {

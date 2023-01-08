@@ -17,7 +17,7 @@ import ProfileFollowUser from "./components/profilefollowUser/ProfileFollowUser"
 import MoreAction from "./components/moreAction/MoreAction";
 import LoginModal from "components/loginModal/LoginModal";
 import rankingApi from "api/rankingApi";
-import { convertLevel } from "contants/level";
+import { convertLevel } from "constants/level";
 
 export default function ProfilePage() {
 	let { userId, tab } = useParams()
